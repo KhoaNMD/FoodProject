@@ -16,5 +16,5 @@ Route::get('/', function () {
 });
 
 Route::get('/home',function(){
-    return view('front.rowlist.rowlist');
+    return view('front.rowlist');
 });
