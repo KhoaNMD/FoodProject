@@ -12,9 +12,9 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('front.home');
 });
 
 Route::get('/home',function(){
-    return view('front.rowlist');
+    return view('front.rowlist.rowlist');
 });
