@@ -11,10 +11,23 @@
 |
 */
 
-Route::get('/', function () {
-    return view('front.home');
+
+Route::get('/',function(){
+   return View::make('front.home');
 });
 
-Route::get('/home',function(){
-    return view('front.rowlist.rowlist');
+Route::group([
+     'namespace' => 'front',
+    ],function () {
+
+      Route::get('/',['as' => 'front.home' , 'uses' => 'FrontAuthController@index']);
+
+      Route::post('login', 'FrontAuthController@Login');
+
+      Route::get('logout',['as' => 'front.user.logout' , 'uses' => 'FrontAuthController@Logout']);
+
+      Route::post('register','FrontAuthController@Register');
+});
+Route::get('/faq',function (){
+    return view('front.faq.faq');
 });

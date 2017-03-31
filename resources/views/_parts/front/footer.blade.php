@@ -1,26 +1,26 @@
 <div class="container">
     <div class="row">
         <div class="col-md-4 col-sm-3">
-            <h3>Secure payments with</h3>
+            <h3>Bảo mật thanh toán với</h3>
             <p>
                 <img src="{!! asset('public/front/img/cards.png') !!}" alt="" class="img-responsive">
             </p>
         </div>
         <div class="col-md-3 col-sm-3">
-            <h3>About</h3>
+            <h3>Liêt kết</h3>
             <ul>
-                <li><a href="about.html">About us</a></li>
+                <li><a href="about.html">Về chúng tôi</a></li>
                 <li><a href="faq.html">Faq</a></li>
-                <li><a href="contacts.html">Contacts</a></li>
-                <li><a href="#0" data-toggle="modal" data-target="#login_2">Login</a></li>
-                <li><a href="#0" data-toggle="modal" data-target="#register">Register</a></li>
-                <li><a href="#0">Terms and conditions</a></li>
+                <li><a href="contacts.html">Liên hệ</a></li>
+                <li><a href="#0" data-toggle="modal" data-target="#login_2">Đăng nhập</a></li>
+                <li><a href="#0" data-toggle="modal" data-target="#register">Đăng ký</a></li>
+                <li><a href="#0">Điều khoản và chính sách</a></li>
             </ul>
         </div>
         <div class="col-md-3 col-sm-3" id="newsletter">
-            <h3>Newsletter</h3>
+            <h3>Bản tin</h3>
             <p>
-                Join our newsletter to keep be informed about offers and news.
+                Đăng ký nhận tin để hướng ưu đãi và các tin tức từ website.
             </p>
             <div id="message-newsletter_2">
             </div>
@@ -34,7 +34,7 @@
             </form>
         </div>
         <div class="col-md-2 col-sm-3">
-            <h3>Settings</h3>
+            <h3>Cài đặt</h3>
             <div class="styled-select">
                 <select class="form-control" name="lang" id="lang">
                     <option value="English" selected>English</option>
@@ -66,7 +66,7 @@
                     <li><a href="#0"><i class="icon-youtube-play"></i></a></li>
                 </ul>
                 <p>
-                    © Quick Food 2015
+                    © Quick Food 2017
                 </p>
             </div>
         </div>

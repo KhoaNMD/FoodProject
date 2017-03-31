@@ -8,7 +8,7 @@
     <meta name="keywords" content="pizza, delivery food, fast food, sushi, take away, chinese, italian food">
     <meta name="description" content="">
     <meta name="author" content="Ansonika">
-    <title>QuickFood - Quality delivery or take away food</title>
+    <title>@yield('title')</title>
 
     <!-- Favicons-->
     <link rel="shortcut icon" href="{!! asset('public/front/img/favicon.ico') !!}" type="image/x-icon">
@@ -19,71 +19,90 @@
 
     <!-- GOOGLE WEB FONT -->
     <link href='https://fonts.googleapis.com/css?family=Lato:400,700,900,400italic,700italic,300,300italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Gochi+Hand' rel='stylesheet' type='text/css'>
 
     <!-- BASE CSS -->
     <link href="{!! asset('public/front/css/base.css') !!}" rel="stylesheet">
 
     <!-- SPECIFIC CSS -->
     <link href="{!! asset('public/front/layerslider/css/layerslider.css') !!}" rel="stylesheet">
+    <link href="{!! asset('public/front/css/admin.css') !!}" rel="stylesheet">
+    <link href="{!! asset('public/front/css/bootstrap3-wysihtml5.min.css') !!}" rel="stylesheet">
+    <link href="{!! asset('public/front/css/dropzone.css') !!}" rel="stylesheet">
 
+    <!-- Radio and check inputs -->
     <link href="{!! asset('public/front/css/skins/square/grey.css') !!}" rel="stylesheet">
+    <link href="{!! asset('public/front/css/ion.rangeSlider.css') !!}" rel="stylesheet">
+    <link href="{!! asset('public/front/css/ion.rangeSlider.skinFlat.css') !!}" rel="stylesheet" >
+    <link href="{!! asset('public/front/css/date_time_picker.css') !!}" rel="stylesheet">
+
+    <!-- Gallery -->
+    <link href="{!! asset('public/front/css/slider-pro.min.css') !!}" rel="stylesheet">
+    <link href="{!! asset('public/front/layerslider/css/layerslider.css') !!}" rel="stylesheet">
+
+    <!-- Common style -->
+    <link href="{!! asset('public/common/common-style.css') !!}" rel="stylesheet">
 
 </head>
 
 <body>
-    <header>
-        @include('_parts.front.header')
-    </header>
-    <section class="parallax-window" data-parallax="scroll" data-image-src="img/sub_header_2.jpg" data-natural-width="1400" data-natural-height="470">
-        @include("_parts.front.section")
-    </section>
-    <div class="bread-crumb">
-        @yield('breadcrumb')
+{{--thêm cái preloader vô để cho trang load hiệu ứng--}}
+<div id="preloader">
+    <div class="sk-spinner sk-spinner-wave" id="status">
+        <div class="sk-rect1"></div>
+        <div class="sk-rect2"></div>
+        <div class="sk-rect3"></div>
+        <div class="sk-rect4"></div>
+        <div class="sk-rect5"></div>
     </div>
-        <div class="wp-content">
-            @yield('sidebar')
-            @yield('content')
-        </div>
-    <footer>
-        @include('_parts.front.footer')
-    </footer>
+</div><!-- End Preload -->
+<header>
+    @include('_parts.front.header')
+</header>
+{{-- SubHeader =============================================== --}}
+{{--này khác class vs ID mỗi trang, hình ảnh mỗi nhà hàng cũng khác nhau--}}
+@yield('subheader')
+{{--
+<section class="parallax-window" data-parallax="scroll" data-image-src="img/sub_header_2.jpg" data-natural-width="1400" data-natural-height="470">
+    @include("_parts.front.section")
+</section>
+--}}
+<!-- End SubHeader ============================================ -->
+<div class="bread-crumb">
+    @yield('breadcrumb')
+</div>
+<div class="wp-content">
+    @yield('sidebar')
+    @yield('content')
+</div>
+<footer>
+    @include('_parts.front.footer')
+</footer>
 
-    @include('_parts.front.login')
+<div class="layer"></div>
+<!-- Mobile menu overlay mask -->
 
-    @include('_parts.front.registration')
+@include('_parts.front.login')
 
-    @include('_parts.front.search')
+@include('_parts.front.registration')
 
-    <!-- COMMON SCRIPTS -->
-    <script src="{!! asset('public/front/js/jquery-2.2.4.min.js') !!}"></script>
-    <script src="{!! asset('public/front/js/common_scripts_min.js') !!}"></script>
-    <script src="{!! asset('public/front/js/functions.js') !!}"></script>
-    <script src="{!! asset('public/front/js/assets/validate.js') !!}"></script>
+@yield('review_modal')
 
-    <!-- SPECIFIC SCRIPTS -->
-    <script  src="js/cat_nav_mobile.js"></script>
-    <script>$('#cat_nav').mobileMenu();</script>
-    <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyAs_JyKE9YfYLSQujbyFToZwZy-wc09w7s"></script>
-    <script src="{!! asset('public/front/js/map.js') !!}"></script>
-    <script src="{!! asset('public/front/js/infobox.js') !!}"></script>
-    <script src="{!! asset('public/front/js/ion.rangeSlider.js') !!}"></script>
-    <script>
-      $(function () {
-        'use strict';
-        $("#range").ionRangeSlider({
-          hide_min_max: true,
-          keyboard: true,
-          min: 0,
-          max: 15,
-          from: 0,
-          to:5,
-          type: 'double',
-          step: 1,
-          prefix: "Km ",
-          grid: true
-        });
-      });
-    </script>
+@include('_parts.front.search')
+
+<!-- COMMON SCRIPTS -->
+<script src="{!! asset('public/front/js/jquery-2.2.4.min.js') !!}"></script>
+<script src="{!! asset('public/front/js/common_scripts_min.js') !!}"></script>
+<script src="{!! asset('public/front/js/functions.js') !!}"></script>
+<script src="{!! asset('public/front/js/assets/validate.js') !!}"></script>
+{{--login and register script--}}
+<script src="{!! asset('public/js/login.js') !!}"></script>
+<script src="{!! asset('public/js/register.js') !!}"></script>
+
+{{--SCRIPTS riêng của từng trang m add vô template cha làm gi v thánh google dịch hộ chữ SPECIFIC nhé--}}
+<!-- SPECIFIC SCRIPTS -->
+@yield('specificscripts')
+<!-- END SPECIFIC SCRIPTS -->
 
 </body>
 </html>
