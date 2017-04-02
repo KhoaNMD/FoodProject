@@ -25,7 +25,7 @@
                                     <a href = "#">{!! Auth::guard('admin')->user()->email !!}</a>
                                     <ul>
                                         <li>
-                                            <a href="">Thông tin tài khoản</a>
+                                            <a href="{!! route('front.user.edit.get') !!}">Thông tin tài khoản</a>
                                         </li>
                                         <li>
                                             <a href="{!! route('front.user.logout') !!}">Đăng xuất</a>
@@ -38,7 +38,7 @@
                                 <a href="#0" data-toggle="modal" data-target="#register">Đăng ký</a>
                             </li>
                         <li>
-                            <a href="about.html">Về chúng tôi</a>
+                            <a href="/faq">Về chúng tôi</a>
                         </li>
                         <li>
                             <a href="http://themeforest.net/item/quickfood-delivery-or-takeaway-food-template/13958100?ref=ansonika">Purchase

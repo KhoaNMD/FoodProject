@@ -27,7 +27,26 @@ Route::group([
       Route::get('logout',['as' => 'front.user.logout' , 'uses' => 'FrontAuthController@Logout']);
 
       Route::post('register','FrontAuthController@Register');
+
+      Route::get('/edit',['as' => 'front.user.edit.get' , 'uses' => 'FrontAuthController@getEdit']);
+
+      Route::post('/edit/{id}',['as' => 'front.user.edit.post' , 'uses' => 'FrontAuthController@postEdit']);
+
 });
+
 Route::get('/faq',function (){
     return view('front.faq.faq');
+});
+
+Route::get('/customer',function (){
+  return view('front.customer.customer');
+});
+
+
+Route::get('/detail',function (){
+  return view('front.restaurant.detail');
+});
+
+Route::get('/menu',function (){
+  return view('front.restaurant.rowlist');
 });

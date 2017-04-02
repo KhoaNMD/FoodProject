@@ -27,6 +27,8 @@ class CreateTblPost extends Migration
           $table->string("phone_number");
           $table->float("min_price");
           $table->float("max_price");
+          $table->dateTime("start_hour");
+          $table->dateTime("end_hour");
           $table->timestamps();
           $table->softDeletes();
         });
