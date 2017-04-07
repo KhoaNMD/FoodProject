@@ -9,6 +9,7 @@ use Session;
 use Input;
 use Redirect;
 use Hash;
+use Route;
 use Crypt;
 use URL;
 use Request;
@@ -115,7 +116,7 @@ class FrontAuthController extends Controller
                 $changePassword = [
                     'password' => Hash::make(Input::get('new_password'))
                 ];
-                if( DB::table('tbl_users')->where('id','=',$id)->update($changePassword))
+                if(DB::table('tbl_users')->where('id','=',$id)->update($changePassword))
                   Session::flash('message',"Password thay đổi thành công.");
                   Session::flash('color',"success");
                   return Redirect::route('front.user.edit.get');

@@ -32,16 +32,13 @@ Route::group([
 
       Route::post('/edit/{id}',['as' => 'front.user.edit.post' , 'uses' => 'FrontAuthController@postEdit']);
 
+      Route::resource('restaurant','Customer\CustomerController');
+
 });
 
 Route::get('/faq',function (){
     return view('front.faq.faq');
 });
-
-Route::get('/customer',function (){
-  return view('front.customer.customer');
-});
-
 
 Route::get('/detail',function (){
   return view('front.restaurant.detail');

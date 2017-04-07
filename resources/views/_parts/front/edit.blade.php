@@ -23,7 +23,6 @@
 
 @section('content')
   <div class="container margin_60">
-    <div id="tabs" class="tabs">
       <div class = "content">
       <section id="section-3">
         @include('_parts.error.inputerror')
@@ -85,7 +84,6 @@
             </div><!-- End wrapper_indent -->
           </div>
       </section><!-- End section 3 -->
-    </div>
   </div>
   </div>
 @endsection
