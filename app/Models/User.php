@@ -30,6 +30,6 @@ class User extends Authenticatable
         'url_image',
   ];
 
-  protected $hidden = ['password','remember_token'];
+  protected $hidden = ['remember_token'];
 
 }

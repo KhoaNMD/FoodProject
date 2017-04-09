@@ -14,19 +14,24 @@ class CreateTblPost extends Migration
     public function up()
     {
         Schema::create('tbl_post', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string("title");
-            $table->string("address");
-            $table->integer("status");
-            $table->integer("cnt_view");
-          $table->integer("cnt_comment");
-          $table->integer("cnt_rank");
+          $table->increments('id');
+          $table->string("title");
+          $table->string("address");
+          $table->string("email");
+          $table->string("website")->nullable();
+          $table->string("phone");
+          $table->text("describe");
+          $table->integer("cnt_view")->nullable();
+          $table->integer("cnt_rank")->nullable();
           $table->integer("category_id");
-          $table->integer("thumb_id");
-          $table->integer("insert_id");
-          $table->string("phone_number");
+          $table->integer("thumb_id")->nullable();
+          $table->integer("capacity");
+          $table->integer("status")->nullable();
           $table->float("min_price");
           $table->float("max_price");
+          $table->time("start_time");
+          $table->time("end_time");
+          $table->integer("insert_id")->nullable();
           $table->timestamps();
           $table->softDeletes();
         });
@@ -39,6 +44,6 @@ class CreateTblPost extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tbl_post');
+        Schema::drop('tbl_post');
     }
 }
