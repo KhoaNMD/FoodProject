@@ -1,5 +1,5 @@
 <div class = "timepicker">
-  <input type = "input" name = "{!! $name !!}"  placeholder = "Giờ đóng cửa" class="form-control"  >
+  <input type = "input" name = "{!! $name !!}" placeholder="{!! $placeholder !!}" value="{!! $value !!}"  class="form-control"  >
 </div>
 <script>
   $(document).ready(function(){

@@ -21,22 +21,25 @@
                                 @if( !Auth::guard('admin')->check() )
                                     <a href="#0" data-toggle="modal" data-target="#login_2">Đăng nhập</a>
                                 @else
-                                <li class="submenu">
-                                    <a href = "#">{!! Auth::guard('admin')->user()->email !!}</a>
-                                    <ul>
-                                        <li>
-                                            <a href="{!! route('front.user.edit.get') !!}">Thông tin tài khoản</a>
-                                        </li>
-                                        <li>
-                                            <a href="{!! route('front.user.logout') !!}">Đăng xuất</a>
-                                        </li>
-                                    </ul>
-                                </li>
+                                    <li class="submenu">
+                                        <a href = "#">{!! Auth::guard('admin')->user()->email !!}</a>
+                                        <ul>
+                                            <li>
+                                                <a href="{!! route('restaurant.create') !!}"> Register Location </a>
+                                            </li>
+                                            <li>
+                                                <a href="{!! route('front.user.edit.get') !!}">Thông tin tài khoản</a>
+                                            </li>
+                                            <li>
+                                                <a href="{!! route('front.user.logout') !!}">Đăng xuất</a>
+                                            </li>
+                                        </ul>
+                                    </li>
                                 @endif
                         </li>
-                            <li>
-                                <a href="#0" data-toggle="modal" data-target="#register">Đăng ký</a>
-                            </li>
+                        <li>
+                            <a href="#0" data-toggle="modal" data-target="#register">Đăng ký</a>
+                        </li>
                         <li>
                             <a href="/faq">Về chúng tôi</a>
                         </li>

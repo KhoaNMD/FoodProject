@@ -16,23 +16,30 @@ Route::get('/',function(){
    return View::make('front.home');
 });
 
+
 Route::group([
      'namespace' => 'front',
     ],function () {
 
       Route::get('/',['as' => 'front.home' , 'uses' => 'FrontAuthController@index']);
 
-      Route::post('login', 'FrontAuthController@Login');
+      Route::get('/login', ['as' => 'login' , 'uses' => 'FrontAuthController@index']);
 
-      Route::get('logout',['as' => 'front.user.logout' , 'uses' => 'FrontAuthController@Logout']);
+      Route::post('/login', 'FrontAuthController@Login');
 
       Route::post('register','FrontAuthController@Register');
 
-      Route::get('/edit',['as' => 'front.user.edit.get' , 'uses' => 'FrontAuthController@getEdit']);
+      Route::group(['middleware' => 'auth'],function() {
 
-      Route::post('/edit/{id}',['as' => 'front.user.edit.post' , 'uses' => 'FrontAuthController@postEdit']);
+          Route::get('logout', ['as' => 'front.user.logout', 'uses' => 'FrontAuthController@Logout']);
 
-      Route::resource('restaurant','Customer\CustomerController');
+          Route::get('/edit', ['as' => 'front.user.edit.get', 'uses' => 'FrontAuthController@getEdit']);
+
+          Route::post('/edit/{id}', ['as' => 'front.user.edit.post', 'uses' => 'FrontAuthController@postEdit']);
+
+          Route::resource('restaurant', 'Customer\CustomerController');
+      });
+
 
 });
 
