@@ -52,5 +52,5 @@ Route::get('/detail',function (){
 });
 
 Route::get('/menu',function (){
-  return view('front.restaurant.rowlist');
+  return view('front.restaurant.gridlist');
 });
