@@ -1,3 +1,58 @@
 @charset "UTF-8";
 /* YOUR CUSTOM CSS */
-
+#menutabs
+{
+    background:#fff;
+    margin-bottom:25px;
+    height:41px;
+    -webkit-border-radius:5px;
+    -moz-border-radius:5px;
+    border-radius:5px;
+    border:1px solid #ededed
+}
+#menutabs .styled-select select
+{
+    background:0 0;
+    width:115%;
+    padding:7px 5px 5px 15px;
+    border:0;
+    border-radius:0;
+    height:31px;
+    margin:0;
+    font-weight:600;
+    font-size:11px;
+    -moz-appearance:window;
+    -webkit-appearance:none;
+    cursor:pointer;
+    color:#444;
+    box-shadow:none
+}
+#menutabs .styled-select
+{
+    width:100%;
+    overflow:hidden;
+    height:36px;
+    background:url(../img/arrow_down.svg) right center no-repeat;
+    border:none;border-right:1px solid #ededed
+}
+/*
+.tab-content
+{
+    padding:30px;
+    background-color:#fff;
+    border:1px solid #ddd;
+    border-top:none;
+    margin-bottom:25px;
+    -webkit-border-bottom-right-radius:3px;
+    -webkit-border-bottom-left-radius:3px;
+    -moz-border-radius-bottomright:3px;
+    -moz-border-radius-bottomleft:3px;
+    border-bottom-right-radius:3px;
+    border-bottom-left-radius:3px
+}
+*/
+#thanhtimkiem
+{
+    height: 2.4em;
+    margin-left: -2.7em;
+}

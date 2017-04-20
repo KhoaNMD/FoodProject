@@ -3,11 +3,11 @@
 
 @section('subheader')
 
-    <section class="parallax-window" id="short" data-parallax="scroll" data-image-src="{!! asset('public/front/img/sub_header_short.jpg') !!}" data-natural-width="1400" data-natural-height="350">
+    <section class="parallax-window" id="short" data-parallax="scroll" data-image-src="img/sub_header_short.jpg" data-natural-width="1400" data-natural-height="350">
         <div id="subheader">
             <div id="sub_content">
-                <h1>Có 24 kết quả gần khu vực của bạn</h1>
-                <div><i class="icon_pin"></i> 135 Newtownards Road, Belfast, BT4 1AB (định vị ở đây)</div>
+                <h1>24 results in your zone</h1>
+                <div><i class="icon_pin"></i> 135 Newtownards Road, Belfast, BT4 1AB</div>
             </div><!-- End sub_content -->
         </div><!-- End subheader -->
     </section><!-- End section -->
@@ -27,22 +27,22 @@
     <div class="container margin_60_35">
         <div class="row">
             <div class="col-md-3">
-                {{--<p>--}}
-                {{--<a class="btn_map" data-toggle="collapse" href="#collapseMap" aria-expanded="false" aria-controls="collapseMap">Xem bản đồ</a>--}}
-                {{--</p>--}}
-                <!--filters col-->
+            {{--<p>--}}
+            {{--<a class="btn_map" data-toggle="collapse" href="#collapseMap" aria-expanded="false" aria-controls="collapseMap">Xem bản đồ</a>--}}
+            {{--</p>--}}
+            <!--filters col-->
                 @include('_parts.front.restaurantfiltersR')
             </div><!--End col-md -->
-            @endsection
+@endsection
 
-            @section('content')
+@section('content')
                 <div class="col-md-9">
-                    <!--TOOLS -->
+
                     <div id="tools">
                         <div class="row">
                             @include('_parts.front.restaurantfilters')
                             <div class="col-md-2 col-sm-2 hidden-xs">
-                                <a href="grid_list.html" class="bt_filters"><i class="icon-th"></i></a>
+                                <a href="list_page.html" class="bt_filters"><i class="icon-list"></i></a>
                             </div>
                         </div>
                     </div><!--End tools -->
@@ -51,7 +51,7 @@
                     @include('_parts.front.menutabs')
 
                     {{--tab contents--}}
-                    @include('_parts.front.contentlist')
+                    @include('_parts.front.contentgrid')
                     {{--end tab contents--}}
 
                     <a href="#0" class="load_more_bt wow fadeIn" data-wow-delay="0.2s">Xem tiếp...</a>
@@ -59,11 +59,12 @@
 
         </div><!-- End row -->
     </div><!-- End container -->
-
+    <!-- End Content =============================================== -->
 @endsection
 
 @section('specificscripts')
     <script  src="{!! asset('public/front/js/cat_nav_mobile.js') !!}"></script>
+    <script src="{!! asset('public/front/js/bootstrap-select.min.js') !!}"></script>
     <script>$('#cat_nav').mobileMenu();</script>
     <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyAs_JyKE9YfYLSQujbyFToZwZy-wc09w7s"></script>
     <script src="{!! asset('public/front/js/map.js') !!}"></script>
@@ -87,6 +88,3 @@
         });
     </script>
 @endsection
-
-
-

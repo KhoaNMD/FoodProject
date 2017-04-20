@@ -45,6 +45,8 @@
 
     <link href="{!! asset('public/css/jquery.timepicker.css') !!}" rel="stylesheet">
 
+    <link href="{!! asset('public/front/css/bootstrap-select.min.css') !!}" rel="stylesheet">
+
     <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/themes/base/jquery-ui.css" type="text/css" media="all" />
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
