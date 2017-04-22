@@ -29,7 +29,7 @@ Route::group([
 
       Route::post('register','FrontAuthController@Register');
 
-      Route::group(['middleware' => 'auth'],function() {
+      Route::group(['middleware' => 'AuthUser'],function() {
 
           Route::get('logout', ['as' => 'front.user.logout', 'uses' => 'FrontAuthController@Logout']);
 
@@ -38,6 +38,11 @@ Route::group([
           Route::post('/edit/{id}', ['as' => 'front.user.edit.post', 'uses' => 'FrontAuthController@postEdit']);
 
           Route::resource('restaurant', 'Customer\CustomerController');
+
+          Route::get("district",'Customer\CustomerController@getDistrictById');
+
+          // Route helper for upload files
+          Route::post("upload",'Customer\CustomerController@uploadLogo');
       });
 
 

@@ -6,11 +6,13 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Post;
 use Psy\Output\ProcOutputPager;
-use Redirect;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\PostRequest;
 use Carbon\Carbon;
-
+use Redirect;
+use Response;
+use Input;
+use App\Http\Utils\UtilityCommon;
 
 class CustomerController extends Controller
 {
@@ -21,7 +23,7 @@ class CustomerController extends Controller
      */
 
 
-  public function index()
+    public function index()
     {
 
     }
@@ -36,10 +38,12 @@ class CustomerController extends Controller
       $post = new Post();
 
       $listCategory = DB::table("tbl_category")->get();
+      $provinceList = DB::table("province")->get();
 
       $content = [
           "post" => $post,
-          "categories" => $listCategory
+          "categories" => $listCategory,
+          "provinces" => $provinceList
       ];
 
       return view('front.customer.customer',$content);
@@ -55,13 +59,22 @@ class CustomerController extends Controller
     {
       $post = Post::create($request->all());
 
-      $post->address = $request->address.','.$request->district.','.$request->province.'.';
+      $nameAddress = $this->getNameProvinceAndDistrict($request->province,$request->district);
+
+      $post->address = $request->address.', '.$nameAddress['district'].', '.$nameAddress['province'].'.';
+      $post->cnt_view = "0";
+      $post->cnt_rank = "0";
+      $post->website = "";
+      $post->thumb_id = "0";
+      $post->status = "0";
+
 
       $this->setDefaultValue($post,true);
 
-      $post->save();
+      if($post->save()){
+        return Redirect::route('restaurant.create');
+      }
 
-      return Redirect::route('restaurant.create');
     }
 
     /**
@@ -109,16 +122,47 @@ class CustomerController extends Controller
         //
     }
 
-    public function setDefaultValue($object,$isAddNew){
-      if($isAddNew) {
-        $object->cnt_view = "0";
-        $object->cnt_rank = "0";
-        $object->website = "";
-        $object->thumb_id = "0";
-        $object->status = "0";
-        $object->insert_id = Auth::guard('admin')->id;
-        $object->created_at = Carbon::now();
+
+
+    public function getDistrictById(){
+
+      $response = array(
+          "status" => 0,
+          "data" => ""
+      );
+      $provinceId = $_GET['provinceid'];
+
+      // Get all district with province ID.
+      $districtList = DB::table("district")->where("provinceid","=",$provinceId)->get();
+      // Set default value for select.
+      $response['data'] = "<option value=''>Chọn Quận / Huyện</option>";
+
+      // If districtList variable not empty , Getting and storing data in $response['data'] array.
+      if( count($districtList) > 0 ) {
+        foreach ($districtList as $district) {
+          $response['data'] .= "<option value =" . $district->districtid . ">" . $district->name . "</option>";
+        }
+        $response['status'] = 1;
       }
-        $object->updated_at = Carbon::now();
+
+      return Response::json($response);
     }
+
+    public function getNameProvinceAndDistrict($provinceId,$districtId){
+      // Get column name of province by id.
+      $provinceName = DB::table("province")->select("name")->where("provinceId","=",$provinceId)->first();
+      // Get column name of district by id.
+      $districtName = DB::table("district")->select("name")->where("districtId","=",$districtId)->first();
+      // Storing in $arr.
+      $arr = array(
+        "province" => $provinceName->name,
+          "district" => $districtName->name
+      );
+      return $arr;
+    }
+
+    public function uploadLogo(){
+      echo 1;
+    }
+
 }

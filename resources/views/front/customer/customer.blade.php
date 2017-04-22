@@ -29,7 +29,7 @@
                         <h3>Mô tả chung về nhà hàng </h3>
                     </div>
                      <form action="{!! route('restaurant.store') !!}" method="POST">
-                         <input type="hidden" name="_token" value="{!! csrf_token() !!}">
+                         <input type="hidden" name="_token" value="{!! csrf_token() !!}" id="token">
                         <div class="wrapper_indent">
                             <div class="form-group">
                                 <label>Tên nhà hàng <span class = "error"> * </span> </label>
@@ -66,22 +66,19 @@
                             <div class="row">
                                 <div class="col-sm-3">
                                     <div class="form-group">
-                                        <select class="form-control" name="province" id="country" >
-                                            <option value="" selected>Tỉnh thành</option>
-                                            <option value="Europe">Europe</option>
-                                            <option value="United states">United states</option>
-                                            <option value="Asia">Asia</option>
+                                        <select class="form-control" name="province" id="province" >
+                                            <option value="">Tỉnh thành</option>
+                                            @foreach($provinces as $province )
+                                                <option value="{!! $province->provinceid !!}">{!! $province->name !!}</option>
+                                            @endforeach
                                         </select>
                                         <p class="error mt10 mb10"> {!! $errors->first("province") !!} </p>
                                     </div>
                                 </div>
                                 <div class="col-sm-3">
                                     <div class="form-group">
-                                        <select class="form-control" name="district" id="country" >
-                                            <option value="" selected>Quận huyện</option>
-                                            <option value="Europe">Europe</option>
-                                            <option value="United states">United states</option>
-                                            <option value="Asia">Asia</option>
+                                        <select class="form-control" name="district[]" id="district" >
+                                            <option value="" selected>Chọn Quận / Huyện</option>
                                         </select>
                                         <p class="error mt10 mb10"> {!! $errors->first("district") !!} </p>
                                     </div>
@@ -161,7 +158,7 @@
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        @include('_parts/timepicker.timepicker',['placeholder' => "Giờ mở cửa",'name' => 'start_time' , 'value' => (App\Http\Utils\FormatDateTime4Display::formatTime4Display($post->start_time))])
+                                        @include('_parts/timepicker.timepicker',['placeholder' => "Giờ mở cửa",'name' => 'start_time' , 'value' => old('start_time',(App\Http\Utils\FormatDateTime4Display::formatTime4Display($post->start_time)))])
                                         <p class="error mt10 mb10"> {!! $errors->first("start_time") !!} </p>
                                     </div>
                                 </div>
@@ -173,7 +170,7 @@
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        @include('_parts/timepicker.timepicker',['placeholder' => "Giờ đóng cửa",'name' => 'end_time' , 'value' => (App\Http\Utils\FormatDateTime4Display::formatTime4Display($post->end_time))])
+                                        @include('_parts/timepicker.timepicker',['placeholder' => "Giờ đóng cửa",'name' => 'end_time' , 'value' => old('end_time',(App\Http\Utils\FormatDateTime4Display::formatTime4Display($post->end_time))) ])
                                         <p class="error mt10 mb10"> {!! $errors->first("end_time") !!} </p>
                                     </div>
                                 </div>
@@ -235,6 +232,7 @@
     <!-- Specific scripts -->
 
     <script src="{!! asset('public/front/js/bootstrap3-wysihtml5.min.js') !!}"></script>
+
     <script type="text/javascript">
         $('.wysihtml5').wysihtml5({});
     </script>
@@ -242,23 +240,29 @@
     <script>
         if ($('.dropzone').length > 0) {
             Dropzone.autoDiscover = false;
+
             $("#photos").dropzone({
-                url: "upload",
+                url: "/upload",
+                  sending: function(file, xhr, formData) {
+                    // Pass token. You can use the same method to pass any other values as well such as a id to associate the image with for example.
+                    formData.append("_token", $('#token').val()); // Laravel expect the token post value to be named _token by default
+                  },
                 addRemoveLinks: true
             });
 
             $("#logo_picture").dropzone({
-                url: "upload",
+                url: "/upload",
                 maxFiles: 1,
                 addRemoveLinks: true
             });
 
             $(".menu-item-pic").dropzone({
-                url: "upload",
+                url: "/upload",
                 maxFiles: 1,
                 addRemoveLinks: true
             });
         }
     </script>
+
 
 @endsection
