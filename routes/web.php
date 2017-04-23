@@ -42,7 +42,12 @@ Route::group([
           Route::get("district",'Customer\CustomerController@getDistrictById');
 
           // Route helper for upload files
-          Route::post("upload",'Customer\CustomerController@uploadLogo');
+          Route::post("upload",'Image\ImageController@uploadLogo');
+
+          Route::get('/restaurant/image/add',['as' => 'post.image.get','uses' => 'Image\ImageController@getUploadImage']);
+
+          Route::post('/restaurant/image/add/{post_id}',['as' => 'post.image.post','uses' => 'Image\ImageController@postUploadImage']);
+
       });
 
 

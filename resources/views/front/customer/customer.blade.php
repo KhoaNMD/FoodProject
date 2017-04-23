@@ -77,7 +77,7 @@
                                 </div>
                                 <div class="col-sm-3">
                                     <div class="form-group">
-                                        <select class="form-control" name="district[]" id="district" >
+                                        <select class="form-control" name="district" id="district" >
                                             <option value="" selected>Chọn Quận / Huyện</option>
                                         </select>
                                         <p class="error mt10 mb10"> {!! $errors->first("district") !!} </p>
@@ -106,33 +106,6 @@
                                 </div>
                             </div>
                         </div><!-- End wrapper_indent -->
-
-                        <hr class="styled_2">
-                        <div class="indent_title_in">
-                            <i class="icon_images"></i>
-                            <h3>Logo và các hình ảnh của nhà hàng</h3>
-                        </div>
-
-                        <div class="wrapper_indent add_bottom_45">
-                            <div class="form-group">
-                                <label>Upload your restaurant logo</label>
-                                <div id="logo_picture" class="dropzone">
-                                    <input name="logo" type="file">
-                                    <div class="dz-default dz-message"><span>Click hoặc kéo thả hình ở đây</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label>Upload your restaurant photos</label>
-                                <div id="photos" class="dropzone">
-                                    <input name="photos" type="file" multiple>
-                                    <div class="dz-default dz-message"><span>Click hoặc kéo thả hình ở đây</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div><!-- End wrapper_indent -->
-
 
                         <hr class="styled_2">
                         <div class="indent_title_in">
@@ -236,33 +209,5 @@
     <script type="text/javascript">
         $('.wysihtml5').wysihtml5({});
     </script>
-    <script src="{!! asset('public/front/js/dropzone.min.js') !!}"></script>
-    <script>
-        if ($('.dropzone').length > 0) {
-            Dropzone.autoDiscover = false;
-
-            $("#photos").dropzone({
-                url: "/upload",
-                  sending: function(file, xhr, formData) {
-                    // Pass token. You can use the same method to pass any other values as well such as a id to associate the image with for example.
-                    formData.append("_token", $('#token').val()); // Laravel expect the token post value to be named _token by default
-                  },
-                addRemoveLinks: true
-            });
-
-            $("#logo_picture").dropzone({
-                url: "/upload",
-                maxFiles: 1,
-                addRemoveLinks: true
-            });
-
-            $(".menu-item-pic").dropzone({
-                url: "/upload",
-                maxFiles: 1,
-                addRemoveLinks: true
-            });
-        }
-    </script>
-
-
 @endsection
+

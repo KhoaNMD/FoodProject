@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\front\Customer;
 
-use Illuminate\Http\Request;
+//use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Post;
 use Psy\Output\ProcOutputPager;
@@ -12,6 +12,8 @@ use Carbon\Carbon;
 use Redirect;
 use Response;
 use Input;
+use Request;
+use View;
 use App\Http\Utils\UtilityCommon;
 
 class CustomerController extends Controller
@@ -35,6 +37,7 @@ class CustomerController extends Controller
      */
     public function create()
     {
+
       $post = new Post();
 
       $listCategory = DB::table("tbl_category")->get();
@@ -72,9 +75,11 @@ class CustomerController extends Controller
       $this->setDefaultValue($post,true);
 
       if($post->save()){
-        return Redirect::route('restaurant.create');
+        $data = array(
+            "post_id" => $post->id
+        );
+        return View('front.customer.upload',$data);
       }
-
     }
 
     /**
@@ -85,7 +90,7 @@ class CustomerController extends Controller
      */
     public function show($id)
     {
-        //
+
     }
 
     /**
@@ -161,8 +166,5 @@ class CustomerController extends Controller
       return $arr;
     }
 
-    public function uploadLogo(){
-      echo 1;
-    }
 
 }
