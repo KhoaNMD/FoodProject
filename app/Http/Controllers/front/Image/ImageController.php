@@ -5,20 +5,21 @@ namespace App\Http\Controllers\front\Image;
 use App\Models\Image;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 use Input;
 use Response;
 use Redirect;
-
+use Auth;
 class ImageController extends Controller
 {
   public function getUploadImage()
   {
+    print_r(Input::file('file'));
     return view('front.customer.upload');
   }
 
   public function postUploadImage()
   {
-    print_r(Input::all());
     $data = array(
         "post_id" => Input::get("post_id")
     );
@@ -27,18 +28,23 @@ class ImageController extends Controller
 
   public function uploadLogo()
   {
+      $publicPath = public_path();
+      $filePath = "/uploads/photo/";
+      $countImages = count($_FILES['file']['name']);
+      for($i = 0 ; $i < $countImages; $i++){
+        move_uploaded_file($_FILES['file']['tmp_name'][$i],$publicPath.$filePath.$_FILES['file']['name'][$i]);
+       $image = Image::create([
+            "name"      => $_FILES['file']['name'][$i],
+            "type"      => $_FILES['file']['type'][$i] ,
+            "size"      => $_FILES['file']['size'][$i],
+            "post_id"   => $_POST['post_id'],
+            "url_image" => $publicPath.$filePath.'/'.$_FILES['file']['name'][$i],
+            "insert_id" => Auth::guard("admin")->user()->id
+        ]);
+      }
 
-    $response = array(
-        "data" => ""
-    );
-
-    for($i = 0; $i < count($_FILES['file']['name']);$i++){
-        $response["data"][$i]["name"] =  $_FILES['file']['name'][$i];
-        $response["data"][$i]["type"] =  $_FILES['file']['type'][$i];
-        $response["data"][$i]["size"] =  $_FILES['file']['size'][$i];
-    }
-
-    return Response::json($response['data']);
-
+      $post = DB::table("tbl_post")->where("id","=",$_POST['post_id'])->update(["thumb_id" => $image['id']]);
+//      return Redirect::route("restaurant.create");
   }
+
 }

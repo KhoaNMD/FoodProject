@@ -24,9 +24,9 @@
     <div class="content">
       <!--  section 1 -->
       <section id="section-1">
-        <form action="{!! route('post.image.post',$post_id) !!}" method="POST">
-          <input type="hidden" name="_token" value="{!! csrf_token() !!}" id="token">
-          <input type="hidden" name="post_id" value="{!! old('post_id',$post_id) !!}" id="token">
+        <form action="{!! route('post.image.post',$post_id) !!}" method="POST" enctype="multipart/form-data">>
+            <input type="hidden" name="_token" value="{!! csrf_token() !!}" id="token">
+          <input type="hidden" name="post_id" value="{!! old('post_id',$post_id) !!}" id="post_id">
           <div class="indent_title_in">
           <i class="icon_images"></i>
           <h3>Logo và các hình ảnh của nhà hàng</h3>
@@ -36,7 +36,6 @@
           <div class="form-group">
           <label>Upload your restaurant logo</label>
           <div id="logo_picture" class="dropzone">
-          <input name="logo" type="file">
           <div class="dz-default dz-message"><span>Click hoặc kéo thả hình ở đây</span>
           </div>
           </div>
@@ -45,7 +44,6 @@
           <div class="form-group">
           <label>Upload your restaurant photos</label>
           <div id="photos" class="dropzone">
-          <input name="photo[]" type="file" multiple>
           <div class="dz-default dz-message"><span>Click hoặc kéo thả hình ở đây</span>
           </div>
           </div>
@@ -83,10 +81,9 @@
         sending: function(file, xhr, formData) {
           // Pass token. You can use the same method to pass any other values as well such as a id to associate the image with for example.
           formData.append("_token", $('#token').val()); // Laravel expect the token post value to be named _token by default
+          formData.append("post_id",$("#post_id").val());
         },
-        success: function(file, response){
-          alert(response);
-        },
+        parallelUploads: 5,
         acceptedFiles : "image/jpeg,image/png,image/gif",
         maxFiles: 5,
         uploadMultiple: true,

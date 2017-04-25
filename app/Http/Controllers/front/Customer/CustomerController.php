@@ -27,7 +27,11 @@ class CustomerController extends Controller
 
     public function index()
     {
-
+      $post = Post::all()->toArray();
+      echo "<pre>";
+      print_r($post);
+      die;
+      return view('front.restaurant.gridlist');
     }
 
     /**

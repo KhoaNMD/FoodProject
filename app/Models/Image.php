@@ -19,4 +19,8 @@ class Image extends Model
       "insert_id",
   ];
 
+  public function Post(){
+    return $this->hasMany('App\Models\Post');
+  }
+
 }
