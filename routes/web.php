@@ -37,9 +37,9 @@ Route::group([
 
           Route::post('/edit/{id}', ['as' => 'front.user.edit.post', 'uses' => 'FrontAuthController@postEdit']);
 
-          Route::resource('restaurant', 'Customer\CustomerController');
+          Route::resource('restaurant', 'Post\PostController');
 
-          Route::get("district",'Customer\CustomerController@getDistrictById');
+          Route::get("district",'Post\PostController@getDistrictById');
 
           // Route helper for upload files
           Route::post("upload",'Image\ImageController@uploadLogo');
@@ -57,10 +57,4 @@ Route::get('/faq',function (){
     return view('front.faq.faq');
 });
 
-Route::get('/detail',function (){
-  return view('front.restaurant.detail');
-});
 
-Route::get('/menu',function (){
-  return view('front.restaurant.gridlist');
-});

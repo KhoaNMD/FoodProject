@@ -11,6 +11,10 @@
     <title>@yield('title')</title>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="{!! asset('public/font-awesome-4.7.0/css/font-awesome.min.css') !!}" >
+
+
     <!-- Favicons-->
     <link rel="shortcut icon" href="{!! asset('public/front/img/favicon.ico') !!}" type="image/x-icon">
     <link rel="apple-touch-icon" type="image/x-icon" href="{!! asset('public/front/img/apple-touch-icon-57x57-precomposed.png') !!}">
