@@ -94,7 +94,7 @@ class PostController extends Controller
    */
   public function show($id)
   {
-    $post = Post::find($id)->with('images')->first();
+    $post = Post::where('id',$id)->with('images','Comments','Comments.User')->first();
     $content = array(
         'post' => $post
     );

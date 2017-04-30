@@ -37,7 +37,13 @@ Route::group([
 
           Route::post('/edit/{id}', ['as' => 'front.user.edit.post', 'uses' => 'FrontAuthController@postEdit']);
 
+          Route::post('/upload/avatar',['as' => 'front.user.upload.post', 'uses' => 'FrontAuthController@uploadAvatar']);
+
           Route::resource('restaurant', 'Post\PostController');
+
+          Route::resource('comment','Comment\CommentController');
+
+          Route::post('/comment/add','Comment\CommentController@store');
 
           Route::get("district",'Post\PostController@getDistrictById');
 

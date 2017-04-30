@@ -15,6 +15,7 @@ use URL;
 use Request;
 use Response;
 use App\Models\User;
+use App\Models\Image;
 use App\Http\Controllers\Controller;
 use App\Http\Middleware\RedirectIfAuthenticated;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
@@ -28,7 +29,12 @@ class FrontAuthController extends Controller
 
   protected $guard = "admin";
 
-    public function index(){
+    public function __construct()
+    {
+
+    }
+
+  public function index(){
       return View::make('front.home');
     }
 
@@ -76,7 +82,7 @@ class FrontAuthController extends Controller
             "password" => Hash::make($_POST['password']),
             "gender" => 0,
             "address" => "",
-            "url_image" => ""
+            "url_image" => "public/uploads/avatar/user.png"
         ]);
       }
 
@@ -123,6 +129,28 @@ class FrontAuthController extends Controller
               }
         }
 
+    }
+
+    public function uploadAvatar(){
+      $image = Input::file('avatar');
+      $path = "public/uploads/avatar";
+      $image->move($path,$image->getClientOriginalName());
+      $newImage = Image::create([
+          "name"       => $image->getClientOriginalName(),
+          "type"       => $image->getClientOriginalExtension(),
+          "size"       => $image->getClientSize(),
+          "post_id"    => 0,
+          "url_image"  => $path.'/'.$image->getClientOriginalName(),
+          "insert_id"  => Auth::guard('admin')->user()->id
+      ]);
+      if( $newImage ) {
+        $urlImage = User::find(Auth::guard('admin')->user()->id)->update(['url_image' =>  $path.'/'.$image->getClientOriginalName()]);
+        if($urlImage) {
+          Session::flash('message', 'Cập nhập avatar thành công');
+          Session::flash('color', 'success');
+        }
+      }
+      return Redirect::route('front.user.edit.get');
     }
 
 }

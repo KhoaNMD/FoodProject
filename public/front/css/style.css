@@ -1406,6 +1406,8 @@ ul.additional_links li:first-child {
 }
 
 .review_strip_single img {
+  width: 80px;
+  height: 75px;
   top: -15px;
   position: absolute;
   left: 0;

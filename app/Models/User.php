@@ -32,4 +32,8 @@ class User extends Authenticatable
 
   protected $hidden = ['remember_token'];
 
+  public function Comments(){
+    return $this->hasMany('App\Model\Comment');
+  }
+
 }

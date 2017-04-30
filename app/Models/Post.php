@@ -30,7 +30,15 @@ class Post extends Model
       "end_time",
       "insert_id"
   ];
-  public function Images(){
+
+  public function Images()
+  {
     return $this->hasMany('App\Models\Image');
   }
+
+  public function Comments()
+  {
+    return $this->hasMany('App\Models\Comment','post_id','id');
+  }
+
 }

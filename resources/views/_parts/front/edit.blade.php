@@ -55,30 +55,22 @@
             </form>
           </div>
 
-
           <div class="col-md-6 col-sm-6 add_bottom_15">
-            <form action = "#" method = "POST">
+            <form action = "{!! route('front.user.upload.post') !!}" method = "POST" enctype="multipart/form-data">
+              <input type="hidden" name="_token" value="{!! csrf_token() !!}">
               <div class="indent_title_in">
                 <i class="icon_mail_alt"></i>
-                <h3>Change your email</h3>
+                <h3> Upload avatar </h3>
                 <p>
-                  Mussum ipsum cacilds, vidis litro abertis.
+                  Chọn hình ảnh để đặt làm ảnh đại diện.
                 </p>
               </div>
               <div class="wrapper_indent">
                 <div class="form-group">
-                  <label>Old email</label>
-                  <input class="form-control" name="old_email" id="old_email" type="email">
+                  <label>Chọn file</label>
+                  <input class="form-control" name="avatar" type="file">
                 </div>
-                <div class="form-group">
-                  <label>New email</label>
-                  <input class="form-control" name="new_email" id="new_email" type="email">
-                </div>
-                <div class="form-group">
-                  <label>Confirm new email</label>
-                  <input class="form-control" name="confirm_new_email" id="confirm_new_email" type="email">
-                </div>
-                <button type="submit" class="btn_1 green">Update Email</button>
+                <button type="submit" class="btn_1 green">Upload File</button>
               </div>
             </form >
             </div><!-- End wrapper_indent -->
@@ -103,7 +95,7 @@
 <script>
   if ($('.dropzone').length > 0) {
     Dropzone.autoDiscover = false;
-    $("#photos").dropzone({
+    $("#photo").dropzone({
       url: "upload",
       addRemoveLinks: true
     });

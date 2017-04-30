@@ -25,7 +25,6 @@
 
 @section('breadcrumb')
   @include('_parts.front.breadcrumb')
-
   <div class="collapse" id="collapseMap">
     <div id="map" class="map"></div>
   </div><!-- End Map -->
@@ -119,130 +118,46 @@
               <hr class="styled">
               <a href="#" class="btn_1 add_bottom_15" data-toggle="modal" data-target="#myReview">Để lại bình luận</a>
             </div><!-- End summary_review -->
-
-            <div class="review_strip_single">
-              <img src="{!! asset('public/front/img/avatar1.jpg') !!}" alt="" class="img-circle">
-              <small> - 10 March 2015 -</small>
-              <h4>Jhon Doe</h4>
-              <p>
-                "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed a lorem quis neque interdum consequat ut
-                sed sem. Duis quis tempor nunc. Interdum et malesuada fames ac ante ipsum primis in faucibus."
-              </p>
-              <div class="row">
-                <div class="col-md-3">
-                  <div class="rating">
-                    <i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i
-                        class="icon_star voted"></i><i class="icon_star voted"></i>
+            @foreach($post->comments as $comment)
+              <div class="review_strip_single">
+                <img src="{!! asset($comment->user->url_image) !!}" alt="" class="img-circle">
+                <small> {!! date('d-m-Y H:i',strtotime($comment->created_at)) !!} </small>
+                <h4>{!! $comment->user->fullname !!}</h4>
+                <p>
+                  {!! $comment->content !!}
+                </p>
+                <div class="row">
+                  <div class="col-md-3">
+                    <div class="rating">
+                      <i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i
+                          class="icon_star voted"></i><i class="icon_star voted"></i>
+                    </div>
+                    Food Quality
                   </div>
-                  Food Quality
-                </div>
-                <div class="col-md-3">
-                  <div class="rating">
-                    <i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star"></i><i
-                        class="icon_star"></i><i class="icon_star"></i>
+                  <div class="col-md-3">
+                    <div class="rating">
+                      <i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star"></i><i
+                          class="icon_star"></i><i class="icon_star"></i>
+                    </div>
+                    Price
                   </div>
-                  Price
-                </div>
-                <div class="col-md-3">
-                  <div class="rating">
-                    <i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i
-                        class="icon_star voted"></i><i class="icon_star"></i>
+                  <div class="col-md-3">
+                    <div class="rating">
+                      <i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i
+                          class="icon_star voted"></i><i class="icon_star"></i>
+                    </div>
+                    Punctuality
                   </div>
-                  Punctuality
-                </div>
-                <div class="col-md-3">
-                  <div class="rating">
-                    <i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i
-                        class="icon_star voted"></i><i class="icon_star"></i>
+                  <div class="col-md-3">
+                    <div class="rating">
+                      <i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i
+                          class="icon_star voted"></i><i class="icon_star"></i>
+                    </div>
+                    Courtesy
                   </div>
-                  Courtesy
-                </div>
-              </div><!-- End row -->
-            </div><!-- End review strip -->
-
-            <div class="review_strip_single">
-              <img src="{!! asset('public/front/img/avatar3.jpg') !!}" alt="" class="img-circle">
-              <small> - 25 March 2015 -</small>
-              <h4>Markus Schulz</h4>
-              <p>
-                "At sed dico invenire facilisis, sed option sapientem iudicabit ad, sea idque doming vituperatoribus at.
-                Duo ut inani tantas scaevola. Commodo oblique at cum. Duo id vide delectus. Vel et doctus laoreet
-                minimum, ei feugait pertinacia usu.
-              </p>
-              <div class="row">
-                <div class="col-md-3">
-                  <div class="rating">
-                    <i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i
-                        class="icon_star"></i><i class="icon_star"></i>
-                  </div>
-                  Food Quality
-                </div>
-                <div class="col-md-3">
-                  <div class="rating">
-                    <i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i
-                        class="icon_star"></i><i class="icon_star"></i>
-                  </div>
-                  Price
-                </div>
-                <div class="col-md-3">
-                  <div class="rating">
-                    <i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star"></i><i
-                        class="icon_star"></i><i class="icon_star"></i>
-                  </div>
-                  Punctuality
-                </div>
-                <div class="col-md-3">
-                  <div class="rating">
-                    <i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i
-                        class="icon_star voted"></i><i class="icon_star"></i>
-                  </div>
-                  Courtesy
-                </div>
-              </div><!-- End row -->
-            </div><!-- End review strip -->
-
-            <div class="review_strip_single last">
-              <img src="{!! asset('public/front/img/avatar2.') !!}" alt="" class="img-circle">
-              <small> - 10 April 2015 -</small>
-              <h4>Frank Cooper</h4>
-              <p>
-                "Ne mea congue facilis eligendi, possit utamur sensibus id qui, mel tollit euismod alienum eu. Ad tollit
-                lucilius praesent per, ex probo utroque placerat eos. Tale verear efficiendi et cum, meis timeam vix et,
-                et duis debet nostro mel. Aeterno labitur per no, id nec tantas nemore. An minim molestie per, mei sumo
-                vulputate cu."
-              </p>
-              <div class="row">
-                <div class="col-md-3">
-                  <div class="rating">
-                    <i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i
-                        class="icon_star voted"></i><i class="icon_star voted"></i>
-                  </div>
-                  Food Quality
-                </div>
-                <div class="col-md-3">
-                  <div class="rating">
-                    <i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star"></i><i
-                        class="icon_star"></i><i class="icon_star"></i>
-                  </div>
-                  Price
-                </div>
-                <div class="col-md-3">
-                  <div class="rating">
-                    <i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i
-                        class="icon_star voted"></i><i class="icon_star voted"></i>
-                  </div>
-                  Punctuality
-                </div>
-                <div class="col-md-3">
-                  <div class="rating">
-                    <i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i
-                        class="icon_star"></i><i class="icon_star"></i>
-                  </div>
-                  Courtesy
-                </div>
-              </div><!-- End row -->
-            </div><!-- End review strip -->
-
+                </div><!-- End row -->
+              </div><!-- End review strip -->
+            @endforeach
           </div><!-- End box_style_1 -->
         </div>
     </div><!-- End row -->
@@ -258,6 +173,7 @@
   <script src="{!! asset('public/front/js/map_single.js') !!}"></script>
   <script src="{!! asset('public/front/js/infobox.js') !!}"></script>
   <script src="{!! asset('public/front/js/jquery.sliderPro.min.js') !!}"></script>
+  <script src="{!! asset('public/js/comment.js') !!}"></script>
   <script type="text/javascript">
     $(document).ready(function ($) {
       $('#Img_carousel').sliderPro({
