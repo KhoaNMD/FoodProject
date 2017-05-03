@@ -25,6 +25,11 @@ class PostController extends Controller
    */
 
 
+  public function __construct()
+  {
+    $this->middleware('AuthUser',['except' => array('index','show') ]);
+  }
+
   public function index()
   {
     $postList = Post::with("Images")->get();
@@ -109,7 +114,22 @@ class PostController extends Controller
    */
   public function edit($id)
   {
-    //
+    $post = Post::where($id)->get();
+
+//    $nameAddress = $this->getNameProvinceAndDistrict($request->province,$request->district);
+//
+//    $post->address = $request->address.', '.$nameAddress['district'].', '.$nameAddress['province'].'.';
+//
+//    $this->setDefaultValue($post,true);
+//
+//    if($post->save()){
+//      $data = array(
+//          "post_id" => $post->id
+//      );
+//      return View('front.customer.upload',$data);
+//    }
+      echo "<pre>";
+      print_r($post);
   }
 
   /**

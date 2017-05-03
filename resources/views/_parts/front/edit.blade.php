@@ -28,7 +28,8 @@
         @include('_parts.error.inputerror')
         <div class="row">
           <div class="col-md-6 col-sm-6 add_bottom_15">
-            <form action = "{!! route('front.user.edit.post',Auth::guard('admin')->id()) !!}" method = "POST">
+            <form action = "{!! route('user.update',$id) !!}" method="POST">
+              <input type="hidden" name="_method" value="PUT" />
               <input type = "hidden" name = "_token" value = "{!! csrf_token() !!}">
               <div class="indent_title_in">
                 <i class="icon_lock_alt"></i>

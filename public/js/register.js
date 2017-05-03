@@ -34,7 +34,7 @@ $(document).ready(function(){
          errorContent += " <p> Confirm-Password is not same. </p>";
       }else {
         $.ajax({
-          url: 'register',
+          url: '/register',
           type: 'POST',
           data: {fullname: fullname, email: email, password: password, _token: token},
           dataType: 'json',

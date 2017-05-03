@@ -35,7 +35,7 @@ class FrontAuthController extends Controller
     }
 
   public function index(){
-      return View::make('front.home');
+      return Redirect::route('restaurant.index');
     }
 
     public function Login(){
@@ -63,7 +63,7 @@ class FrontAuthController extends Controller
     public function Logout(){
       Auth::guard('admin')->logout();
       Session::forget('user');
-      return redirect('/');
+      return Redirect::route('front.home');
     }
 
     public function Register()
@@ -87,70 +87,6 @@ class FrontAuthController extends Controller
       }
 
      return Response::json($response);
-    }
-
-    public function getEdit(){
-      return view('_parts.front.edit');
-    }
-
-    public function postEdit($id) {
-        $validator = Validator::make(Request::all(),
-          [
-              'old_password' => 'required',
-              'new_password' => 'required|confirmed',
-              'new_password_confirmation' => 'required'
-          ],
-            [
-              'old_password.required' => 'Password cũ không được bỏ trống',
-              'new_password.required' => 'Password mới không được bỏ trống',
-              'new_password_confirmation.required' => 'Password xác nhận không được bỏ trống',
-              'new_password_confirmation' => 'Password xác nhận không đúng'
-            ]
-        );
-
-        if($validator->fails()){
-            return redirect('/edit')->withErrors($validator);
-        } else {
-
-              $password = DB::table('tbl_users')->where('id','=',$id)->value('password');
-              if( !Hash::check(Input::get('old_password'),$password)){
-                Session::flash('message',"Password cũ không đúng");
-                Session::flash('color',"danger");
-                return Redirect::route('front.user.edit.get');
-              }
-              else{
-                $changePassword = [
-                    'password' => Hash::make(Input::get('new_password'))
-                ];
-                if(DB::table('tbl_users')->where('id','=',$id)->update($changePassword))
-                  Session::flash('message',"Password thay đổi thành công.");
-                  Session::flash('color',"success");
-                  return Redirect::route('front.user.edit.get');
-              }
-        }
-
-    }
-
-    public function uploadAvatar(){
-      $image = Input::file('avatar');
-      $path = "public/uploads/avatar";
-      $image->move($path,$image->getClientOriginalName());
-      $newImage = Image::create([
-          "name"       => $image->getClientOriginalName(),
-          "type"       => $image->getClientOriginalExtension(),
-          "size"       => $image->getClientSize(),
-          "post_id"    => 0,
-          "url_image"  => $path.'/'.$image->getClientOriginalName(),
-          "insert_id"  => Auth::guard('admin')->user()->id
-      ]);
-      if( $newImage ) {
-        $urlImage = User::find(Auth::guard('admin')->user()->id)->update(['url_image' =>  $path.'/'.$image->getClientOriginalName()]);
-        if($urlImage) {
-          Session::flash('message', 'Cập nhập avatar thành công');
-          Session::flash('color', 'success');
-        }
-      }
-      return Redirect::route('front.user.edit.get');
     }
 
 }

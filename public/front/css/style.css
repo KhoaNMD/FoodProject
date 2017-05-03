@@ -1021,13 +1021,13 @@ a.strip_list:hover h3 {
 }
 
 .box_style_2#help i {
-  font-size: 52px;
+  font-size: 30px;
   display: inline-block;
   color: #999
 }
 
 .box_style_2#help a.phone {
-  font-size: 26px;
+  font-size: 15px;
   display: block;
   margin-bottom: 0;
   color: #85c99d
@@ -1782,8 +1782,7 @@ select.form-control.form-white {
 }
 
 .modal-dialog {
-  width: 100%;
-  max-width: 560px;
+
   margin: 0 auto
 }
 

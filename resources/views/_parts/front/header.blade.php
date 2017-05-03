@@ -16,7 +16,7 @@
                     </div>
                     <a href="#" class="open_close" id="close_in"><i class="icon_close"></i></a>
                     <ul>
-                        <li><a href="{!! route('front.home') !!}">Trang chủ</a></li>
+                        <li><a href="{!! route('restaurant.index') !!}">Trang chủ</a></li>
                         <li>
                                 @if( !Auth::guard('admin')->check() )
                                     <a href="#0" data-toggle="modal" data-target="#login_2">Đăng nhập</a>
@@ -25,10 +25,10 @@
                                         <a href = "#">{!! Auth::guard('admin')->user()->email !!}</a>
                                         <ul>
                                             <li>
-                                                <a href="{!! route('restaurant.create') !!}"> Register Location </a>
+                                                <a href="{!! route('restaurant.create') !!}"> Tạo địa điểm </a>
                                             </li>
                                             <li>
-                                                <a href="{!! route('front.user.edit.get') !!}">Thông tin tài khoản</a>
+                                                <a href="{!! route('user.edit', Auth::guard('admin')->user()->id) !!}">Thông tin tài khoản</a>
                                             </li>
                                             <li>
                                                 <a href="{!! route('front.user.logout') !!}">Đăng xuất</a>

@@ -41,8 +41,11 @@
              aria-controls="collapseMap">Xem trên bản đồ</a>
         </p>
         <div class="box_style_2">
-          <h4 class="nomargin_top">Thời gian phục vụ <i class="icon_clock_alt pull-right"></i></h4>
+          <h4 class="nomargin_top"> Thời gian phục vụ <i class="icon_clock_alt pull-right"></i></h4>
           <div class="color_deeppink"> {!! date('H:i',strtotime($post->start_time)) !!} ~ {!! date('H:i',strtotime($post->end_time)) !!} </div>
+          <br/>
+          <h4 class="nomargin_top"> Giá <i class="icon_money_alt pull-right fa fa-money"></i></h4>
+          <div class="color_deeppink"> {!! number_format($post->min_price) !!} VND - {!! number_format($post->max_price) !!} VND </div>
         </div>
         <!-- NEEND HELP col-md-4 -->
         @include('_parts.front.order.needhelp')
@@ -73,14 +76,7 @@
               {!! $post->describe !!}
             </p>
             <div id="summary_review">
-              <div id="general_rating">
-                11 Reviews
-                <div class="rating">
-                  <i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i
-                      class="icon_star voted"></i><i class="icon_star"></i>
-                </div>
-              </div>
-
+              @if(Auth::guard('admin')->check())
               <div class="row" id="rating_summary">
                 <div class="col-md-6">
                   <ul>
@@ -116,8 +112,12 @@
                 </div>
               </div><!-- End row -->
               <hr class="styled">
-              <a href="#" class="btn_1 add_bottom_15" data-toggle="modal" data-target="#myReview">Để lại bình luận</a>
+                <a href="#" class="btn_1 add_bottom_15" data-toggle="modal" data-target="#myReview">Để lại bình luận</a>
+              @else
+                <div class="text-danger"> * Vui lòng đăng nhập để bình luận </div>
+              @endif
             </div><!-- End summary_review -->
+            <h5 class="text-success">Hiện có <i>{!! count($post->comments) !!}</i> bình luận cho bài viết này </h5>
             @foreach($post->comments as $comment)
               <div class="review_strip_single">
                 <img src="{!! asset($comment->user->url_image) !!}" alt="" class="img-circle">
@@ -164,9 +164,12 @@
   </div><!-- End container -->
 @endsection
 
-@section('review_modal')
-  @include('_parts.front.review')
-@endsection
+<!-- Check user login to comment -->
+@if(Auth::guard('admin')->check())
+  @section('review_modal')
+    @include('_parts.front.review')
+  @endsection
+@endif
 
 @section('specificscripts')
   <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyAs_JyKE9YfYLSQujbyFToZwZy-wc09w7s"></script>

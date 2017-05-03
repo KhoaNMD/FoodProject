@@ -12,6 +12,12 @@ use Redirect;
 use Auth;
 class ImageController extends Controller
 {
+
+  public function __construct()
+  {
+    $this->middleware('AuthUser');
+  }
+
   public function getUploadImage()
   {
     print_r(Input::file('file'));
@@ -38,7 +44,7 @@ class ImageController extends Controller
             "type"      => $_FILES['file']['type'][$i] ,
             "size"      => $_FILES['file']['size'][$i],
             "post_id"   => $_POST['post_id'],
-            "url_image" => $publicPath.$filePath.'/'.$_FILES['file']['name'][$i],
+            "url_image" => 'public'.$filePath.$_FILES['file']['name'][$i],
             "insert_id" => Auth::guard("admin")->user()->id
         ]);
       }

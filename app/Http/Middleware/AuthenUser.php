@@ -18,7 +18,7 @@ class AuthenUser
     public function handle($request, Closure $next)
     {
       if( !Auth::guard('admin')->check() ){
-        return Redirect::route('login');
+        return Redirect::route('front.home');
       }
 
         return $next($request);

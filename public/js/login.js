@@ -11,7 +11,7 @@ $(document).ready(function(){
     }else{
 
       $.ajax({
-        url : 'login',
+        url : '/login',
         type : 'POST',
         data : { username : username , password : password , _token : token },
         dataType : 'json',

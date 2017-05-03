@@ -14,7 +14,13 @@ class CommentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+
+    public function __construct()
+    {
+      $this->middleware('AuthUser');
+    }
+
+  public function index()
     {
         //
     }
