@@ -1,9 +1,10 @@
 <?php
+
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Seeder;
 
-class AddColumnImageSeeder extends Seeder
+class AddColumnPostTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -12,8 +13,9 @@ class AddColumnImageSeeder extends Seeder
      */
     public function run()
     {
-      Schema::table('tbl_image', function (Blueprint $table) {
-        $table->integer('insert_id')->after('url_image');
+      Schema::table('tbl_post', function (Blueprint $table) {
+        $table->string('province',5)->change();
+        $table->string('district',5)->change();
       });
     }
 }

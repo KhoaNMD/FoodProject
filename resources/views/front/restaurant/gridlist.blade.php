@@ -54,10 +54,12 @@
                     @include('_parts.front.contentgrid')
                     {{--end tab contents--}}
 
-                    <a href="#0" class="load_more_bt wow fadeIn" data-wow-delay="0.2s">Xem tiếp...</a>
+                    {{--@include('front.RImages')--}}
+
+
                 </div><!-- End col-md-9-->
 
-        </div><!-- End row -->
+           </div><!-- End row -->
     </div><!-- End container -->
     <!-- End Content =============================================== -->
 @endsection

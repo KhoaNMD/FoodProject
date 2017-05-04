@@ -89,4 +89,29 @@ class FrontAuthController extends Controller
      return Response::json($response);
     }
 
+  public function getDistrictById(){
+
+    $response = array(
+        "status" => 0,
+        "data" => ""
+    );
+    $provinceId = $_GET['provinceid'];
+
+    // Get all district with province ID.
+    $districtList = DB::table("district")->where("provinceid","=",$provinceId)->get();
+    // Set default value for select.
+    $response['data'] = "<option value=''> -- Quận / Huyện -- </option>";
+
+    // If districtList variable not empty , Getting and storing data in $response['data'] array.
+    if( count($districtList) > 0 ) {
+      foreach ($districtList as $district) {
+        $response['data'] .= "<option value =" . $district->districtid . ">" . $district->name . "</option>";
+      }
+      $response['status'] = 1;
+    }
+
+    return Response::json($response);
+  }
+
+
 }

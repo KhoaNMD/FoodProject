@@ -17,6 +17,8 @@ class Post extends Model
       "website",
       "describe",
       "status",
+      "province",
+      "district",
       "cnt_view",
       "cnt_rank",
       "category_id",

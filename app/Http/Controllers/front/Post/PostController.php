@@ -32,9 +32,14 @@ class PostController extends Controller
 
   public function index()
   {
-    $postList = Post::with("Images")->get();
+    $districtList = DB::table("district")->get();
+    $provinceList = DB::table("province")->get();
+    $postList = $this->queryPost(Post::with("Images"))->get();
+
     $content = [
-        "postList" => $postList
+        "districtList" => $districtList,
+        "provinceList" => $provinceList,
+        "postList"     => $postList
     ];
     return view('front.restaurant.gridlist',$content);
   }
@@ -74,6 +79,8 @@ class PostController extends Controller
     $nameAddress = $this->getNameProvinceAndDistrict($request->province,$request->district);
 
     $post->address = $request->address.', '.$nameAddress['district'].', '.$nameAddress['province'].'.';
+    $post->district = $request->district;
+    $post->province = $request->province;
     $post->cnt_view = "0";
     $post->cnt_rank = "0";
     $post->website = "";
@@ -155,32 +162,6 @@ class PostController extends Controller
     //
   }
 
-
-
-  public function getDistrictById(){
-
-    $response = array(
-        "status" => 0,
-        "data" => ""
-    );
-    $provinceId = $_GET['provinceid'];
-
-    // Get all district with province ID.
-    $districtList = DB::table("district")->where("provinceid","=",$provinceId)->get();
-    // Set default value for select.
-    $response['data'] = "<option value=''>Chọn Quận / Huyện</option>";
-
-    // If districtList variable not empty , Getting and storing data in $response['data'] array.
-    if( count($districtList) > 0 ) {
-      foreach ($districtList as $district) {
-        $response['data'] .= "<option value =" . $district->districtid . ">" . $district->name . "</option>";
-      }
-      $response['status'] = 1;
-    }
-
-    return Response::json($response);
-  }
-
   public function getNameProvinceAndDistrict($provinceId,$districtId){
     // Get column name of province by id.
     $provinceName = DB::table("province")->select("name")->where("provinceId","=",$provinceId)->first();
@@ -194,5 +175,14 @@ class PostController extends Controller
     return $arr;
   }
 
+  public function queryPost($query){
+    if(Input::get('province')){
+       $query->where("province",'=',Input::get('province'));
+    }
+    if(Input::get('district')){
+      $query->where("district",'=',Input::get('district'));
+    }
+    return $query;
+  }
 
 }

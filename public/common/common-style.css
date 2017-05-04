@@ -9,3 +9,16 @@
 .mb10{
   margin-bottom: 10px;
 }
+.color_deeppink{
+  color: deeppink;
+}
+
+.ml-5{
+  margin-left: 5px;
+}
+
+.select_box_province , .select_box_district{
+  padding: 8px 5px;
+  border-radius: 5px;
+  border: 1px solid #ddd;
+}

@@ -31,6 +31,8 @@ Route::group([
 
       Route::post('/register', 'FrontAuthController@Register');
 
+      Route::get("district",'FrontAuthController@getDistrictById');
+
       Route::resource('user','User\UserController');
 
       Route::post('/upload/avatar',
@@ -45,8 +47,6 @@ Route::group([
       Route::resource('comment','Comment\CommentController');
 
       Route::post('/comment/add','Comment\CommentController@store');
-
-      Route::get("district",'Post\PostController@getDistrictById');
 
           // Route helper for upload files
       Route::post("upload",'Image\ImageController@uploadLogo');
