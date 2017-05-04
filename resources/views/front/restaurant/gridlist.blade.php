@@ -72,6 +72,7 @@
     <script src="{!! asset('public/front/js/map.js') !!}"></script>
     <script src="{!! asset('public/front/js/infobox.js') !!}"></script>
     <script src="{!! asset('public/front/js/ion.rangeSlider.js') !!}"></script>
+    <script src="{!! asset('public/js/handlefilter.js') !!}"></script>
     <script>
         $(function () {
             'use strict';

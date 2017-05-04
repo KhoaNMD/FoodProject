@@ -1,14 +1,14 @@
 <form action="{!! route('restaurant.index') !!}" method="GET" >
   <div class="col-md-5 col-sm-5 col-xs-12">
       <span>
-          <select class="select_box_province" data-icon="glyphicon-heart"  data-width="40%" name="province" id="province">
+          <select class="select_box_province" data-icon="glyphicon-heart"  data-width="40%" name="province" id="province_filter">
                   @foreach($provinceList as $province)
-                      <option value="{!! $province->provinceid !!}" {!! ( $province->provinceid ==  old('province') ) || ( $province->provinceid ==  79 ) ? "selected" : ''  !!} > {!! $province->name !!} </option>
+                      <option value="{!! $province->provinceid !!}" {!! ( isset($_GET['province']) ? $province->provinceid == $_GET['province'] : $province->provinceid == "79" ) ? "selected" : ''  !!} > {!! $province->name !!} </option>
                   @endforeach
           </select>
       </span>
       <span>
-          <select class="select_box_district"  data-width="50%" name="district" id="district">
+          <select class="select_box_district"  data-width="50%" name="district" id="district_filter">
                <option value="">-- Quận Huyện --</option>
           </select>
       </span>

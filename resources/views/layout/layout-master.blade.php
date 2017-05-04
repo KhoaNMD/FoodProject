@@ -121,6 +121,5 @@
 
 <!-- helper -->
 <script src="{!! asset('public/js/jquery.timepicker.js') !!}"></script>
-<script src="{!! asset('public/js/handledistrict.js') !!}"></script>
 </body>
 </html>

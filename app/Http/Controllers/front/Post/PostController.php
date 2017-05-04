@@ -32,12 +32,10 @@ class PostController extends Controller
 
   public function index()
   {
-    $districtList = DB::table("district")->get();
     $provinceList = DB::table("province")->get();
     $postList = $this->queryPost(Post::with("Images"))->get();
 
     $content = [
-        "districtList" => $districtList,
         "provinceList" => $provinceList,
         "postList"     => $postList
     ];

@@ -843,6 +843,7 @@
     <script  src="{!! asset('public/front/js/cat_nav_mobile.js') !!}"></script>
     <script>$('#cat_nav').mobileMenu();</script>
     <script src="{!! asset('public/front/js/theia-sticky-sidebar.js') !!}"></script>
+    <script src="{!! asset('public/js/handledistrict.js') !!}"></script>
     <script>
         jQuery('#sidebar').theiaStickySidebar({
             additionalMarginTop: 80
