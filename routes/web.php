@@ -44,6 +44,13 @@ Route::group([
 
       Route::resource('restaurant', 'Post\PostController');
 
+      Route::get('/restaurant/user/posts',
+          [
+              'as'   => 'posts.user.get',
+              'uses' => 'Post\PostController@userPostList'
+          ]
+      );
+
       Route::resource('comment','Comment\CommentController');
 
       Route::post('/comment/add','Comment\CommentController@store');
@@ -53,13 +60,13 @@ Route::group([
 
       Route::get('/restaurant/image/add',
           [
-              'as'   => 'post.image.get',
+              'as'   => 'posts.image.get',
               'uses' => 'Image\ImageController@getUploadImage']
       );
 
       Route::post('/restaurant/image/add/{post_id}',
           [
-              'as'   => 'post.image.post',
+              'as'   => 'posts.image.post',
               'uses' => 'Image\ImageController@postUploadImage']
       );
 });

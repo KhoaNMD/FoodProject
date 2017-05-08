@@ -15,6 +15,7 @@ use Input;
 use Request;
 use View;
 use App\Http\Utils\UtilityCommon;
+use Auth;
 
 class PostController extends Controller
 {
@@ -104,7 +105,7 @@ class PostController extends Controller
    */
   public function show($id)
   {
-    $post = Post::where('id',$id)->with('images','Comments','Comments.User')->first();
+    $post = Post::with('images','Comments','Comments.User')->find($id);
     $content = array(
         'post' => $post
     );
@@ -119,22 +120,15 @@ class PostController extends Controller
    */
   public function edit($id)
   {
-    $post = Post::where($id)->get();
-
-//    $nameAddress = $this->getNameProvinceAndDistrict($request->province,$request->district);
-//
-//    $post->address = $request->address.', '.$nameAddress['district'].', '.$nameAddress['province'].'.';
-//
-//    $this->setDefaultValue($post,true);
-//
-//    if($post->save()){
-//      $data = array(
-//          "post_id" => $post->id
-//      );
-//      return View('front.customer.upload',$data);
-//    }
-      echo "<pre>";
-      print_r($post);
+    $post = Post::find($id);
+    $listCategory = DB::table("tbl_category")->get();
+    $provinceList = DB::table("province")->get();
+    $content = array(
+        "post" => $post,
+        "categories" => $listCategory,
+        "provinces" => $provinceList
+    );
+    return view('front.customer.customer',$content);
   }
 
   /**
@@ -144,9 +138,12 @@ class PostController extends Controller
    * @param  int  $id
    * @return \Illuminate\Http\Response
    */
-  public function update(Request $request, $id)
+  public function update(PostRequest $request, $id)
   {
-    //
+    $input = Input::all();
+    $post = Post::find($id);
+    $post->fill();
+    return Redirect::route('restaurant.edit',$id);
   }
 
   /**
@@ -176,11 +173,23 @@ class PostController extends Controller
   public function queryPost($query){
     if(Input::get('province')){
        $query->where("province",'=',Input::get('province'));
-    }
+    }else{
+      $query->where("province",'=',"79");
+    } // Set default value for search.
+
     if(Input::get('district')){
       $query->where("district",'=',Input::get('district'));
     }
     return $query;
+  }
+
+  public function userPostList()
+  {
+    $userPost = Post::where('insert_id',Auth::guard('admin')->user()->id)->get();
+    $content = array(
+        'userPost' => $userPost
+    );
+    return view('front.restaurant.index',$content);
   }
 
 }

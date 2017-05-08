@@ -1,7 +1,7 @@
 /**
  * Created by ASUS on 20/04/2017.
  */
-$(document).ready(function(){
+$(document).ready(function(e){
   // Search Post By province.
   $("#province_filter").change(function(){
     var provinceid = $("#province_filter").val();
@@ -26,9 +26,10 @@ $(document).ready(function(){
     var districtid = $("#district_filter").val();
     window.location.href = localStorage.getItem("current_link") + "&district=" + districtid ;
     });
-  // Show data in select_box_filter class.
-  $("#district_filter").html(localStorage.getItem("district_filter"));
+  // // Show data in select_box_filter class.
+  // $("#district_filter").html(localStorage.getItem("district_filter"));
 
+  // Clear storage when loading page.
 });/**
  * Created by ASUS on 04/05/2017.
  */

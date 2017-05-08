@@ -28,27 +28,32 @@
                         <i class="icon_house_alt"></i>
                         <h3>Mô tả chung về nhà hàng </h3>
                     </div>
-                     <form action="{!! route('restaurant.store') !!}" method="POST">
+                    @if($post->id)
+                        <form action="{!! route('restaurant.update',$post->id) !!}" method="POST">
+                            <input type="hidden" name="_method" value="PATCH">
+                    @else
+                                <form action="{!! route('restaurant.store') !!}" method="POST">
+                    @endif
                          <input type="hidden" name="_token" value="{!! csrf_token() !!}" id="token">
                         <div class="wrapper_indent">
                             <div class="form-group">
                                 <label>Tên nhà hàng <span class = "error"> * </span> </label>
-                                <input class="form-control" name="title" placeholder = "Tên nhà hàng" id="restaurant_name" type="text" value="{!! old("title") !!}">
+                                <input class="form-control" name="title" placeholder = "Tên nhà hàng" id="restaurant_name" type="text" value="{!! old("title",$post->title) !!}">
                                 <p class="error mt10 mb10"> {!! $errors->first("title") !!} </p>
                             </div>
                             <div class="form-group">
                                 <label>Mô tả về nhà hàng <span class = "error"> * </span> </label>
-                                <textarea class="wysihtml5 form-control" name="describe" placeholder="Nội dung mô tả nhà hàng của bạn ..." style="height: 200px;" >{!! old("describe") !!}</textarea>
+                                <textarea class="wysihtml5 form-control" name="describe" placeholder="Nội dung mô tả nhà hàng của bạn ..." style="height: 200px;" >{!! old("describe",$post->describe) !!}</textarea>
                                 <p class="error mt10 mb10"> {!! $errors->first("describe") !!} </p>
                             </div>
                             <div class="form-group">
                                 <label>Số điện thoại<span class = "error"> * </span></label>
-                                <input type="text" id="Telephone" name="phone" placeholder = "Số điện thoại liên lạc" class="form-control" value="{!! old("phone") !!}">
+                                <input type="text" id="Telephone" name="phone" placeholder = "Số điện thoại liên lạc" class="form-control" value="{!! old("phone",$post->phone) !!}">
                                 <p class="error mt10 mb10"> {!! $errors->first("phone") !!} </p>
                             </div>
                             <div class="form-group">
                                 <label>Email <span class = "error"> * </span> </label>
-                                <input type="email" id="Email" name="email" placeholder = "Email liên lạc" class="form-control" value="{!! old("email") !!}">
+                                <input type="email" id="Email" name="email" placeholder = "Email liên lạc" class="form-control" value="{!! old("email",$post->email) !!}">
                                 <p class="error mt10 mb10"> {!! $errors->first("email") !!} </p>
                             </div>
                         </div><!-- End wrapper_indent -->
@@ -69,7 +74,7 @@
                                         <select class="form-control" name="province" id="province" >
                                             <option value="">Tỉnh thành</option>
                                             @foreach($provinces as $province )
-                                                <option value="{!! $province->provinceid !!}">{!! $province->name !!}</option>
+                                                <option value="{!! $province->provinceid !!}" {!! $post->province === $province->provinceid ? "selected" : ""  !!}>{!! $province->name !!}</option>
                                             @endforeach
                                         </select>
                                         <p class="error mt10 mb10"> {!! $errors->first("province") !!} </p>
@@ -90,7 +95,7 @@
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <input type="text" id="street_2" name="website" placeholder = "Địa chỉ website riêng (nếu có )" class="form-control" value="{!! old("website") !!}">
+                                        <input type="text" id="street_2" name="website" placeholder = "Địa chỉ website riêng (nếu có )" class="form-control" value="{!! old("website",$post->website) !!}">
                                     </div>
                                 </div>
                             </div>
@@ -100,7 +105,7 @@
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <input type="text" id="street_2" name="address" placeholder = "123 An Dương Vương ..." class="form-control" value="{!! old("address") !!}">
+                                        <input type="text" id="street_2" name="address" placeholder = "123 An Dương Vương ..." class="form-control" value="{!! old("address",$post->address) !!}">
                                         <p class="error mt10 mb10"> {!! $errors->first("address") !!} </p>
                                     </div>
                                 </div>
@@ -154,7 +159,7 @@
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <input type="text" id="street_2" name="min_price" placeholder = "Giá thấp nhát" class="form-control" value="{!! old("min_price") !!}">
+                                        <input type="text" id="street_2" name="min_price" placeholder = "Giá thấp nhát" class="form-control" value="{!! old("min_price",number_format($post->min_price) )!!}">
                                         <p class="error mt10 mb10"> {!! $errors->first("min_price") !!} </p>
                                     </div>
                                 </div>
@@ -165,7 +170,7 @@
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <input type="text" id="street_2" name="max_price" placeholder = "Giá cao nhất" class="form-control" value="{!! old("max_price") !!}">
+                                        <input type="text" id="street_2" name="max_price" placeholder = "Giá cao nhất" class="form-control" value="{!! old("max_price",number_format($post->max_price))  !!}">
                                         <p class="error mt10 mb10"> {!! $errors->first("max_price") !!} </p>
                                     </div>
                                 </div>
@@ -179,7 +184,7 @@
                                         <select class="form-control" name="category_id" id="country">
                                             <option value="" selected>----</option>
                                             @foreach( $categories as $category )
-                                                <option value="{!! $category->id !!}" {!! $category->id == old('category_id') ? "selected" : ''  !!} )> {!! $category->name !!} </option>
+                                                <option value="{!! $category->id !!}" {!! $category->id === old('category_id',$post->category_id) ? "selected" : ''  !!} )> {!! $category->name !!} </option>
                                             @endforeach
                                         </select>
                                         <p class="error mt10 mb10"> {!! $errors->first("category_id") !!} </p>
@@ -205,7 +210,7 @@
     <!-- Specific scripts -->
 
     <script src="{!! asset('public/front/js/bootstrap3-wysihtml5.min.js') !!}"></script>
-
+    <script  src="{!! asset('public/js/handledistrict.js') !!}"></script>
     <script type="text/javascript">
         $('.wysihtml5').wysihtml5({});
     </script>
