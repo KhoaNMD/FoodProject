@@ -28,7 +28,7 @@ class PostController extends Controller
 
   public function __construct()
   {
-    $this->middleware('AuthUser',['except' => array('index','show') ]);
+    $this->middleware('AuthUser',['except' => array('index','show','searchPost') ]);
   }
 
   public function index()
@@ -177,9 +177,6 @@ class PostController extends Controller
       $query->where("province",'=',"79");
     } // Set default value for search.
 
-    if(Input::get('district')){
-      $query->where("district",'=',Input::get('district'));
-    }
     return $query;
   }
 
@@ -190,6 +187,25 @@ class PostController extends Controller
         'userPost' => $userPost
     );
     return view('front.restaurant.index',$content);
+  }
+
+  public function searchPost()
+  {
+
+    $response = array(
+        "status" => 0,
+        "data"   => ""
+    );
+
+    if(!empty($_GET['district'])){
+      $postList = Post::with('Images')->where('district','=',$_GET['district'])->get();
+      if(count($postList) > 0){
+        $response['data'] = $postList;
+        $response['status'] = 1;
+      }
+    }
+
+    return Response::json($response);
   }
 
 }

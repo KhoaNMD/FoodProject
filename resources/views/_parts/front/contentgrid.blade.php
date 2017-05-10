@@ -53,4 +53,5 @@
             <div class="text-danger">Hiện có 0 bài viết theo yêu cầu.</div>
         @endif
     </div>
+     <img id="image-loading" src="{!! asset('public/images/loading.gif') !!}" width="400px" height="200px" style="top: 400px;right: 350px;position: fixed;">
 </div>

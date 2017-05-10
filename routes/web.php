@@ -51,6 +51,8 @@ Route::group([
           ]
       );
 
+      Route::get('/restaurant/search/location','Post\PostController@searchPost');
+
       Route::resource('comment','Comment\CommentController');
 
       Route::post('/comment/add','Comment\CommentController@store');

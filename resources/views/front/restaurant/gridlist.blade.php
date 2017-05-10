@@ -68,7 +68,7 @@
     <script  src="{!! asset('public/front/js/cat_nav_mobile.js') !!}"></script>
     <script src="{!! asset('public/front/js/bootstrap-select.min.js') !!}"></script>
     <script>$('#cat_nav').mobileMenu();</script>
-    <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyAs_JyKE9YfYLSQujbyFToZwZy-wc09w7s"></script>
+    {{--<script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyAs_JyKE9YfYLSQujbyFToZwZy-wc09w7s"></script>--}}
     <script src="{!! asset('public/front/js/map.js') !!}"></script>
     <script src="{!! asset('public/front/js/infobox.js') !!}"></script>
     <script src="{!! asset('public/front/js/ion.rangeSlider.js') !!}"></script>

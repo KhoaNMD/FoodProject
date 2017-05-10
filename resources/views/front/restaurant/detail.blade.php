@@ -172,7 +172,7 @@
 @endif
 
 @section('specificscripts')
-  <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyAs_JyKE9YfYLSQujbyFToZwZy-wc09w7s"></script>
+  {{--<script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyAs_JyKE9YfYLSQujbyFToZwZy-wc09w7s"></script>--}}
   <script src="{!! asset('public/front/js/map_single.js') !!}"></script>
   <script src="{!! asset('public/front/js/infobox.js') !!}"></script>
   <script src="{!! asset('public/front/js/jquery.sliderPro.min.js') !!}"></script>
