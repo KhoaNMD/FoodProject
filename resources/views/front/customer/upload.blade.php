@@ -24,7 +24,7 @@
     <div class="content">
       <!--  section 1 -->
       <section id="section-1">
-        <form action="{!! route('post.image.post',$post_id) !!}" method="POST" enctype="multipart/form-data">>
+        <form action="{!! route('posts.image.post',$post_id) !!}" method="POST" enctype="multipart/form-data">
             <input type="hidden" name="_token" value="{!! csrf_token() !!}" id="token">
           <input type="hidden" name="post_id" value="{!! old('post_id',$post_id) !!}" id="post_id">
           <div class="indent_title_in">
@@ -44,8 +44,8 @@
           <div class="form-group">
           <label>Upload your restaurant photos</label>
           <div id="photos" class="dropzone">
-          <div class="dz-default dz-message"><span>Click hoặc kéo thả hình ở đây</span>
-          </div>
+            <div class="dz-default dz-message"><span>Click hoặc kéo thả hình ở đây</span>
+            </div>
           </div>
           </div>
           </div><!-- End wrapper_indent -->
