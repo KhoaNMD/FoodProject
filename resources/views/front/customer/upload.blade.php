@@ -25,7 +25,7 @@
       <!--  section 1 -->
       <section id="section-1">
         <form action="{!! route('posts.image.post',$post_id) !!}" method="POST" enctype="multipart/form-data">
-            <input type="hidden" name="_token" value="{!! csrf_token() !!}" id="token">
+          <input type="hidden" name="_token" value="{!! csrf_token() !!}" id="token">
           <input type="hidden" name="post_id" value="{!! old('post_id',$post_id) !!}" id="post_id">
           <div class="indent_title_in">
           <i class="icon_images"></i>
@@ -33,23 +33,14 @@
           </div>
 
           <div class="wrapper_indent add_bottom_45">
-          <div class="form-group">
-          <label>Upload your restaurant logo</label>
-          <div id="logo_picture" class="dropzone">
-          <div class="dz-default dz-message"><span>Click hoặc kéo thả hình ở đây</span>
-          </div>
-          </div>
-          </div>
-
-          <div class="form-group">
-          <label>Upload your restaurant photos</label>
-          <div id="photos" class="dropzone">
-            <div class="dz-default dz-message"><span>Click hoặc kéo thả hình ở đây</span>
+            <div class="form-group">
+            <label>Upload your restaurant photos</label>
+            <div id="photos" class="dropzone">
+              <div class="dz-default dz-message"><span>Click hoặc kéo thả hình ở đây</span>
+              </div>
             </div>
-          </div>
-          </div>
+            </div>
           </div><!-- End wrapper_indent -->
-
 
           <div class="wrapper_indent">
             <button class="btn_1">Lưu lại ngay</button>
@@ -82,6 +73,35 @@
           // Pass token. You can use the same method to pass any other values as well such as a id to associate the image with for example.
           formData.append("_token", $('#token').val()); // Laravel expect the token post value to be named _token by default
           formData.append("post_id",$("#post_id").val());
+        },
+        successmultiple: function(file,response){
+         for(var i = 0; i < response.data.length;i++) {
+               var input_name = document.createElement("input");
+               var input_type = document.createElement("input");
+               var input_size = document.createElement("input");
+               var input_tmp_name = document.createElement("input");
+               // Create input element for image name.
+               input_name.setAttribute("type", "hidden");
+               input_name.setAttribute("name", "photo_name[]");
+               input_name.setAttribute("value", response.data[i].name);
+               // Create input element for image type.
+               input_type.setAttribute("type", "hidden");
+               input_type.setAttribute("name", "photo_type[]");
+               input_type.setAttribute("value", response.data[i].type);
+               // Create input element for image size.
+               input_size.setAttribute("type", "hidden");
+               input_size.setAttribute("name", "photo_size[]");
+               input_size.setAttribute("value", response.data[i].size);
+               // Create input element for image tmp_nam
+               input_tmp_name.setAttribute("type", "hidden");
+               input_tmp_name.setAttribute("name", "tmp_name[]");
+               input_tmp_name.setAttribute("value", response.data[i].tmp_name);
+               // Add input element for submitting.
+               $(file[i].previewTemplate).append(input_name);
+               $(file[i].previewTemplate).append(input_type);
+               $(file[i].previewTemplate).append(input_size);
+               $(file[i].previewTemplate).append(input_tmp_name);
+         }
         },
         parallelUploads: 5,
         acceptedFiles : "image/jpeg,image/png,image/gif",

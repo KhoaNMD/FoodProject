@@ -35,7 +35,7 @@ class Post extends Model
 
   public function Images()
   {
-    return $this->hasMany('App\Models\Image','id','thumb_id');
+    return $this->hasMany('App\Models\Image');
   }
 
   public function Comments()

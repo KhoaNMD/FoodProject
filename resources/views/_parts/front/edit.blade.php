@@ -26,6 +26,7 @@
       <div class = "content">
       <section id="section-3">
         @include('_parts.error.inputerror')
+        @include('_parts.messages.message')
         <div class="row">
           <div class="col-md-6 col-sm-6 add_bottom_15">
             <form action = "{!! route('user.update',$id) !!}" method="POST">

@@ -20,6 +20,7 @@
 @endsection
 
 @section('content')
+    @include('_parts.messages.message')
     <div class="container margin_60">
             <div class="content">
                 <!--  section 1 -->
@@ -31,6 +32,7 @@
                     @if($post->id)
                         <form action="{!! route('restaurant.update',$post->id) !!}" method="POST">
                             <input type="hidden" name="_method" value="PATCH">
+                            <input type="hidden" name="post_id" value="{!! $post->id !!}">
                     @else
                                 <form action="{!! route('restaurant.store') !!}" method="POST">
                     @endif

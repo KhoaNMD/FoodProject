@@ -16,6 +16,7 @@ use Request;
 use View;
 use App\Http\Utils\UtilityCommon;
 use Auth;
+use Session;
 
 class PostController extends Controller
 {
@@ -40,7 +41,8 @@ class PostController extends Controller
         "provinceList" => $provinceList,
         "postList"     => $postList
     ];
-    return view('front.restaurant.gridlist',$content);
+
+       return view('front.restaurant.gridlist',$content);
   }
 
   /**
@@ -86,9 +88,7 @@ class PostController extends Controller
     $post->thumb_id = "0";
     $post->status = "0";
 
-
     $this->setDefaultValue($post,true);
-
     if($post->save()){
       $data = array(
           "post_id" => $post->id
@@ -142,8 +142,12 @@ class PostController extends Controller
   {
     $input = Input::all();
     $post = Post::find($id);
-    $post->fill();
-    return Redirect::route('restaurant.edit',$id);
+    $post->fill($input);
+    if($post->save()){
+      Session::flash('message',"Cập nhật thông tin thành công.");
+      Session::flash('color',"success");
+      return Redirect::route('restaurant.edit',$id);
+    }
   }
 
   /**
