@@ -56,3 +56,39 @@
     height: 2.4em;
     margin-left: -2.7em;
 }
+
+/*css cho trang profile*/
+/*font chữ cho info nav*/
+.nav > li > a {
+    font-size: 14px;
+}
+/*font chữ cho table, icon*/
+.table > tbody > tr{
+    font-size: 14px;
+}
+.table > tbody > tr > td > a > i{
+    font-size: 16px;
+}
+/*fix nút sửa username
+#btn_username {
+    margin-top: 0.5em;
+    padding: 0.7em 1em;
+}*/
+#sex{
+    margin-top: 0.5em;
+}
+/*fix tạm*/
+.content section label.customerlabel {
+    color: #333;
+    margin-top: 0.5em;
+    font-size: 12px;
+    font-weight: 300;
+}
+/*fix form info*/
+.form-control-info {
+    color: #333;
+    height: 32px;
+    border-radius: 3px;
+    border: 1px solid #ddd;
+    box-shadow: 0;
+}
