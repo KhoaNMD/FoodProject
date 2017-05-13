@@ -155,13 +155,14 @@
   padding-left: 60px;
   margin-bottom: 20px
 }
-
+/*fix icon cho info*/
 .indent_title_in i {
   font-size: 36px;
   position: absolute;
   left: 0;
   color: #ec008c;
-  top: 0
+  top: 0;
+  margin-top: -0.35em
 }
 
 .indent_title_in p {
