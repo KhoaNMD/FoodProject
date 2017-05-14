@@ -121,5 +121,6 @@
 
 <!-- helper -->
 <script src="{!! asset('public/js/jquery.timepicker.js') !!}"></script>
+<script src="{!! asset('public/front/js/bootstrap-datepicker.js') !!}"></script>
 </body>
 </html>

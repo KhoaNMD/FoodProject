@@ -77,4 +77,7 @@ Route::get('/faq',function (){
     return view('front.faq.faq');
 });
 
+Route::get('/editaccount',function (){
+  return view('front.customer.editaccount');
+});
 

@@ -97,10 +97,11 @@ class UserController extends Controller
      */
     public function edit($id)
     {
+      $user = User::find($id);
       $content = array(
-          "id" => $id
+          "user" => $user
       );
-      return view('_parts.front.edit',$content);
+      return view('front.customer.editaccount',$content);
     }
 
     /**
@@ -112,38 +113,63 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-      $validator = Validator::make(Input::all(),
-          [
-              'old_password' => 'required',
-              'new_password' => 'required|confirmed',
-              'new_password_confirmation' => 'required'
-          ],
-          [
-              'old_password.required' => 'Password cũ không được bỏ trống',
-              'new_password.required' => 'Password mới không được bỏ trống',
-              'new_password_confirmation.required' => 'Password xác nhận không được bỏ trống',
-              'new_password_confirmation' => 'Password xác nhận không đúng'
-          ]
-      );
-      if($validator->fails()){
-        return Redirect::route('user.edit',$id)->withErrors($validator);
-      } else {
+      $user = User::find($id);
+      // Handle for changing password.
+      if(Input::get('update') == 1) {
+        $validator = Validator::make(Input::all(),
+            [
+                'old_password' => 'required',
+                'new_password' => 'required|confirmed',
+                'new_password_confirmation' => 'required'
+            ],
+            [
+                'old_password.required' => 'Password cũ không được bỏ trống',
+                'new_password.required' => 'Password mới không được bỏ trống',
+                'new_password_confirmation.required' => 'Password xác nhận không được bỏ trống',
+                'new_password_confirmation' => 'Password xác nhận không đúng'
+            ]
+        );
+        if ($validator->fails()) {
+          return Redirect::route('user.edit', $id)->withErrors($validator);
+        } else {
 
-        $password = DB::table('tbl_users')->where('id','=',$id)->value('password');
-        if( !Hash::check(Input::get('old_password'),$password)){
-          Session::flash('message',"Password cũ không đúng");
-          Session::flash('color',"danger");
+          $password = DB::table('tbl_users')->where('id', '=', $id)->value('password');
+          if (!Hash::check(Input::get('old_password'), $password)) {
+            Session::flash('message', "Password cũ không đúng");
+            Session::flash('color', "danger");
+          } else {
+            $changePassword = [
+                'password' => Hash::make(Input::get('new_password'))
+            ];
+            if (DB::table('tbl_users')->where('id', '=', $id)->update($changePassword))
+              Session::flash('message', "Password thay đổi thành công.");
+            Session::flash('color', "success");
+          }
         }
-        else{
-          $changePassword = [
-              'password' => Hash::make(Input::get('new_password'))
-          ];
-          if(DB::table('tbl_users')->where('id','=',$id)->update($changePassword))
-            Session::flash('message',"Password thay đổi thành công.");
-          Session::flash('color',"success");
-        }
-        return Redirect::route('user.edit',$id);
+      }elseif(Input::get('update') == 2){
+        $validator = Validator::make(Input::all(),
+            [
+                'phone' => 'nullable|regex:/^[0-9]{10,11}+$/',
+                'birthday' => 'date',
+            ],
+            [
+                'phone' => 'Số điện thoại không hợp lệ',
+                'birthday' => 'Ngày tháng năm sinh không hợp lệ',
+            ]
+        );
+        if ($validator->fails()) {
+          return Redirect::route('user.edit', $id)->withErrors($validator);
+        } else {
+            $user->fullname = Input::get('fullname') ? Input::get('fullname') : '';
+            $user->gender = Input::get('gender') ? Input::get('gender') : 1;
+            $user->phone = Input::get('phone') ? Input::get('phone') : ' ';
+            $user->birthday = date("Y-m-d",strtotime(Input::get('birthday')));
+            $user->save();
+          }
+        }elseif(Input::get('update') == 3){
+
       }
+      return Redirect::route('user.edit', $id);
     }
 
     /**

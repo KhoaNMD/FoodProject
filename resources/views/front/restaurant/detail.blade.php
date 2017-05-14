@@ -46,6 +46,18 @@
           <br/>
           <h4 class="nomargin_top"> Giá <i class="icon_money_alt pull-right fa fa-money"></i></h4>
           <div class="color_deeppink"> {!! number_format($post->min_price) !!} VND - {!! number_format($post->max_price) !!} VND </div>
+          <br/>
+          <h4 class="nomargin_top"> Trạng thái <i class="icon_clock_alt pull-right"></i></h4>
+          <div class="color_deeppink">
+            @if($status)
+              <b class="text-success"> Đang hoạt động </b>
+            @else
+              <b class="text-danger"> Chưa hoạt động</b>
+            @endif
+          </div>
+          <br/>
+          <h4 class="nomargin_top"> Địa chỉ <i class="icon_clock_alt pull-right"></i></h4>
+          <div class="color_deeppink"> {!! $post->address !!} </div>
         </div>
         <!-- NEEND HELP col-md-4 -->
         @include('_parts.front.order.needhelp')
@@ -185,7 +197,7 @@
         fade: true,
         arrows: true,
         buttons: false,
-        fullScreen: false,
+        fullScreen: true,
         smallSize: 500,
         startSlide: 0,
         mediumSize: 1000,

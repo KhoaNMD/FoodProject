@@ -34,12 +34,15 @@ class PostController extends Controller
 
   public function index()
   {
+    // Create an images array.
+    $imageList = array();
     $provinceList = DB::table("province")->get();
     $postList = $this->queryPost(Post::with("Images"))->get();
 
     $content = [
         "provinceList" => $provinceList,
-        "postList"     => $postList
+        "postList"     => $postList,
+        'imageList'  => $imageList
     ];
 
        return view('front.restaurant.gridlist',$content);
@@ -105,9 +108,16 @@ class PostController extends Controller
    */
   public function show($id)
   {
+    // Flag for showing status.
+    $status = false;
     $post = Post::with('images','Comments','Comments.User')->find($id);
+    if(strtotime($post->start_time) <= strtotime("now") && strtotime($post->end_time) >= strtotime("now")){
+      $status = true;
+    }
+
     $content = array(
-        'post' => $post
+        'post'   => $post,
+        'status' => $status,
     );
     return view('front.restaurant.detail',$content);
   }
@@ -123,10 +133,12 @@ class PostController extends Controller
     $post = Post::find($id);
     $listCategory = DB::table("tbl_category")->get();
     $provinceList = DB::table("province")->get();
+    $districtList = DB::table("district")->where("provinceid","=",$post->province)->get();
     $content = array(
-        "post" => $post,
+        "post"       => $post,
         "categories" => $listCategory,
-        "provinces" => $provinceList
+        "provinces"  => $provinceList,
+        "districts"  => $districtList
     );
     return view('front.customer.customer',$content);
   }

@@ -8,8 +8,7 @@
         <div class="row">
             @endif
             <div class="col-md-6 col-sm-6 wow zoomIn" data-wow-delay="0.1s">
-                <a class="strip_list grid" href="{!! route('restaurant.show',$post->id) !!}">
-                    <div class="ribbon_1">Popular</div>
+                <div class="strip_list grid" href="{!! route('restaurant.show',$post->id) !!}">
                     <div class="desc">
                         <div class="thumb_strip">
                             <img src="{!! asset($post->images[0]->url_image) !!}" alt="">
@@ -19,9 +18,9 @@
                                 7.2
                             </div>
                             <div class="content_strip">
-                                <div class="post_title">{!! $post->title !!}</div>
+                                <div class="post_title">{!! App\Http\Utils\UtilityCommon::formatTitle($post->title) !!}</div>
                                 <div class="location">
-                                    {!! $post->address !!}
+                                    {!! App\Http\Utils\UtilityCommon::formatAddress($post->address) !!}
                                 </div>
                             </div>
                         </div>
@@ -30,22 +29,23 @@
                                 7.2
                             </div>
                             <div class="content_strip">
-                                <div class="post_title">{!! $post->title !!}</div>
+                                <div class="post_title">{!! App\Http\Utils\UtilityCommon::formatTitle( $post->title ) !!}</div>
                                 <div class="location">
-                                    {!! $post->address !!}
+                                    {!! App\Http\Utils\UtilityCommon::formatAddress( $post->address ) !!}
                                 </div>
                             </div>
                         </div>
-                        <div class="post_info">
-                            <span class="fa fa-comment"> 200 </span>
-                            <span class="fa fa-camera ml-5"> 100 </span>
+                        <div class="post_info" style= "padding-top:10px;">
+                            <a class="fa fa-comment comment"> 200 </a>
+                            <a class="fa fa-camera ml-5 photo" data-toggle="modal" data-target="#modal-{!! $post->id !!}"> {!! count($post->images) !!} </a>
                         </div>
                     </div>
-                </a><!-- End strip_list-->
+                </div><!-- End strip_list-->
             </div><!-- End col-md-6-->
             @if($countRow % 2 == 0)
         </div><!-- End row-->
             @endif
+                @include('front.RImages',[ "post" => $post ])
         @endforeach
             <div class="row"></div>
             <a href="#0" class="load_more_bt wow fadeIn" data-wow-delay="0.2s">Xem tiếp...</a>

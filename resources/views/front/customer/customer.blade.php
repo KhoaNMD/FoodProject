@@ -20,11 +20,11 @@
 @endsection
 
 @section('content')
-    @include('_parts.messages.message')
     <div class="container margin_60">
             <div class="content">
                 <!--  section 1 -->
                 <section id="section-1">
+                    @include('_parts.messages.message')
                     <div class="indent_title_in">
                         <i class="icon_house_alt"></i>
                         <h3>Mô tả chung về nhà hàng </h3>
@@ -86,6 +86,11 @@
                                     <div class="form-group">
                                         <select class="form-control" name="district" id="district" >
                                             <option value="" selected>Chọn Quận / Huyện</option>
+                                            @if($post->id)
+                                                @foreach($districts as $district)
+                                                    <option value="{!! $district->districtid !!}" {!! $post->district === $district->districtid ? "selected" : ""  !!}>{!! $district->name !!}</option>
+                                                @endforeach
+                                            @endif
                                         </select>
                                         <p class="error mt10 mb10"> {!! $errors->first("district") !!} </p>
                                     </div>
@@ -161,7 +166,7 @@
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <input type="text" id="street_2" name="min_price" placeholder = "Giá thấp nhát" class="form-control" value="{!! old("min_price",number_format($post->min_price) )!!}">
+                                        <input type="text" id="street_2" name="min_price" placeholder = "Giá thấp nhát" class="form-control" value="{!! old("min_price",$post->min_price) !!}">
                                         <p class="error mt10 mb10"> {!! $errors->first("min_price") !!} </p>
                                     </div>
                                 </div>
@@ -172,7 +177,7 @@
                             <div class="row">
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <input type="text" id="street_2" name="max_price" placeholder = "Giá cao nhất" class="form-control" value="{!! old("max_price",number_format($post->max_price))  !!}">
+                                        <input type="text" id="street_2" name="max_price" placeholder = "Giá cao nhất" class="form-control" value="{!! old("max_price",$post->max_price)  !!}">
                                         <p class="error mt10 mb10"> {!! $errors->first("max_price") !!} </p>
                                     </div>
                                 </div>

@@ -79,10 +79,10 @@
 }
 /*fix tạm*/
 .content section label.customerlabel {
-    color: #333;
+    color: #777;
     margin-top: 0.5em;
-    font-size: 12px;
-    font-weight: 300;
+    font-size: 14px;
+    font-weight: bold;
 }
 /*fix form info*/
 .form-control-info {

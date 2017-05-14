@@ -34,4 +34,15 @@ class FormatDateTime4Display
     return $timeValue;
   }
 
+   public static function formatDate4Display($timeValue)
+   {
+     if($timeValue)
+     {
+       $strFormat = \Config::get('constants.FormatTime.DDMMYY',strtotime($timeValue));
+
+       $timeValue = date($strFormat, strtotime($timeValue));
+     }
+     return $timeValue;
+   }
+
 }
