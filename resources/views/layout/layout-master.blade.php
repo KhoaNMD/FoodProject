@@ -50,6 +50,8 @@
 
     <link href="{!! asset('public/css/jquery.timepicker.css') !!}" rel="stylesheet">
 
+    <link href="{!! asset('public/css/jquery-ui.css') !!}" rel="stylesheet">
+
     <link href="{!! asset('public/front/css/bootstrap-select.min.css') !!}" rel="stylesheet">
 
     <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.9/themes/base/jquery-ui.css" type="text/css" media="all" />
@@ -121,6 +123,6 @@
 
 <!-- helper -->
 <script src="{!! asset('public/js/jquery.timepicker.js') !!}"></script>
-<script src="{!! asset('public/front/js/bootstrap-datepicker.js') !!}"></script>
+<script src="{!! asset('public/js/jquery-ui.js') !!}"></script>
 </body>
 </html>

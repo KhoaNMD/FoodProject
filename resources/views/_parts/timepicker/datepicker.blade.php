@@ -4,7 +4,7 @@
 <script>
   $(document).ready(function(){
     $(".datepicker input").datepicker({
-      dateFormat: 'd-m-Y',
+      dateFormat: 'dd-mm-yy',
     });
   });
 </script>

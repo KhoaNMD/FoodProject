@@ -25,6 +25,9 @@
                                         <a href = "#">{!! Auth::guard('admin')->user()->email !!}</a>
                                         <ul>
                                             <li>
+                                                <a href="{!! route('restaurant.create') !!}"> Tạo địa điểm </a>
+                                            </li>
+                                            <li>
                                                 <a href="{!! route('user.edit', Auth::guard('admin')->user()->id) !!}">Thông tin tài khoản</a>
                                             </li>
                                             <li>
@@ -37,18 +40,6 @@
                         <li>
                             @if( !Auth::guard('admin')->check() )
                                 <a href="#0" data-toggle="modal" data-target="#register">Đăng ký</a>
-                            @else
-                                <li class="submenu">
-                                    <a href = "#"> Địa điểm </a>
-                                    <ul>
-                                        <li>
-                                            <a href="{!! route('restaurant.create') !!}"> Tạo địa điểm </a>
-                                        </li>
-                                        <li>
-                                            <a href="{!! route('posts.user.get') !!}"> Danh sách địa điểm </a>
-                                        </li>
-                                    </ul>
-                                </li>
                             @endif
                         </li>
                         <li>

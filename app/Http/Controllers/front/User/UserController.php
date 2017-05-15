@@ -101,7 +101,7 @@ class UserController extends Controller
       $content = array(
           "user" => $user
       );
-      return view('front.customer.editaccount',$content);
+      return view('front.customer.edituserprofile',$content);
     }
 
     /**
@@ -146,7 +146,8 @@ class UserController extends Controller
             Session::flash('color', "success");
           }
         }
-      }elseif(Input::get('update') == 2){
+      }else{
+        // Handle for changing personal profile.
         $validator = Validator::make(Input::all(),
             [
                 'phone' => 'nullable|regex:/^[0-9]{10,11}+$/',
@@ -164,11 +165,10 @@ class UserController extends Controller
             $user->gender = Input::get('gender') ? Input::get('gender') : 1;
             $user->phone = Input::get('phone') ? Input::get('phone') : ' ';
             $user->birthday = date("Y-m-d",strtotime(Input::get('birthday')));
+            $user->address = Input::get('address') ? Input::get('address') : '';
             $user->save();
           }
-        }elseif(Input::get('update') == 3){
-
-      }
+        }
       return Redirect::route('user.edit', $id);
     }
 

@@ -39,6 +39,22 @@ class PostController extends Controller
     $provinceList = DB::table("province")->get();
     $postList = $this->queryPost(Post::with("Images"))->get();
 
+    foreach($postList as $post){
+      foreach($post->images as $image){
+        if($image->category_image == 1){
+          $imageList[$post->id][1][] = $image->url_image;
+        }elseif($image->category_image == 2) {
+          $imageList[$post->id][2][] = $image->url_image;
+        }elseif($image->category_image == 3) {
+          $imageList[$post->id][3][] = $image->url_image;
+        }elseif($image->category_image == 4) {
+          $imageList[$post->id][4][] = $image->url_image;
+        }elseif($image->category_image == 5) {
+          $imageList[$post->id][5][] = $image->url_image;
+        }
+      }
+    }
+
     $content = [
         "provinceList" => $provinceList,
         "postList"     => $postList,
@@ -202,7 +218,7 @@ class PostController extends Controller
     $content = array(
         'userPost' => $userPost
     );
-    return view('front.restaurant.index',$content);
+    return view('front.customer.indexuserpost',$content);
   }
 
   public function searchPost()

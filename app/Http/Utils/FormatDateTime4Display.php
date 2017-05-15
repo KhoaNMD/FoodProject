@@ -38,7 +38,7 @@ class FormatDateTime4Display
    {
      if($timeValue)
      {
-       $strFormat = \Config::get('constants.FormatTime.DDMMYY',strtotime($timeValue));
+       $strFormat = \Config::get('constants.FormatDate.DDMMYY',strtotime($timeValue));
 
        $timeValue = date($strFormat, strtotime($timeValue));
      }
