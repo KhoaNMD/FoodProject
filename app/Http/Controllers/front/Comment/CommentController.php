@@ -55,8 +55,11 @@ class CommentController extends Controller
           "content" => $_POST['comment'],
           "user_id" => $_POST['user_id'],
           "post_id" => $_POST['post_id'],
+          "comment_parent_id" => 0,
           "cnt_like" => 0,
       ]);
+
+
 
       $response['status'] = 1;
 

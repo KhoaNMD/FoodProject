@@ -3,15 +3,17 @@
         @if(count($postList) > 0)
         <?php $countRow = 0 ?>
         @foreach($postList as $post)
-            <?php $countRow = $countRow + 1 ?>
             @if($countRow % 2 == 0)
         <div class="row">
             @endif
+          <?php $countRow = $countRow + 1 ?>
             <div class="col-md-6 col-sm-6 wow zoomIn" data-wow-delay="0.1s">
-                <div class="strip_list grid" href="{!! route('restaurant.show',$post->id) !!}">
+                <div class="strip_list grid" >
                     <div class="desc">
                         <div class="thumb_strip">
-                            <img src="{!! asset($post->images[0]->url_image) !!}" alt="">
+                            <a href="{!! route('restaurant.show',$post->id) !!}">
+                                <img src="{!! asset($post->images[0]->url_image) !!}" alt="">
+                            </a>
                         </div>
                         <div>
                             <div class="content_strip_logo">
@@ -24,19 +26,22 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="current_comment">
-                            <div class="content_strip_logo">
-                                7.2
-                            </div>
-                            <div class="content_strip">
-                                <div class="post_title">{!! App\Http\Utils\UtilityCommon::formatTitle( $post->title ) !!}</div>
-                                <div class="location">
-                                    {!! App\Http\Utils\UtilityCommon::formatAddress( $post->address ) !!}
+                        @foreach($post->comments as $comment)
+                            <div class="current_comment">
+                                <div class="float-left">
+                                    <img src="{!! $comment->user->url_image !!}" width="35px" height="35px" style="border-radius: 40px">
+                                </div>
+                                <div class="content_strip">
+                                    <div class="post_title">{!! App\Http\Utils\UtilityCommon::formatTitle( $comment->user->fullname ) !!}</div>
+                                    <div class="location">
+                                        {!! App\Http\Utils\UtilityCommon::formatAddress( $comment->content ) !!}
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                            @break
+                        @endforeach
                         <div class="post_info" style= "padding-top:10px;">
-                            <a class="fa fa-comment comment"> 200 </a>
+                            <a id="{!! $post->id !!}" class="fa fa-camera ml-5 photo comment-click" data-toggle="modal" data-target="#modal-comment-{!! $post->id !!}"> 200 </a>
                             <a class="fa fa-camera ml-5 photo" data-toggle="modal" data-target="#modal-{!! $post->id !!}"> {!! count($post->images) !!} </a>
                         </div>
                     </div>
@@ -45,7 +50,8 @@
             @if($countRow % 2 == 0)
         </div><!-- End row-->
             @endif
-                @include('front.RImages',[ "post" => $post ])
+                @include('front.modalcomment')
+                @include('front.RImages')
         @endforeach
             <div class="row"></div>
             <a href="#0" class="load_more_bt wow fadeIn" data-wow-delay="0.2s">Xem tiếp...</a>

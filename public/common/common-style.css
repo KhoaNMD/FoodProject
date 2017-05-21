@@ -1,5 +1,33 @@
+ul{
+  padding: 0;
+  margin: 0;
+}
+
+.float-left{
+  float: left;
+}
+.float-right{
+  float: right;
+}
+
 .error , .error1{
   color: red;
+}
+
+.dis-inline{
+  display: inline-block;
+}
+
+.pd-10{
+  padding: 10px;
+}
+
+.pl-10{
+  padding-left: 10px;
+}
+
+.mt5{
+  margin-top: 5px;
 }
 
 .mt10{
@@ -17,8 +45,33 @@
   margin-left: 5px;
 }
 
+.ml-10{
+  margin-left: 10px;
+}
+
 .select_box_province , .select_box_district{
   padding: 8px 5px;
   border-radius: 5px;
   border: 1px solid #ddd;
+}
+
+.font-11{
+  font-size: 11px;
+}
+
+.font-12{
+  font-size: 12px;
+}
+
+.font-13{
+  font-size: 13px;
+}
+
+.font-14{
+  font-size: 14px;
+}
+
+.disabled-a{
+  pointer-events: none;
+  color: #d3e0e9 !important;
 }

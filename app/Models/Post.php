@@ -43,4 +43,10 @@ class Post extends Model
     return $this->hasMany('App\Models\Comment','post_id','id');
   }
 
+  public function Rating()
+  {
+    return $this->hasOne('App\Models\Rating');
+  }
+
+
 }

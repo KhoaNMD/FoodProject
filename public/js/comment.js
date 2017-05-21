@@ -20,6 +20,7 @@ $(document).ready(function(){
         dataType : 'json',
         success : function(response){
           if(response.status === 1){
+            swal("Thành công!", "Cảm ơn đánh giá của bạn", "success");
             window.location.reload();
           }
         }

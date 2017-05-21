@@ -127,3 +127,149 @@
     padding-right: 5px;
 }
 /*end sắp xếp hình ảnh*/
+
+
+
+
+
+
+/* Modal for comment*/
+
+.modal-comment{
+    background-color: #eee;
+    padding: 10px;
+}
+
+.modal-comment .modal-content-left{
+    float: left;
+    width: 300px;
+}
+
+.modal-content-left .location-infor{
+    margin: 10px 0;
+}
+
+.modal-content-left .location-infor .location-mark{
+    font-size: 12px;
+    padding: 10px;
+    border-radius: 40px;
+    background-color: #78cfcf;
+    color: white;
+    float: left;
+}
+
+.modal-content-left .location-infor .location-name{
+    float: left;
+    margin-left: 10px;
+}
+
+.modal-content-left .post-rating{
+    border: 1px solid #ddd;
+    background-color: white;
+    padding: 10px;
+}
+
+.modal-content-left .post-rating ul.comment-info-number{
+    list-style-type: none;
+    margin: 5px 0;
+}
+
+.modal-content-left .post-rating ul.comment-info-number li{
+    display: inline-block;
+    text-align: center;
+    padding: 0 8px;
+}
+
+.modal-content-left .post-rating ul.comment-info-number li>p{
+    font-weight: bold;
+}
+
+.modal-comment .modal-content-right{
+    float: left;
+    width: 663px;
+    margin-left: 15px;
+}
+
+.modal-content-right .tab-container{
+    background-color: #ddd;
+}
+
+.modal-content-right ul.tab-comments{
+    list-style-type: none;
+}
+
+.modal-content-right ul.tab-comments li{
+   float: left;
+    padding: 14px;
+    font-size: 15px;
+}
+
+.modal-content-right ul.tab-comments li.active {
+    color: #c00;
+    background: #fff;
+    border-bottom: 1px solid #c00;
+}
+
+.modal-content-right ul.tab-comments li:hover{
+    color: #c00;
+    background: #fff;
+    border-bottom: 1px solid #c00;
+    cursor: pointer;
+}
+
+.modal-content-right .wp-user-comment{
+    overflow-y: scroll;
+    height: 450px;
+}
+
+.modal-content-right .user-comment{
+    margin: 10px 0;
+    background-color: #fff;
+    border-bottom: 1px solid #eee;
+}
+
+.modal-content-right .user-comment .user-mark{
+    font-size: 12px;
+    padding: 10px;
+    border-radius: 40px;
+    background-color: #78cfcf;
+    color: white;
+}
+
+.modal-content-right .user-comment .comment-info{
+    margin: 20px 0;
+}
+
+.modal-content-right .user-comment .comment-info .content-comment{
+    margin: 10px 0;
+}
+
+.modal-content-right .user-comment .leave-comment ul.feature-comment{
+    list-style-type: none;
+}
+
+.modal-content-right .user-comment .leave-comment ul.feature-comment li{
+    display:inline-block;
+    margin-right: 20px;
+}
+
+.modal-content-right .user-comment .show-all-like{
+    background-color: #f9f9f9;
+    color: #0780bf;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+}
+
+.modal-content-right .user-comment .show-all-comment{
+    background-color: #f9f9f9;
+}
+
+.modal-content-right .user-comment .show-all-comment .user-comment-container{
+    margin: 10px 0;
+    width: 100%;
+}
+
+.modal-content-right .user-comment .show-all-comment .user-comment-container .comment-content{
+    width: 90%;
+    margin-top: 2px;
+}

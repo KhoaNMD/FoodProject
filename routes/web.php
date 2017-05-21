@@ -53,6 +53,8 @@ Route::group([
 
       Route::get('/restaurant/search/location','Post\PostController@searchPost');
 
+      Route::post('/restaurant/rating','Post\PostController@ratingPost');
+
       Route::resource('comment','Comment\CommentController');
 
       Route::post('/comment/add','Comment\CommentController@store');
@@ -75,4 +77,8 @@ Route::group([
 
 Route::get('/faq',function (){
     return view('front.faq.faq');
+});
+
+Route::get('/comment',function (){
+  return view('front.modalcomment');
 });

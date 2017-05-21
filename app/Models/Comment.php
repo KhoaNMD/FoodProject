@@ -14,7 +14,8 @@ class Comment extends Model
     "content" ,
     "user_id",
     "post_id",
-    "cnt_like"
+    "cnt_like",
+    "comment_parent_id"
   ];
 
   public function Post(){

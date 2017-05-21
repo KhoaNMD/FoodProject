@@ -58,6 +58,8 @@
 
     <link href="{!! asset('public/front/modalcustom.css') !!}" rel="stylesheet">
 
+    <link href="{!! asset('public/sweetAlert-tests/sweetalert.css') !!}" rel="stylesheet">
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
 
 </head>
@@ -112,6 +114,7 @@
 <script src="{!! asset('public/front/js/common_scripts_min.js') !!}"></script>
 <script src="{!! asset('public/front/js/functions.js') !!}"></script>
 <script src="{!! asset('public/front/js/assets/validate.js') !!}"></script>
+<script src="{!! asset('public/sweetAlert-tests/sweetalert-dev.js') !!}"></script>
 {{--login and register script--}}
 <script src="{!! asset('public/js/login.js') !!}"></script>
 <script src="{!! asset('public/js/register.js') !!}"></script>

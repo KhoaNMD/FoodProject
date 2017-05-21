@@ -8,26 +8,27 @@ $(document).ready(function(e){
   function showTemplate(responseData) {
     var htmlTemplate = '';
     var count = 0;
-    for (var i = 0; i < responseData.data.length; i++) {
-      count = count + 1;
+    for (var i = 0; i < responseData.data.postList.length; i++) {
       if(count % 2 === 0) {
         htmlTemplate += '<div class="row">';
       }
+      count = count + 1;
       htmlTemplate += '<div class="col-md-6 col-sm-6 wow zoomIn" data-wow-delay="0.1s">';
-      htmlTemplate += '<a class="strip_list grid" href="' + window.location.pathname + '/' + responseData.data[i].id + '">';
-      htmlTemplate += '<div class="ribbon_1">Popular</div>';
+      htmlTemplate += '<div class="strip_list grid">';
       htmlTemplate += '<div class="desc">';
       htmlTemplate += '<div class="thumb_strip">';
-      htmlTemplate += '<img src="http://' + window.location.hostname + '/' + responseData.data[i].images[0].url_image + '" alt="">';
+      htmlTemplate += '<a href="' + window.location.pathname + '/' + responseData.data.postList[i].id + '">';
+      htmlTemplate += '<img src="http://' + window.location.hostname + '/' + responseData.data.postList[i].images[0].url_image + '" alt="">';
+      htmlTemplate += '</a>';
       htmlTemplate += '</div>';
       htmlTemplate += '<div>';
       htmlTemplate += '<div class="content_strip_logo">';
       htmlTemplate += '7.2';
       htmlTemplate += '</div>';
       htmlTemplate += '<div class="content_strip">';
-      htmlTemplate += '<div class="post_title">' + responseData.data[i].title + '</div>';
+      htmlTemplate += '<div class="post_title">' + responseData.data.postList[i].title + '</div>';
       htmlTemplate += '<div class="location">';
-      htmlTemplate += responseData.data[i].address;
+      htmlTemplate += responseData.data.postList[i].address;
       htmlTemplate += '</div>';
       htmlTemplate += '</div>';
       htmlTemplate += '</div>';
@@ -36,30 +37,204 @@ $(document).ready(function(e){
       htmlTemplate += '7.2';
       htmlTemplate += '</div>';
       htmlTemplate += '<div class="content_strip">';
-      htmlTemplate += '<div class="post_title">' + responseData.data[i].title + '</div>';
+      htmlTemplate += '<div class="post_title">' + responseData.data.postList[i].title + '</div>';
       htmlTemplate += '<div class="location">';
-      htmlTemplate += responseData.data[i].address;
+      htmlTemplate += responseData.data.postList[i].address;
       htmlTemplate += '</div>';
       htmlTemplate += '</div>';
       htmlTemplate += '</div>';
       htmlTemplate += '<div class="post_info">';
-      htmlTemplate += '<span class="fa fa-comment"> 200 </span>';
-      htmlTemplate += '<span class="fa fa-camera ml-5"> 100 </span>';
+      htmlTemplate += '<a class="fa fa-camera ml-5 photo" data-toggle="modal" data-target="#modal-comment-' + responseData.data.postList[i].id + ' " ' + ' > 200 </a>';
+      htmlTemplate += '<a class="fa fa-camera ml-5 photo" data-toggle="modal" data-target="#modal-' + responseData.data.postList[i].id + ' " ' + ' > 200 </a>';
       htmlTemplate += '</div>';
       htmlTemplate += '</div>';
-      htmlTemplate += '</a>';
       htmlTemplate += '</div>';
-      if(count % 2 === 0) {
+      htmlTemplate += '</div>';
+         if(count % 2 === 0) {
         htmlTemplate += '</div>';
       }
+      htmlTemplate += imagesTemplate(responseData.data.postList[i],responseData.data.imageList[responseData.data.postList[i].id]);
     }
-    htmlTemplate += '<div class="row"></div>';
-    htmlTemplate += '<a href="#0" class="load_more_bt wow fadeIn" data-wow-delay="0.2s">Xem tiếp...</a>'
+      htmlTemplate+= '</div>';
+      htmlTemplate += '<div class="row"></div>';
+      htmlTemplate += '<a href="#0" class="load_more_bt wow fadeIn" data-wow-delay="0.2s">Xem tiếp...</a>'
+      return htmlTemplate;
+  }
+
+  function imagesTemplate(responseData,imageList){
+    htmlTemplate =  '';
+    htmlTemplate += '<div id="modal-' + responseData.id +'" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">';
+    htmlTemplate += '<div class="modal-dialog modal-lg" role="document">';
+    htmlTemplate += '<div class="modal-content">';
+    htmlTemplate += '<div class="modal-header">';
+    htmlTemplate += '<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>';
+    htmlTemplate += '<h4 class="modal-title" id="gridSystemModalLabel">Tên nhà hàng</h4>';
+    htmlTemplate += '<p>' + responseData.address + '</p>';
+    htmlTemplate += '<div id="picturetabs">';
+    htmlTemplate += '<div class="row">';
+    htmlTemplate += '<div class="col-md-12 col-sm-12 col-xs-12 tabs tabbable responsive" id="tabs">';
+    htmlTemplate += '<ul class="nav nav-picture">';
+    htmlTemplate += '<li class="active">';
+    htmlTemplate += '<a href="#all-image-' + responseData.id + '" data-toggle="tab">Tất cả (' + responseData.images.length + ')</a>';
+    htmlTemplate += '</li>';
+    htmlTemplate += '<li>';
+    htmlTemplate += '<a href="#videopic-' + responseData.id + '" data-toggle="tab">Video ( ';
+    if (typeof imageList[1] !== 'undefined') {
+      htmlTemplate += imageList[1].length;
+    }
+    else{
+      htmlTemplate += '0';
+    }
+    htmlTemplate += ')</a>';
+    htmlTemplate += '</li>';
+    htmlTemplate += '<li>';
+    htmlTemplate += '<a href="#monan-'+ responseData.id +' " data-toggle="tab">Món ăn (';
+    if (typeof imageList[2] !== 'undefined') {
+      htmlTemplate += imageList[2].length;
+    }
+    else{
+      htmlTemplate += '0';
+    }
+    htmlTemplate += ')</a>';
+    htmlTemplate += '</li>';
+    htmlTemplate += '<li>';
+    htmlTemplate += '<a href="#khonggian-' + responseData.id + '" data-toggle="tab">Không gian (';
+    if (typeof imageList[3] !== 'undefined') {
+      htmlTemplate += imageList[3].length;
+    }
+    else{
+      htmlTemplate += '0';
+    }
+    htmlTemplate += ')</a>';
+    htmlTemplate += '</li>';
+    htmlTemplate += '<li>';
+    htmlTemplate += '<a href="#tonghop-' + responseData.id + '" data-toggle="tab">Tổng hợp (';
+    if (typeof imageList[4] !== 'undefined') {
+      htmlTemplate += imageList[4].length;
+    }
+    else{
+      htmlTemplate += '0';
+    }
+    htmlTemplate += ')</a>';
+    htmlTemplate += '</li>';
+    htmlTemplate += '<li>';
+    htmlTemplate += '<a href="#thucdon-' + responseData.id + '" data-toggle="tab">Thực đơn (';
+    if (typeof imageList[5] !== 'undefined') {
+      htmlTemplate += imageList[5].length;
+    }
+    else{
+      htmlTemplate += '0';
+    }
+    htmlTemplate += ')</a>';
+    htmlTemplate += '</li>';
+    htmlTemplate += '</ul>';
+    htmlTemplate += '</div>';
+    htmlTemplate += '</div>';
+    htmlTemplate += '</div>';
+    htmlTemplate += '</div>';
+    htmlTemplate += '<div class="modal-body">';
+    htmlTemplate += '<div class="tab-content">';
+
+    htmlTemplate += '<div class="tab-pane active" id="all-image-' + responseData.id + '">';
+    htmlTemplate += '<ul class="list-inline-custom">';
+    for( var image in responseData.images) {
+      htmlTemplate += '<li data-toggle="modal" data-target="#myModal">';
+      htmlTemplate += '<a href="#myGallery" data-slide-to="0">';
+      htmlTemplate += '<img class="img-thumbnail" src="http://' + window.location.hostname + '/' + responseData.images[image].url_image + ' " width="200px" height="100px"><br>';
+      htmlTemplate += '</a>';
+      htmlTemplate += '</li>';
+    }
+      htmlTemplate += '</ul>';
+      htmlTemplate += '</div>';
+
+      htmlTemplate += '<div class="tab-pane" id="videopic-' + responseData.id + '">';
+      htmlTemplate += '<ul class="list-inline-custom">';
+      if( typeof imageList[1] !== "undefined" && imageList[1].length){
+        for(var i = 0; i < imageList[1].length;i++) {
+          htmlTemplate += '<li data-toggle="modal" data-target="#myModal">';
+          htmlTemplate += '<a href="#myGallery" data-slide-to="0">';
+          htmlTemplate += '<img class="img-thumbnail" src="http://' + window.location.hostname + '/' + imageList[1][i] + '" width="200px" height="100px"><br>';
+          htmlTemplate += '</a>';
+          htmlTemplate += '</li>';
+        }
+      } else{
+          htmlTemplate += '<p>Hiện không có dữ liệu cho mục này</p>';
+      }
+      htmlTemplate += '</ul>';
+      htmlTemplate += '</div>';
+      htmlTemplate += '<div class="tab-pane" id="monan-' + responseData.id + '">';
+      htmlTemplate += '<ul class="list-inline-custom">';
+      if( typeof imageList[2] !== "undefined" && imageList[2].length) {
+        for (var i = 0; i < imageList[2].length; i++) {
+          htmlTemplate += '<li data-toggle="modal" data-target="#myModal">';
+          htmlTemplate += '<a href="#myGallery" data-slide-to="0">';
+          htmlTemplate += '<img class="img-thumbnail" src="http://' + window.location.hostname + '/' + imageList[2][i] + '" width="200px" height="100px"><br>';
+          htmlTemplate += '</a>';
+          htmlTemplate += '</li>';
+        }
+      }else{
+        htmlTemplate += '<p>Hiện không có dữ liệu cho mục này</p>';
+      }
+      htmlTemplate += '</ul>';
+      htmlTemplate += '</div>';
+      htmlTemplate += '<div class="tab-pane" id="khonggian-' + responseData.id + '">';
+      htmlTemplate += '<ul class="list-inline-custom">';
+    if( typeof imageList[3] !== "undefined" && imageList[3].length) {
+      for (var i = 0; i < imageList[3].length; i++) {
+        htmlTemplate += '<li data-toggle="modal" data-target="#myModal">';
+        htmlTemplate += '<a href="#myGallery" data-slide-to="0">';
+        htmlTemplate += '<img class="img-thumbnail" src="http://' + window.location.hostname + '/' + imageList[3][i] + '" width="200px" height="100px"><br>';
+        htmlTemplate += '</a>';
+        htmlTemplate += '</li>';
+      }
+    }else{
+      htmlTemplate += '<p>Hiện không có dữ liệu cho mục này</p>';
+    }
+    htmlTemplate += '</ul>';
+    htmlTemplate += '</div>';
+    htmlTemplate += '<div class="tab-pane" id="tonghop-' + responseData.id + '">';
+    htmlTemplate += '<ul class="list-inline-custom">';
+    if( typeof imageList[4] !== "undefined" && imageList[4].length) {
+      for (var i = 0; i < imageList[4].length; i++) {
+        htmlTemplate += '<li data-toggle="modal" data-target="#myModal">';
+        htmlTemplate += '<a href="#myGallery" data-slide-to="0">';
+        htmlTemplate += '<img class="img-thumbnail" src="http://' + window.location.hostname + '/' + imageList[4][i] + '" width="200px" height="100px"><br>';
+        htmlTemplate += '</a>';
+        htmlTemplate += '</li>';
+      }
+    }else{
+      htmlTemplate += '<p>Hiện không có dữ liệu cho mục này</p>';
+    }
+    htmlTemplate += '</ul>';
+    htmlTemplate += '</div>';
+    htmlTemplate += '<div class="tab-pane" id="thucdon-' + responseData.id + '">';
+    htmlTemplate += '<ul class="list-inline-custom">';
+    if( typeof imageList[5] !== "undefined" && imageList[5].length) {
+      for (var i = 0; i < imageList[5].length; i++) {
+        htmlTemplate += '<li data-toggle="modal" data-target="#myModal">';
+        htmlTemplate += '<a href="#myGallery" data-slide-to="0">';
+        htmlTemplate += '<img class="img-thumbnail" src="http://' + window.location.hostname + '/' + imageList[5][i] + '" width="200px" height="100px"><br>';
+        htmlTemplate += '</a>';
+        htmlTemplate += '</li>';
+      }
+    }else{
+      htmlTemplate += '<p>Hiện không có dữ liệu cho mục này</p>';
+    }
+    htmlTemplate += '</ul>';
+    htmlTemplate += '</div>';
+    htmlTemplate += '</div>';
+    htmlTemplate += '</div>';
+    htmlTemplate += '<div class="modal-footer">';
+    htmlTemplate += '<div class="btn-load-more"><a href="#0">Xem tiếp...</a></div>';
+    htmlTemplate += '</div>';
+    htmlTemplate += '</div>';
+    htmlTemplate += '</div>';
+    htmlTemplate += '</div>';
     return htmlTemplate;
   }
 
-
   $('#image-loading').hide();
+
   // Set default location.
   if(localStorage.getItem('district_filter') === null || $("#province_filter").val() === "79"){
     $("#district_filter").html(

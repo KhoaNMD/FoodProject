@@ -58,6 +58,106 @@
           <br/>
           <h4 class="nomargin_top"> Địa chỉ <i class="icon_clock_alt pull-right"></i></h4>
           <div class="color_deeppink"> {!! $post->address !!} </div>
+          <br/>
+          <h4 class="nomargin_top"> Đánh giá <i class="icon_clock_alt pull-right"></i></h4>
+          @if(Auth::guard('admin')->check())
+            <div class="rating" id="{!! $post->id !!}" data-user-id = {!! Auth::guard('admin')->user()->id !!}>
+              <input type="hidden" name="_token" value="{!! csrf_token() !!}" id="token">
+              <ul class="rating-post">
+                <li class="row">
+                  <div class="col-md-6">
+                  Món ăn
+                  </div>
+                  <div class="col-md-6">
+                    <span>
+                      <a href="#" class="fa fa-star" data-for = "rating-for-food" data-mark = "2" onclick="return false;"></a>
+                    </span>
+                    <span>
+                       <a href="#" class="fa fa-star" data-for = "rating-for-food" data-mark = "4" onclick="return false;"></a>
+                    </span>
+                    <span>
+                       <a href="#" class="fa fa-star" data-for = "rating-for-food" data-mark = "6" onclick="return false;"></a>
+                    </span>
+                    <span>
+                       <a href="#" class="fa fa-star" data-for = "rating-for-food" data-mark = "8" onclick="return false;"></a>
+                    </span>
+                    <span>
+                       <a href="#" class="fa fa-star" data-for = "rating-for-food" data-mark = "10" onclick="return false;"></a>
+                    </span>
+                  </div>
+                </li>
+                <li class="row">
+                  <div class="col-md-6">
+                    Không gian
+                  </div>
+                  <div class="col-md-6">
+                    <span>
+                      <a href="#" class="fa fa-star" data-for = "rating-for-space" data-mark = "2" onclick="return false;"></a>
+                    </span>
+                    <span>
+                       <a href="#" class="fa fa-star" data-for = "rating-for-space" data-mark = "4" onclick="return false;"></a>
+                    </span>
+                    <span>
+                       <a href="#" class="fa fa-star" data-for = "rating-for-space"  data-mark = "6" onclick="return false;"></a>
+                    </span>
+                    <span>
+                       <a href="#" class="fa fa-star" data-for = "rating-for-space"  data-mark = "8" onclick="return false;"></a>
+                    </span>
+                    <span>
+                       <a href="#" class="fa fa-star" data-for = "rating-for-space"  data-mark = "10" onclick="return false;"></a>
+                    </span>
+                  </div>
+                </li>
+                <li class="row">
+                  <div class="col-md-6">
+                    Phục vụ
+                  </div>
+                  <div class="col-md-6">
+                    <span>
+                      <a href="#" class="fa fa-star" data-for = "rating-for-serve"  data-mark = "2" onclick="return false;"></a>
+                    </span>
+                    <span>
+                       <a href="#" class="fa fa-star" data-for = "rating-for-serve" data-mark = "4" onclick="return false;"></a>
+                    </span>
+                    <span>
+                       <a href="#" class="fa fa-star" data-for = "rating-for-serve" data-mark = "6" onclick="return false;"></a>
+                    </span>
+                    <span>
+                       <a href="#" class="fa fa-star" data-for = "rating-for-serve" data-mark = "8" onclick="return false;"></a>
+                    </span>
+                    <span>
+                       <a href="#" class="fa fa-star" data-for = "rating-for-serve" data-mark = "10" onclick="return false;"></a>
+                    </span>
+                  </div>
+                </li>
+                <li class="row">
+                  <div class="col-md-6">
+                    Giá cả
+                  </div>
+                  <div class="col-md-6">
+                    <span>
+                      <a href="#" class="fa fa-star" data-for = "rating-for-price" data-mark = "2" onclick="return false;"></a>
+                    </span>
+                    <span>
+                       <a href="#" class="fa fa-star" data-for = "rating-for-price" data-mark = "4" onclick="return false;"></a>
+                    </span>
+                    <span>
+                       <a href="#" class="fa fa-star" data-for = "rating-for-price"  data-mark = "6" onclick="return false;"></a>
+                    </span>
+                    <span>
+                       <a href="#" class="fa fa-star" data-for = "rating-for-price"  data-mark = "8" onclick="return false;"></a>
+                    </span>
+                    <span>
+                       <a href="#" class="fa fa-star" data-for = "rating-for-price"  data-mark = "10" onclick="return false;"></a>
+                    </span>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          @else
+            <div class="text-danger"> Vui lòng đăng nhập để đánh giá</div>
+          @endif
+          <br/>
         </div>
         <!-- NEEND HELP col-md-4 -->
         @include('_parts.front.order.needhelp')
@@ -89,44 +189,9 @@
             </p>
             <div id="summary_review">
               @if(Auth::guard('admin')->check())
-              <div class="row" id="rating_summary">
-                <div class="col-md-6">
-                  <ul>
-                    <li>Chất lượng món ăn
-                      <div class="rating">
-                        <i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i
-                            class="icon_star"></i><i class="icon_star"></i>
-                      </div>
-                    </li>
-                    <li>Giá cả
-                      <div class="rating">
-                        <i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i
-                            class="icon_star voted"></i><i class="icon_star"></i>
-                      </div>
-                    </li>
-                  </ul>
-                </div>
-                <div class="col-md-6">
-                  <ul>
-                    <li>Thời gian
-                      <div class="rating">
-                        <i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star"></i><i
-                            class="icon_star"></i><i class="icon_star"></i>
-                      </div>
-                    </li>
-                    <li>Phục vụ
-                      <div class="rating">
-                        <i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i
-                            class="icon_star voted"></i><i class="icon_star"></i>
-                      </div>
-                    </li>
-                  </ul>
-                </div>
-              </div><!-- End row -->
-              <hr class="styled">
                 <a href="#" class="btn_1 add_bottom_15" data-toggle="modal" data-target="#myReview">Để lại bình luận</a>
               @else
-                <div class="text-danger"> * Vui lòng đăng nhập để bình luận </div>
+                <div class="text-danger"> Vui lòng đăng nhập để bình luận </div>
               @endif
             </div><!-- End summary_review -->
             <h5 class="text-success">Hiện có <i>{!! count($post->comments) !!}</i> bình luận cho bài viết này </h5>
@@ -139,34 +204,34 @@
                   {!! $comment->content !!}
                 </p>
                 <div class="row">
-                  <div class="col-md-3">
-                    <div class="rating">
-                      <i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i
-                          class="icon_star voted"></i><i class="icon_star voted"></i>
-                    </div>
-                    Food Quality
-                  </div>
-                  <div class="col-md-3">
-                    <div class="rating">
-                      <i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star"></i><i
-                          class="icon_star"></i><i class="icon_star"></i>
-                    </div>
-                    Price
-                  </div>
-                  <div class="col-md-3">
-                    <div class="rating">
-                      <i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i
-                          class="icon_star voted"></i><i class="icon_star"></i>
-                    </div>
-                    Punctuality
-                  </div>
-                  <div class="col-md-3">
-                    <div class="rating">
-                      <i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i
-                          class="icon_star voted"></i><i class="icon_star"></i>
-                    </div>
-                    Courtesy
-                  </div>
+                  {{--<div class="col-md-3">--}}
+                    {{--<div class="rating">--}}
+                      {{--<i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i--}}
+                          {{--class="icon_star voted"></i><i class="icon_star voted"></i>--}}
+                    {{--</div>--}}
+                    {{--Food Quality--}}
+                  {{--</div>--}}
+                  {{--<div class="col-md-3">--}}
+                    {{--<div class="rating">--}}
+                      {{--<i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star"></i><i--}}
+                          {{--class="icon_star"></i><i class="icon_star"></i>--}}
+                    {{--</div>--}}
+                    {{--Price--}}
+                  {{--</div>--}}
+                  {{--<div class="col-md-3">--}}
+                    {{--<div class="rating">--}}
+                      {{--<i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i--}}
+                          {{--class="icon_star voted"></i><i class="icon_star"></i>--}}
+                    {{--</div>--}}
+                    {{--Punctuality--}}
+                  {{--</div>--}}
+                  {{--<div class="col-md-3">--}}
+                    {{--<div class="rating">--}}
+                      {{--<i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i--}}
+                          {{--class="icon_star voted"></i><i class="icon_star"></i>--}}
+                    {{--</div>--}}
+                    {{--Courtesy--}}
+                  {{--</div>--}}
                 </div><!-- End row -->
               </div><!-- End review strip -->
             @endforeach
@@ -189,6 +254,7 @@
   <script src="{!! asset('public/front/js/infobox.js') !!}"></script>
   <script src="{!! asset('public/front/js/jquery.sliderPro.min.js') !!}"></script>
   <script src="{!! asset('public/js/comment.js') !!}"></script>
+  <script src="{!! asset('public/js/ratingpost.js') !!}"></script>
   <script type="text/javascript">
     $(document).ready(function ($) {
       $('#Img_carousel').sliderPro({

@@ -1165,13 +1165,27 @@ ul#cat_nav li a.active, ul#cat_nav li a:hover {
 }
 
 .rating {
-  color: #fff;
   padding-top: 10px
 }
 
-.rating .voted {
-  color: #FC0;
-  margin-right: 3px
+.rating ul.rating-post {
+  list-style-type: none
+}
+
+.rating ul.rating-post li{
+    margin-bottom: 10px;
+    height: 20px;
+    font-size: 13px;
+}
+
+.rating ul.rating-post li span>a{
+  color: yellow;
+  font-size: 16px;
+}
+
+.rating ul.rating-post li span>a:hover{
+  color: deeppink;
+  font-size: 20px;
 }
 
 ul.additional_links {
@@ -3009,7 +3023,6 @@ ul.plan-features {
 
 .strip_list .desc .content_strip_logo{
   float: left;
-  margin-right: 10px;
   font-size: 12px;
   padding: 10px;
   border-radius: 40px;
@@ -3019,7 +3032,7 @@ ul.plan-features {
 
 .strip_list .desc .content_strip{
   display: inline-block;
-
+  margin-left: 10px;
 }
 
 .strip_list .desc .current_comment{

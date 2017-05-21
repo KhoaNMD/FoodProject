@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers\front\Post;
 
+require_once getenv('DOCUMENT_ROOT').'/public/simple_html_dom.php';
+
 //use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Post;
 use App\Models\Image;
+use App\Models\Rating;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\PostRequest;
 use Carbon\Carbon;
@@ -34,10 +37,10 @@ class PostController extends Controller
 
   public function index()
   {
-    // Create an images array.
+     //Create an images array.
     $imageList = array();
     $provinceList = DB::table("province")->get();
-    $postList = $this->queryPost(Post::with("Images"))->get();
+    $postList = $this->queryPost(Post::with("Images","Comments.User"))->get();
 
     foreach($postList as $post){
       foreach($post->images as $image){
@@ -60,6 +63,7 @@ class PostController extends Controller
         "postList"     => $postList,
         'imageList'  => $imageList
     ];
+
 
        return view('front.restaurant.gridlist',$content);
   }
@@ -226,15 +230,128 @@ class PostController extends Controller
 
     $response = array(
         "status" => 0,
-        "data"   => ""
+        "data"   => array(
+            "postList" => "",
+        "imageList" => "",
+        )
     );
 
     if(!empty($_GET['district'])){
       $postList = Post::with('Images')->where('district','=',$_GET['district'])->get();
       if(count($postList) > 0){
-        $response['data'] = $postList;
+        $response['data']["postList"] = $postList;
         $response['status'] = 1;
+
+        foreach($postList as $post){
+          foreach($post->images as $image){
+            if($image->category_image == 1){
+              $response['data']['imageList'][$post->id][1][] = $image->url_image;
+            }elseif($image->category_image == 2) {
+              $response['data']['imageList'][$post->id][2][] = $image->url_image;
+            }elseif($image->category_image == 3) {
+              $response['data']['imageList'][$post->id][3][] = $image->url_image;
+            }elseif($image->category_image == 4) {
+              $response['data']['imageList'][$post->id][4][] = $image->url_image;
+            }elseif($image->category_image == 5) {
+              $response['data']['imageList'][$post->id][5][] = $image->url_image;
+            }
+          }
+        }
+
       }
+    }
+
+    return Response::json($response);
+  }
+
+  public function ratingPost(){
+
+    $response = array(
+        "status" => 0,
+        "data" => ""
+    );
+
+    $flag = false;
+
+    $tmp = array();
+
+    if(isset($_POST['postId']) && isset($_POST['userId'])){
+      if(is_numeric($_POST['postId']) && is_numeric($_POST['userId']) && is_numeric($_POST['mark'])){
+
+        // Select type rating to store database.
+        if($_POST['ratingFor'] === "rating-for-food"){
+            $tmp["food"] = $_POST['mark'];
+        }elseif( $_POST['ratingFor'] === "rating-for-space"){
+            $tmp["space"] = $_POST['mark'];
+        }elseif( $_POST['ratingFor'] === "rating-for-serve"){
+            $tmp["serve"] = $_POST['mark'];
+        }elseif( $_POST['ratingFor'] === "rating-for-price"){
+            $tmp["price"] = $_POST['mark'];
+        }
+
+        // Check exist user and post .
+        $checkRating = Rating::where([
+            [ 'post_id', '=' ,$_POST['postId'] ],
+            [ 'user_id', '=' , $_POST['userId'] ],
+        ])->count();
+
+        // If not exist , we will create a new record.
+        if($checkRating == 0){
+          // Create default value for new record.
+          $rating = Rating::create([
+              "user_id" => $_POST['userId'],
+              "post_id" => $_POST['postId'],
+              "food"    => 0,
+              "space"   => 0,
+              "serve"   => 0,
+              "price"   => 0
+          ]);
+          // Get id for update.
+          $id = $rating->id;
+
+          if(!empty($id))
+          {
+            $update = Rating::where('id','=',$id)->update($tmp);
+            // If successfully update
+            if($update > 0){
+              $flag = true;
+              $response['status'] = 1;
+            }
+          }
+
+        }else{ // Other Case.
+          $update = Rating::where([
+              [ 'post_id', '=' ,$_POST['postId'] ],
+              [ 'user_id', '=' , $_POST['userId'] ],
+          ])->update($tmp);
+          // If successfully update
+          if($update > 0){
+            $flag = true;
+            $response['status'] = 1;
+          }
+        }
+      } else{
+        // Error input data.
+        $response['status'] = 2;
+      }
+    } else{
+      // Error input data.
+      $response['status'] = 2;
+    }
+
+    if($flag == true){
+      $mark = Rating::where([
+          [ 'post_id', '=' ,$_POST['postId'] ],
+          [ 'user_id', '=' , $_POST['userId'] ],
+      ])->first();
+
+      $total_mark = ( $mark->food + $mark->space + $mark->serve + $mark->price ) / 4.0;
+
+      $update = Rating::where([
+          [ 'post_id', '=' ,$_POST['postId'] ],
+          [ 'user_id', '=' , $_POST['userId'] ],
+      ])->update(["total_mark" => $total_mark]);
+
     }
 
     return Response::json($response);
