@@ -21,6 +21,8 @@ class Post extends Model
       "district",
       "cnt_view",
       "cnt_rank",
+      "latitude",
+      "longitude",
       "category_id",
       "thumb_id",
       "kind",

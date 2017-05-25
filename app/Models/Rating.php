@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Models;
-
+use Auth;
 use Illuminate\Database\Eloquent\Model;
 
 class Rating extends Model
@@ -19,4 +19,5 @@ class Rating extends Model
     "serve",
     "price"
   ];
+
 }

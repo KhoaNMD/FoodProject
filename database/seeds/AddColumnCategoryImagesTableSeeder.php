@@ -13,7 +13,7 @@ class AddColumnCategoryImagesTableSeeder extends Seeder
     public function run()
     {
       Schema::table('tbl_image', function (Blueprint $table) {
-        $table->integer('category_image')->after('post_id');
+        $table->integer('category_image')->nullable()->after('post_id');
       });
     }
 }

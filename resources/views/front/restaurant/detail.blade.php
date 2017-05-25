@@ -26,8 +26,18 @@
 @section('breadcrumb')
   @include('_parts.front.breadcrumb')
   <div class="collapse" id="collapseMap">
-    <div id="map" class="map"></div>
+
   </div><!-- End Map -->
+
+  <div class="container" style="margin-top: 30px;">
+  @if( !empty($post->latitude) && !empty($post->longitude) )
+      <input type="hidden" id="latitude" value="{!! $post->latitude !!}">
+      <input type="hidden" id="longitude" value="{!! $post->longitude !!}">
+    <div id="map" class="map"></div>
+    @else
+    <h4 class="text-danger">Địa điểm này chưa được đăng ký để hiển thị trên map.</h4>
+    @endif
+  </div>
 
 @endsection
 
@@ -70,19 +80,19 @@
                   </div>
                   <div class="col-md-6">
                     <span>
-                      <a href="#" class="fa fa-star" data-for = "rating-for-food" data-mark = "2" onclick="return false;"></a>
+                      <a href="#" class="fa fa-star @if( $checkRating['food'] ) disabled-a @endif 'dis" data-for = "rating-for-food" data-mark = "2" onclick="return false;" ></a>
                     </span>
                     <span>
-                       <a href="#" class="fa fa-star" data-for = "rating-for-food" data-mark = "4" onclick="return false;"></a>
+                       <a href="#" class="fa fa-star @if( $checkRating['food'] ) disabled-a @endif" data-for = "rating-for-food" data-mark = "4" onclick="return false;"></a>
                     </span>
                     <span>
-                       <a href="#" class="fa fa-star" data-for = "rating-for-food" data-mark = "6" onclick="return false;"></a>
+                       <a href="#" class="fa fa-star @if( $checkRating['food'] ) disabled-a @endif" data-for = "rating-for-food" data-mark = "6" onclick="return false;"></a>
                     </span>
                     <span>
-                       <a href="#" class="fa fa-star" data-for = "rating-for-food" data-mark = "8" onclick="return false;"></a>
+                       <a href="#" class="fa fa-star @if( $checkRating['food'] ) disabled-a @endif" data-for = "rating-for-food" data-mark = "8" onclick="return false;"></a>
                     </span>
                     <span>
-                       <a href="#" class="fa fa-star" data-for = "rating-for-food" data-mark = "10" onclick="return false;"></a>
+                       <a href="#" class="fa fa-star @if( $checkRating['food'] ) disabled-a @endif" data-for = "rating-for-food" data-mark = "10" onclick="return false;"></a>
                     </span>
                   </div>
                 </li>
@@ -92,19 +102,19 @@
                   </div>
                   <div class="col-md-6">
                     <span>
-                      <a href="#" class="fa fa-star" data-for = "rating-for-space" data-mark = "2" onclick="return false;"></a>
+                      <a href="#" class="fa fa-star @if( $checkRating['space'] ) disabled-a @endif" data-for = "rating-for-space" data-mark = "2" onclick="return false;"></a>
                     </span>
                     <span>
-                       <a href="#" class="fa fa-star" data-for = "rating-for-space" data-mark = "4" onclick="return false;"></a>
+                       <a href="#" class="fa fa-star @if( $checkRating['space'] ) disabled-a @endif" data-for = "rating-for-space" data-mark = "4" onclick="return false;"></a>
                     </span>
                     <span>
-                       <a href="#" class="fa fa-star" data-for = "rating-for-space"  data-mark = "6" onclick="return false;"></a>
+                       <a href="#" class="fa fa-star @if( $checkRating['space'] ) disabled-a @endif" data-for = "rating-for-space"  data-mark = "6" onclick="return false;"></a>
                     </span>
                     <span>
-                       <a href="#" class="fa fa-star" data-for = "rating-for-space"  data-mark = "8" onclick="return false;"></a>
+                       <a href="#" class="fa fa-star @if( $checkRating['space'] ) disabled-a @endif" data-for = "rating-for-space"  data-mark = "8" onclick="return false;"></a>
                     </span>
                     <span>
-                       <a href="#" class="fa fa-star" data-for = "rating-for-space"  data-mark = "10" onclick="return false;"></a>
+                       <a href="#" class="fa fa-star @if( $checkRating['space'] ) disabled-a @endif" data-for = "rating-for-space"  data-mark = "10" onclick="return false;"></a>
                     </span>
                   </div>
                 </li>
@@ -114,19 +124,19 @@
                   </div>
                   <div class="col-md-6">
                     <span>
-                      <a href="#" class="fa fa-star" data-for = "rating-for-serve"  data-mark = "2" onclick="return false;"></a>
+                      <a href="#" class="fa fa-star @if( $checkRating['serve'] ) disabled-a @endif" data-for = "rating-for-serve"  data-mark = "2" onclick="return false;"></a>
                     </span>
                     <span>
-                       <a href="#" class="fa fa-star" data-for = "rating-for-serve" data-mark = "4" onclick="return false;"></a>
+                       <a href="#" class="fa fa-star @if( $checkRating['serve'] ) disabled-a @endif" data-for = "rating-for-serve" data-mark = "4" onclick="return false;"></a>
                     </span>
                     <span>
-                       <a href="#" class="fa fa-star" data-for = "rating-for-serve" data-mark = "6" onclick="return false;"></a>
+                       <a href="#" class="fa fa-star @if( $checkRating['serve'] ) disabled-a @endif" data-for = "rating-for-serve" data-mark = "6" onclick="return false;"></a>
                     </span>
                     <span>
-                       <a href="#" class="fa fa-star" data-for = "rating-for-serve" data-mark = "8" onclick="return false;"></a>
+                       <a href="#" class="fa fa-star @if( $checkRating['serve'] ) disabled-a @endif" data-for = "rating-for-serve" data-mark = "8" onclick="return false;"></a>
                     </span>
                     <span>
-                       <a href="#" class="fa fa-star" data-for = "rating-for-serve" data-mark = "10" onclick="return false;"></a>
+                       <a href="#" class="fa fa-star @if( $checkRating['serve'] ) disabled-a @endif" data-for = "rating-for-serve" data-mark = "10" onclick="return false;"></a>
                     </span>
                   </div>
                 </li>
@@ -136,19 +146,19 @@
                   </div>
                   <div class="col-md-6">
                     <span>
-                      <a href="#" class="fa fa-star" data-for = "rating-for-price" data-mark = "2" onclick="return false;"></a>
+                      <a href="#" class="fa fa-star @if( $checkRating['price'] ) disabled-a @endif" data-for = "rating-for-price" data-mark = "2" onclick="return false;"></a>
                     </span>
                     <span>
-                       <a href="#" class="fa fa-star" data-for = "rating-for-price" data-mark = "4" onclick="return false;"></a>
+                       <a href="#" class="fa fa-star @if( $checkRating['price'] ) disabled-a @endif" data-for = "rating-for-price" data-mark = "4" onclick="return false;"></a>
                     </span>
                     <span>
-                       <a href="#" class="fa fa-star" data-for = "rating-for-price"  data-mark = "6" onclick="return false;"></a>
+                       <a href="#" class="fa fa-star @if( $checkRating['price'] ) disabled-a @endif" data-for = "rating-for-price"  data-mark = "6" onclick="return false;"></a>
                     </span>
                     <span>
-                       <a href="#" class="fa fa-star" data-for = "rating-for-price"  data-mark = "8" onclick="return false;"></a>
+                       <a href="#" class="fa fa-star @if( $checkRating['price'] ) disabled-a @endif" data-for = "rating-for-price"  data-mark = "8" onclick="return false;"></a>
                     </span>
                     <span>
-                       <a href="#" class="fa fa-star" data-for = "rating-for-price"  data-mark = "10" onclick="return false;"></a>
+                       <a href="#" class="fa fa-star @if( $checkRating['price'] ) disabled-a @endif" data-for = "rating-for-price"  data-mark = "10" onclick="return false;"></a>
                     </span>
                   </div>
                 </li>
@@ -204,34 +214,34 @@
                   {!! $comment->content !!}
                 </p>
                 <div class="row">
-                  {{--<div class="col-md-3">--}}
-                    {{--<div class="rating">--}}
-                      {{--<i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i--}}
-                          {{--class="icon_star voted"></i><i class="icon_star voted"></i>--}}
-                    {{--</div>--}}
-                    {{--Food Quality--}}
-                  {{--</div>--}}
-                  {{--<div class="col-md-3">--}}
-                    {{--<div class="rating">--}}
-                      {{--<i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star"></i><i--}}
-                          {{--class="icon_star"></i><i class="icon_star"></i>--}}
-                    {{--</div>--}}
-                    {{--Price--}}
-                  {{--</div>--}}
-                  {{--<div class="col-md-3">--}}
-                    {{--<div class="rating">--}}
-                      {{--<i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i--}}
-                          {{--class="icon_star voted"></i><i class="icon_star"></i>--}}
-                    {{--</div>--}}
-                    {{--Punctuality--}}
-                  {{--</div>--}}
-                  {{--<div class="col-md-3">--}}
-                    {{--<div class="rating">--}}
-                      {{--<i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i--}}
-                          {{--class="icon_star voted"></i><i class="icon_star"></i>--}}
-                    {{--</div>--}}
-                    {{--Courtesy--}}
-                  {{--</div>--}}
+                  <div class="col-md-3">
+                    <div class="rating">
+                      <i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i
+                          class="icon_star voted"></i><i class="icon_star voted"></i>
+                    </div>
+                    Food Quality
+                  </div>
+                  <div class="col-md-3">
+                    <div class="rating">
+                      <i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star"></i><i
+                          class="icon_star"></i><i class="icon_star"></i>
+                    </div>
+                    Price
+                  </div>
+                  <div class="col-md-3">
+                    <div class="rating">
+                      <i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i
+                          class="icon_star voted"></i><i class="icon_star"></i>
+                    </div>
+                    Punctuality
+                  </div>
+                  <div class="col-md-3">
+                    <div class="rating">
+                      <i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i
+                          class="icon_star voted"></i><i class="icon_star"></i>
+                    </div>
+                    Courtesy
+                  </div>
                 </div><!-- End row -->
               </div><!-- End review strip -->
             @endforeach
@@ -249,9 +259,10 @@
 @endif
 
 @section('specificscripts')
-  {{--<script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyAs_JyKE9YfYLSQujbyFToZwZy-wc09w7s"></script>--}}
-  <script src="{!! asset('public/front/js/map_single.js') !!}"></script>
-  <script src="{!! asset('public/front/js/infobox.js') !!}"></script>
+  <script async defer
+          src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA1HfGkvmWJTS64wEKCmG7CvblY5A1swzs&callback=initMap&libraries=places">
+  </script>
+  {{--<script src="{!! asset('public/front/js/infobox.js') !!}"></script>--}}
   <script src="{!! asset('public/front/js/jquery.sliderPro.min.js') !!}"></script>
   <script src="{!! asset('public/js/comment.js') !!}"></script>
   <script src="{!! asset('public/js/ratingpost.js') !!}"></script>
@@ -272,5 +283,69 @@
         autoplay: false
       });
     });
+  </script>
+
+  <script>
+
+    function initMap() {
+
+      var map;
+      var marker;
+
+      map = new google.maps.Map(document.getElementById('map'), {
+        center: {lat: 106.7741618, lng: 10.8560807},
+        zoom: 16,
+        mapTypeId:google.maps.MapTypeId.ROAD_MAP
+      });
+
+      // Try HTML5 geolocation.
+      if (navigator.geolocation) {
+        // Get current location and then storing in pos variable.
+        navigator.geolocation.getCurrentPosition(function(position) {
+          var  lat = document.getElementById("latitude").value * 1;
+          var  lng =  document.getElementById("longitude").value * 1;
+          var pos = {
+            lat: lat,
+            lng: lng
+          };
+          // Marker with current location.
+          marker = new google.maps.Marker({
+            position: pos,
+            map: map,
+            draggable: true,
+            animation: google.maps.Animation.BOUNCE
+          });
+
+          map.setCenter(pos);
+
+          google.maps.event.addListener(marker, 'dragend', function () {
+            document.getElementById("longitude").value = marker.getPosition().lng();
+            document.getElementById("latitude").value = marker.getPosition().lat();
+          });
+
+        }, function() {
+        });
+      } else {
+        // Browser doesn't support Geolocation
+      }
+//      var searchBox = new google.maps.places.SearchBox(document.getElementById('mapsearch'));
+//
+//      google.maps.event.addListener(searchBox, 'places_changed', function () {
+//
+//        var places = searchBox.getPlaces();
+//        var bounds = new google.maps.LatLngBounds();
+//        var i, place;
+//        for (i = 0; place = places[i]; i++) {
+//          bounds.extend(place.geometry.location);
+//          marker.setPosition(place.geometry.location);
+//        }
+//
+//        map.fitBounds(bounds);
+//        map.setZoom(16);
+//      });
+
+
+    }
+
   </script>
 @endsection

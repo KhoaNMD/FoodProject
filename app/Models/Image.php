@@ -14,6 +14,7 @@ class Image extends Model
       "name",
       "type",
       "size",
+      "category_image",
       "post_id",
       "url_image",
       "insert_id",

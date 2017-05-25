@@ -117,6 +117,20 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class = "col-sm-12"><label>Dẫn đường <span class="error"> * </span></label></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <input type="hidden" name="longitude" id="longitude" value="">
+                                    <input type="hidden" name="latitude" id="latitude" value="">
+                                </div>
+                                <div id="map-collapse" >
+                                    <input type="text" id="mapsearch" class="form-control" style="z-index: 999;">
+                                    <div id="map">
+                                    </div>
+                                </div>
+                            </div>
                         </div><!-- End wrapper_indent -->
 
                         <hr class="styled_2">
@@ -215,11 +229,83 @@
 
 @section('specificscripts')
     <!-- Specific scripts -->
-
+    <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA1HfGkvmWJTS64wEKCmG7CvblY5A1swzs&callback=initMap&libraries=places">
+    </script>
     <script src="{!! asset('public/front/js/bootstrap3-wysihtml5.min.js') !!}"></script>
     <script  src="{!! asset('public/js/handledistrict.js') !!}"></script>
     <script type="text/javascript">
         $('.wysihtml5').wysihtml5({});
+    </script>
+    <script>
+
+//     $("#open-map").click(function(){
+//       $("#map-collapse").modal('show');
+//       initMap();
+//     });
+
+
+      function initMap() {
+
+        var map;
+        var marker;
+
+        map = new google.maps.Map(document.getElementById('map'), {
+          center: {lat: 106.7741618, lng: 10.8560807},
+          zoom: 16,
+          mapTypeId:google.maps.MapTypeId.ROAD_MAP
+        });
+
+        // Try HTML5 geolocation.
+        if (navigator.geolocation) {
+          // Get current location and then storing in pos variable.
+          navigator.geolocation.getCurrentPosition(function(position) {
+
+            var pos = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude
+            };
+            // Marker with current location.
+            marker = new google.maps.Marker({
+              position: pos,
+              map: map,
+              draggable: true,
+              animation: google.maps.Animation.BOUNCE
+            });
+
+
+            map.setCenter(pos);
+
+            google.maps.event.addListener(marker, 'dragend', function () {
+              document.getElementById("longitude").value = marker.getPosition().lng();
+              document.getElementById("latitude").value = marker.getPosition().lat();
+            });
+
+          }, function() {
+          });
+        } else {
+          // Browser doesn't support Geolocation
+        }
+        var searchBox = new google.maps.places.SearchBox(document.getElementById('mapsearch'));
+
+        google.maps.event.addListener(searchBox, 'places_changed', function () {
+
+          var places = searchBox.getPlaces();
+          var bounds = new google.maps.LatLngBounds();
+          var i, place;
+          for (i = 0; place = places[i]; i++) {
+            bounds.extend(place.geometry.location);
+            marker.setPosition(place.geometry.location);
+          }
+
+          // Get location when user searching location.
+          document.getElementById("latitude").value = bounds.f.f;
+          document.getElementById("longitude").value = bounds.b.b;
+
+          map.fitBounds(bounds);
+          map.setZoom(16);
+        });
+      }
     </script>
 @endsection
 

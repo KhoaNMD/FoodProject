@@ -17,7 +17,11 @@
                         </div>
                         <div>
                             <div class="content_strip_logo">
-                                7.2
+                                @if($post->cnt_rank > 0)
+                                    {!! number_format($post->cnt_rank,0) !!}
+                                @else
+                                    0
+                                @endif
                             </div>
                             <div class="content_strip">
                                 <div class="post_title">{!! App\Http\Utils\UtilityCommon::formatTitle($post->title) !!}</div>
@@ -41,7 +45,7 @@
                             @break
                         @endforeach
                         <div class="post_info" style= "padding-top:10px;">
-                            <a id="{!! $post->id !!}" class="fa fa-camera ml-5 photo comment-click" data-toggle="modal" data-target="#modal-comment-{!! $post->id !!}"> 200 </a>
+                            <a id="{!! $post->id !!}" class="fa fa-comment ml-5 photo comment-click" data-toggle="modal" data-target="#modal-comment-{!! $post->id !!}"> 200 </a>
                             <a class="fa fa-camera ml-5 photo" data-toggle="modal" data-target="#modal-{!! $post->id !!}"> {!! count($post->images) !!} </a>
                         </div>
                     </div>

@@ -130,15 +130,49 @@ class PostController extends Controller
   {
     // Flag for showing status.
     $status = false;
+    $checkRating = array(
+        "food"  => "",
+        "serve" => "",
+        "price" => "",
+        "space" => ""
+    );
     $post = Post::with('images','Comments','Comments.User')->find($id);
+
+    if(Auth::guard('admin')->check()) {
+
+      $flagMark = Rating::where([
+          ['user_id', '=', Auth::guard('admin')->user()->id],
+          ['post_id', '=', $id]
+      ])->first();
+
+    }
+
+    if(!empty($flagMark)){
+      if($flagMark['food'] > 0){
+        $checkRating['food'] = true;
+      }
+      if($flagMark['serve'] > 0){
+        $checkRating['serve'] = true;
+      }
+      if($flagMark['price'] > 0){
+        $checkRating['price'] = true;
+      }
+      if($flagMark['space'] > 0){
+        $checkRating['space'] = true;
+      }
+    }
+
     if(strtotime($post->start_time) <= strtotime("now") && strtotime($post->end_time) >= strtotime("now")){
       $status = true;
     }
 
+
     $content = array(
-        'post'   => $post,
-        'status' => $status,
+        'post'        => $post,
+        'status'      => $status,
+        'checkRating' => $checkRating
     );
+
     return view('front.restaurant.detail',$content);
   }
 
@@ -299,12 +333,13 @@ class PostController extends Controller
         if($checkRating == 0){
           // Create default value for new record.
           $rating = Rating::create([
-              "user_id" => $_POST['userId'],
-              "post_id" => $_POST['postId'],
-              "food"    => 0,
-              "space"   => 0,
-              "serve"   => 0,
-              "price"   => 0
+              "user_id"  => $_POST['userId'],
+              "post_id"  => $_POST['postId'],
+              "total_mark" => 0,
+              "food"     => 0,
+              "space"    => 0,
+              "serve"    => 0,
+              "price"    => 0
           ]);
           // Get id for update.
           $id = $rating->id;
@@ -339,6 +374,7 @@ class PostController extends Controller
       $response['status'] = 2;
     }
 
+    // Update mark
     if($flag == true){
       $mark = Rating::where([
           [ 'post_id', '=' ,$_POST['postId'] ],
@@ -351,6 +387,13 @@ class PostController extends Controller
           [ 'post_id', '=' ,$_POST['postId'] ],
           [ 'user_id', '=' , $_POST['userId'] ],
       ])->update(["total_mark" => $total_mark]);
+
+      //Calculate mark Avg for post.
+      $markAvg = Rating::where(['post_id' => $_POST['postId']])->avg('total_mark');
+
+      if(!empty($markAvg)){
+        Post::where(["id" => $_POST['postId']])->update(["cnt_rank" => $markAvg]);
+      }
 
     }
 

@@ -3023,8 +3023,11 @@ ul.plan-features {
 
 .strip_list .desc .content_strip_logo{
   float: left;
+  width: 35px;
+  height: 35px;
   font-size: 12px;
-  padding: 10px;
+  padding-top: 10px;
+  text-align: center;
   border-radius: 40px;
   background-color: #78cfcf;
   color: white;
@@ -3052,6 +3055,15 @@ ul.plan-features {
 .strip_list .desc .post_title{
   font-size: 14px;
   font-weight: bold;
+}
+
+.post_info a{
+  color: #888;
+}
+
+.post_info a:hover{
+  color: black;
+  cursor: pointer;
 }
 
 /* Common css */

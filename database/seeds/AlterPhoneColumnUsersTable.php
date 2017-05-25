@@ -14,7 +14,7 @@ class AlterPhoneColumnUsersTable extends Seeder
     public function run()
     {
       Schema::table('tbl_users', function (Blueprint $table) {
-        $table->string('phone',12)->change();
+        $table->string('phone',12)->nullable()->change();
       });
     }
 }
