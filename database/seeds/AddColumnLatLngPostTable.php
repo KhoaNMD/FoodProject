@@ -14,8 +14,8 @@ class AddColumnLatLngPostTable extends Seeder
     public function run()
     {
       Schema::table('tbl_post', function (Blueprint $table) {
-        $table->string('latitude')->nullable()->after('cnt_rank');
-        $table->string('longitude')->nullable()->after('latitude');
+        $table->float('latitude',10,6)->nullable()->after('cnt_rank');
+        $table->float('longitude',10,6)->nullable()->after('latitude');
       });
     }
 }

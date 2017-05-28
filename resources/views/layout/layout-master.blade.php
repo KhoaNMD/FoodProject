@@ -61,7 +61,6 @@
     <link href="{!! asset('public/sweetAlert-tests/sweetalert.css') !!}" rel="stylesheet">
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
-
 </head>
 
 <body>
@@ -127,5 +126,6 @@
 <!-- helper -->
 <script src="{!! asset('public/js/jquery.timepicker.js') !!}"></script>
 <script src="{!! asset('public/js/jquery-ui.js') !!}"></script>
+<script src="{!! asset('public/js/helper.js') !!}"></script>
 </body>
 </html>

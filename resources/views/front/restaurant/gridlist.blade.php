@@ -24,7 +24,7 @@
 @endsection
 
 @section('sidebar')
-    <div class="container margin_60_35">
+    <div class="container-fluid margin_60_35" style="margin: 0 100px">
         <div class="row">
             <div class="col-md-3">
             {{--<p>--}}

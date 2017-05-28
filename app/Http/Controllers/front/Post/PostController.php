@@ -265,13 +265,28 @@ class PostController extends Controller
     $response = array(
         "status" => 0,
         "data"   => array(
-            "postList" => "",
-        "imageList" => "",
+            "postList"    => "",
+            "imageList"   => "",
         )
     );
 
-    if(!empty($_GET['district'])){
-      $postList = Post::with('Images')->where('district','=',$_GET['district'])->get();
+    $postList = Post::with('Images',"Comments.User");
+
+    if(!empty($_GET['province'])){
+      $postList = $postList->where('province','=',$_GET['province'])->orderBy('cnt_rank','desc');
+    }
+
+    if(!empty($_GET['district'])) {
+      $postList = $postList->where('district', '=', $_GET['district']);
+    }
+
+    if(!empty($_GET['searchInput'])){
+      $postList = $postList->where('title','LIKE',$_GET['searchInput'].'%');
+    }
+
+
+    $postList= $postList->get();
+
       if(count($postList) > 0){
         $response['data']["postList"] = $postList;
         $response['status'] = 1;
@@ -291,8 +306,6 @@ class PostController extends Controller
             }
           }
         }
-
-      }
     }
 
     return Response::json($response);

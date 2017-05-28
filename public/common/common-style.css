@@ -1,6 +1,7 @@
 ul{
   padding: 0;
   margin: 0;
+  list-style-type: none;
 }
 
 .float-left{
@@ -37,9 +38,7 @@ ul{
 .mb10{
   margin-bottom: 10px;
 }
-.color_deeppink{
-  color: deeppink;
-}
+
 
 .ml-5{
   margin-left: 5px;
@@ -48,6 +47,22 @@ ul{
 .ml-10{
   margin-left: 10px;
 }
+
+/* color */
+
+.color_deeppink{
+  color: deeppink;
+}
+
+.color_green{
+  color: #348F34;
+}
+
+.color_red{
+  color: #a92222;
+}
+
+
 
 .select_box_province , .select_box_district{
   padding: 8px 5px;

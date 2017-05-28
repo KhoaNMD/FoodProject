@@ -121,10 +121,6 @@ h3 .slide_typo strong {
   font-weight: 300
 }
 
-.feature h3 span, a {
-  color: #ec008c
-}
-
 .feature h3 {
   margin-top: 0
 }
@@ -876,19 +872,6 @@ a#filters_col_bt .icon_set_1_icon-65 {
   background-color: #72d0f4
 }
 
-.strip_list {
-  background-color: #fff;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
-  padding: 20px;
-  position: relative;
-  border: 1px solid #ededed;
-  min-height: 152px;
-  line-height: 1.3;
-  display: block;
-  margin-bottom: 30px;
-}
 
 .strip_list.last {
   margin-bottom: 25px
@@ -898,10 +881,6 @@ a.strip_list:hover h3 {
   color: #ec008c
 }
 
-.desc {
-  padding-left: 135px;
-  position: relative
-}
 
 .desc .rating {
   color: #ccc;
@@ -958,11 +937,14 @@ a.strip_list:hover h3 {
   color: #C30
 }
 
+.desc .content_post{
+ padding: 10px;
+}
+
 .thumb_strip {
   position: absolute;
   left: 0;
   top: 0;
-  padding: 5px
 }
 
 #cart_box, .box_style_1, .box_style_2 {
@@ -2291,13 +2273,21 @@ a.strip_list:hover {
 }
 
 .strip_list.grid .desc {
-  padding-left: 0
+  background-color: #fff;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  position: relative;
+  border: 1px solid #ededed;
+  min-height: 152px;
+  line-height: 1.3;
+  display: block;
+  margin-bottom: 30px;
 }
 
 .strip_list.grid .thumb_strip {
   display: block;
   position: static;
-  margin: auto auto 15px;
   width: 100%;
 }
 
@@ -3035,7 +3025,7 @@ ul.plan-features {
 
 .strip_list .desc .content_strip{
   display: inline-block;
-  margin-left: 10px;
+  margin-left: 5px;
 }
 
 .strip_list .desc .current_comment{
@@ -3046,14 +3036,13 @@ ul.plan-features {
 
 .strip_list .desc .post_info{
   font-size: 13px;
-  margin-top: 5px;
   color: #888;
   padding-top: 10px;
   border-top: 1px solid #d3e0e9;
 }
 
 .strip_list .desc .post_title{
-  font-size: 14px;
+  font-size: 13px;
   font-weight: bold;
 }
 
@@ -3068,3 +3057,22 @@ ul.plan-features {
 
 /* Common css */
 
+/* Search result */
+
+ul.search_result{
+  position: relative;
+}
+
+ul.search_result ul.sub_search_result{
+  background-color: #fff;
+  border: 1px solid #eee;
+  width: 100%;
+  position: absolute;
+  z-index: 999;
+  display: none;
+}
+
+ul.sub_search_result li{
+  border-bottom: 1px solid #eee;
+  padding: 10px;
+}

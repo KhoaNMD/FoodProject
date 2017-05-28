@@ -312,7 +312,6 @@
           marker = new google.maps.Marker({
             position: pos,
             map: map,
-            draggable: true,
             animation: google.maps.Animation.BOUNCE
           });
 

@@ -13,8 +13,8 @@ class UtilityCommon
 {
   public static function formatTitle($content){
     $getString = $content;
-    if(strlen($getString) > 40){
-      $getString = substr($content,0,40);
+    if(strlen($getString) > 30){
+      $getString = substr($content,0,30);
       $getString .= "...";
     }
     return $getString;
@@ -22,8 +22,8 @@ class UtilityCommon
 
   public static function formatAddress($content){
     $getString = $content;
-    if(strlen($getString) > 65){
-      $getString = substr($content,0,65);
+    if(strlen($getString) > 45){
+      $getString = substr($content,0,45);
       $getString .= "...";
     }
     return $getString;

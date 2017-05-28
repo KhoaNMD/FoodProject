@@ -124,12 +124,21 @@
                                 <div class="col-sm-6">
                                     <input type="hidden" name="longitude" id="longitude" value="">
                                     <input type="hidden" name="latitude" id="latitude" value="">
+                                    <div id="open-map" class="btn btn-primary"> Chọn vị trí </div>
                                 </div>
-                                <div id="map-collapse" >
-                                    <input type="text" id="mapsearch" class="form-control" style="z-index: 999;">
-                                    <div id="map">
-                                    </div>
+                            </div>
+                            <div id="map-collapse" class="modal fade bs-example-modal-md" >
+                              <div class="modal-dialog modal-md" role="document">
+                                <div class="modal-content">
+                                  <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title"> Chọn vị trí của quán </h4>
+                                  </div>
+                                  <div class="modal-body">
+                                    <div id="map"></div>
+                                  </div>
                                 </div>
+                              </div>
                             </div>
                         </div><!-- End wrapper_indent -->
 
@@ -239,11 +248,11 @@
     </script>
     <script>
 
-//     $("#open-map").click(function(){
-//       $("#map-collapse").modal('show');
-//       initMap();
-//     });
-
+      // Show map in boostrap modal.
+     $("#open-map").click(function(){
+       $("#map-collapse").modal('show');
+       initMap();
+     });
 
       function initMap() {
 
@@ -253,8 +262,19 @@
         map = new google.maps.Map(document.getElementById('map'), {
           center: {lat: 106.7741618, lng: 10.8560807},
           zoom: 16,
-          mapTypeId:google.maps.MapTypeId.ROAD_MAP
+          mapTypeId:google.maps.MapTypeId.ROAD_MAP,
         });
+
+
+        var input = document.createElement('input');
+        input.setAttribute('type','text');
+        input.setAttribute('id','mapsearch');
+        input.setAttribute('placeholder','Search location');
+        input.setAttribute('class','controls');
+
+        map.controls[google.maps.ControlPosition.TOP_CENTER].push(input);
+
+        var searchBox = new google.maps.places.SearchBox(input);
 
         // Try HTML5 geolocation.
         if (navigator.geolocation) {
@@ -272,7 +292,9 @@
               draggable: true,
               animation: google.maps.Animation.BOUNCE
             });
-
+            // Get current location
+            document.getElementById("latitude").value =  position.coords.latitude;
+            document.getElementById("longitude").value = position.coords.longitude;
 
             map.setCenter(pos);
 
@@ -286,7 +308,6 @@
         } else {
           // Browser doesn't support Geolocation
         }
-        var searchBox = new google.maps.places.SearchBox(document.getElementById('mapsearch'));
 
         google.maps.event.addListener(searchBox, 'places_changed', function () {
 
