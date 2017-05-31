@@ -25,18 +25,42 @@
 
 @section('breadcrumb')
   @include('_parts.front.breadcrumb')
+
+  <!-- Create input hidden to store data for creating markers -->
+  @if(!empty($dataPostList)))
+    <input type="hidden" value='{!! $dataPostList !!}' id ="data_post">
+  @endif
   <div class="collapse" id="collapseMap">
 
   </div><!-- End Map -->
 
   <div class="container" style="margin-top: 30px;">
+    <input type="hidden" id="latitude" value="{!! $post->latitude !!}">
+    <input type="hidden" id="longitude" value="{!! $post->longitude !!}">
   @if( !empty($post->latitude) && !empty($post->longitude) )
-      <input type="hidden" id="latitude" value="{!! $post->latitude !!}">
-      <input type="hidden" id="longitude" value="{!! $post->longitude !!}">
-    <div id="map" class="map"></div>
+    <div class="row">
+      <div class="col-sm-8 col-md-8 col-lg-8">
+        <div id="map" class="map"></div>
+      </div>
+      <div class="col-sm-4 col-md-4 col-lg-4 category_list">
+        <div class="category_list_title">
+          Địa điểm xung quanh
+        </div>
+        <ul class="current_location">
+          @foreach( $categoryList as $category )
+            <li>
+              {!! $category->name !!}
+               <span>{!! $countCategory[$category->id] !!}</span>
+              <label class="float-right current_location_label bg-d8d6d3" onclick="displayMarkers(this,{!! $category->id !!})"> OFF </label>
+            </li>
+          @endforeach
+        </ul>
+      </div>
+    </div>
     @else
     <h4 class="text-danger">Địa điểm này chưa được đăng ký để hiển thị trên map.</h4>
     @endif
+
   </div>
 
 @endsection
@@ -266,6 +290,7 @@
   <script src="{!! asset('public/front/js/jquery.sliderPro.min.js') !!}"></script>
   <script src="{!! asset('public/js/comment.js') !!}"></script>
   <script src="{!! asset('public/js/ratingpost.js') !!}"></script>
+  <script src="{!! asset('public/js/handlefilter.js') !!}"></script>
   <script type="text/javascript">
     $(document).ready(function ($) {
       $('#Img_carousel').sliderPro({
@@ -287,64 +312,77 @@
 
   <script>
 
-    function initMap() {
+    if( document.getElementById('latitude').value  != "" && document.getElementById('longitude').value  != "") {
 
+      var markers = [];
       var map;
-      var marker;
-
-      map = new google.maps.Map(document.getElementById('map'), {
-        center: {lat: 106.7741618, lng: 10.8560807},
-        zoom: 16,
-        mapTypeId:google.maps.MapTypeId.ROAD_MAP
-      });
-
-      // Try HTML5 geolocation.
-      if (navigator.geolocation) {
-        // Get current location and then storing in pos variable.
-        navigator.geolocation.getCurrentPosition(function(position) {
-          var  lat = document.getElementById("latitude").value * 1;
-          var  lng =  document.getElementById("longitude").value * 1;
-          var pos = {
-            lat: lat,
-            lng: lng
-          };
-          // Marker with current location.
-          marker = new google.maps.Marker({
-            position: pos,
-            map: map,
-            animation: google.maps.Animation.BOUNCE
-          });
-
-          map.setCenter(pos);
-
-          google.maps.event.addListener(marker, 'dragend', function () {
-            document.getElementById("longitude").value = marker.getPosition().lng();
-            document.getElementById("latitude").value = marker.getPosition().lat();
-          });
-
-        }, function() {
-        });
-      } else {
-        // Browser doesn't support Geolocation
+      var obj = {};
+      if (document.getElementById('data_post').value !== null) {
+        obj = JSON.parse(document.getElementById('data_post').value);
       }
-//      var searchBox = new google.maps.places.SearchBox(document.getElementById('mapsearch'));
-//
-//      google.maps.event.addListener(searchBox, 'places_changed', function () {
-//
-//        var places = searchBox.getPlaces();
-//        var bounds = new google.maps.LatLngBounds();
-//        var i, place;
-//        for (i = 0; place = places[i]; i++) {
-//          bounds.extend(place.geometry.location);
-//          marker.setPosition(place.geometry.location);
-//        }
-//
-//        map.fitBounds(bounds);
-//        map.setZoom(16);
-//      });
+
+      function initMap() {
+
+        var marker;
+
+        centerLatLng = {
+          lat: document.getElementById('latitude').value * 1,
+          lng: document.getElementById('longitude').value * 1
+        }
+
+        map = new google.maps.Map(document.getElementById('map'), {
+          center: centerLatLng,
+          zoom: 16,
+          mapTypeId: google.maps.MapTypeId.ROAD_MAP
+        });
+
+        // Show current marker of post.
+        var marker = new google.maps.Marker({
+          position: centerLatLng,
+          map: map
+        });
+
+        if (obj.length > 0) {
+          for (var i = 0; i < obj.length; i++) {
+            addMarker(obj[i].latitude, obj[i].longitude, obj[i].title, obj[i].category_id);
+          }
+        }
+      }
 
 
+      function addMarker(latitude, longitude, title, category) {
+        var marker = new google.maps.Marker({
+          position: new google.maps.LatLng(latitude, longitude),
+          map: map,
+          title: title
+        });
+        marker.category_id = category;
+        marker.setVisible(false);
+        markers.push(marker);
+      }
+
+      function displayMarkers(obj, category) {
+        var i;
+        ;
+
+        // Set clicked to catch event click .
+        if ($(obj).data('clicked')) {
+          $(obj).data('clicked', false);
+        } else {
+          $(obj).data('clicked', true);
+        }
+
+        for (i = 0; i < markers.length; i++) {
+          if (markers[i].category_id === category) {
+
+            if ($(obj).data('clicked')) {
+              markers[i].setVisible(true);
+            } else {
+              markers[i].setVisible(false);
+            }
+          }
+        }
+      }
     }
-
   </script>
 @endsection

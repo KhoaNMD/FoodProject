@@ -63,6 +63,18 @@ ul{
 }
 
 
+/* Back ground color */
+.bg-777{
+  background-color: #777;
+}
+
+.bg-5bc0de{
+  background-color: #5bc0de;
+}
+
+.bg-d8d6d3{
+  background-color: #d8d6d3;
+}
 
 .select_box_province , .select_box_district{
   padding: 8px 5px;

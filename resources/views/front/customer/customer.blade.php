@@ -135,6 +135,7 @@
                                     <h4 class="modal-title"> Chọn vị trí của quán </h4>
                                   </div>
                                   <div class="modal-body">
+                                    <input type="text" class="form-control" id="mapsearch">
                                     <div id="map"></div>
                                   </div>
                                 </div>
@@ -265,16 +266,7 @@
           mapTypeId:google.maps.MapTypeId.ROAD_MAP,
         });
 
-
-        var input = document.createElement('input');
-        input.setAttribute('type','text');
-        input.setAttribute('id','mapsearch');
-        input.setAttribute('placeholder','Search location');
-        input.setAttribute('class','controls');
-
-        map.controls[google.maps.ControlPosition.TOP_CENTER].push(input);
-
-        var searchBox = new google.maps.places.SearchBox(input);
+        var searchBox = new google.maps.places.SearchBox(document.getElementById('mapsearch'));
 
         // Try HTML5 geolocation.
         if (navigator.geolocation) {
@@ -286,7 +278,7 @@
               lng: position.coords.longitude
             };
             // Marker with current location.
-            marker = new google.maps.Marker({
+             marker = new google.maps.Marker({
               position: pos,
               map: map,
               draggable: true,
@@ -327,6 +319,7 @@
           map.setZoom(16);
         });
       }
+
     </script>
 @endsection
 

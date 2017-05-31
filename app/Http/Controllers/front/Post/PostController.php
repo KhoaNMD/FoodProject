@@ -136,7 +136,59 @@ class PostController extends Controller
         "price" => "",
         "space" => ""
     );
+    $countCategory = array(
+        "1" => 0,
+        "2" => 0,
+        "3" => 0
+    );
+    $currentPostList = array();
+    $dataPostList = array();
+
+    $categoryList = DB::table('tbl_category')->get();
+
     $post = Post::with('images','Comments','Comments.User')->find($id);
+
+    if($post->latitude && $post->longitude) {
+
+      $currentPostList = DB::select('
+        SELECT count(id) as quantity_post , category_id
+        from(
+        SELECT
+          id,category_id,
+          6371 * (
+            acos(cos(radians(' . $post->latitude . ')) *
+                 cos(radians(latitude)) *
+                 cos(radians(longitude) - radians(' . $post->longitude . ')) + sin(radians(' . $post->latitude . ')) *
+                                                                 sin(radians(latitude)))) AS distance
+        FROM tbl_post
+        HAVING distance <= 1
+       ) a
+       GROUP BY category_id
+    ');
+
+      // Get data for create markers in google map.
+      $dataPostList = DB::select('
+        SELECT
+         id,title,latitude,longitude,category_id,
+          6371 * (
+            acos(cos(radians(' . $post->latitude . ')) *
+                 cos(radians(latitude)) *
+                 cos(radians(longitude) - radians(' . $post->longitude . ')) + sin(radians(' . $post->latitude . ')) *
+                                                                 sin(radians(latitude)))) AS distance
+        FROM tbl_post
+        HAVING distance <=1 
+      ');
+
+      foreach ($currentPostList as $currentPost) {
+        if ($currentPost->category_id == 1) {
+          $countCategory[1] = $currentPost->quantity_post;
+        } elseif ($currentPost->category_id == 2) {
+          $countCategory[2] =  $currentPost->quantity_post;
+        } elseif ($currentPost->category_id == 3) {
+          $countCategory[3] =  $currentPost->quantity_post;
+        }
+      }
+    }
 
     if(Auth::guard('admin')->check()) {
 
@@ -168,9 +220,12 @@ class PostController extends Controller
 
 
     $content = array(
-        'post'        => $post,
-        'status'      => $status,
-        'checkRating' => $checkRating
+        'post'          => $post,
+        'status'        => $status,
+        'checkRating'   => $checkRating,
+        'countCategory' => $countCategory,
+        'categoryList'  => $categoryList,
+        'dataPostList'  => json_encode($dataPostList)
     );
 
     return view('front.restaurant.detail',$content);
@@ -413,4 +468,49 @@ class PostController extends Controller
     return Response::json($response);
   }
 
+//
+//  public function showHideMarkers(){
+//
+//    $doc = domxml_new_doc("1.0");
+//    $node = $doc->create_element("markers");
+//    $parnode = $doc->append_child($node);
+//
+//    $post = Post::find($id);
+//
+//    $currentPostList = DB::select('
+//        SELECT
+//          *,
+//          6371 * (
+//            acos(cos(radians(' . $post->latitude . ')) *
+//                 cos(radians(latitude)) *
+//                 cos(radians(longitude) - radians(' . $post->longitude . ')) + sin(radians(' . $post->latitude . ')) *
+//                                                                 sin(radians(latitude)))) AS distance
+//        FROM tbl_post
+//        HAVING distance >= 0
+//       )
+//    ');
+//
+//
+//
+//    foreach($currentPostList as $currentPost){
+//      $node = $doc->create_element("marker");
+//      $newnode = $parnode->append_child($node);
+//
+//      $newnode->set_attribute("id",$currentPost->id );
+//      $newnode->set_attribute("name", $currentPost->title);
+//      $newnode->set_attribute("address", $currentPost-address);
+//      $newnode->set_attribute("lat", $currentPost->latitude);
+//      $newnode->set_attribute("lng", $currentPost->longitude);
+//      $newnode->set_attribute("type", $currentPost->category_id);
+//    }
+//    $xmlfile = $doc->dump_mem();
+//
+//    echo $xmlfile;
+//
+//    echo "<pre>";
+//    print_r($newnode);
+//    die;
+//  }
+
 }
+

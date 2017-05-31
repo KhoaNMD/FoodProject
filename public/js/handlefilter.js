@@ -137,7 +137,14 @@ $(document).ready(function(e){
     }
   });
 
-
+  // Current location filter with map API
+  $('.current_location_label').click(function(){
+    if(!$(this).hasClass('bg-5bc0de')) {
+      $(this).removeClass('bg-d8d6d3').addClass('bg-5bc0de').css('color','#fff').html('ON');
+    }else{
+      $(this).removeClass('bg-5bc0de').addClass('bg-d8d6d3').css('color','#666').html('OFF');
+    }
+  });
 
 
 
@@ -145,3 +152,6 @@ $(document).ready(function(e){
 });/**
  * Created by ASUS on 04/05/2017.
  */
+
+
+/* SELECT * FROM tbl_post WHERE longitude =? and */

@@ -40,7 +40,8 @@ class ImageController extends Controller
           "size" => Input::get("photo_size")[$i],
           "post_id" => $_POST['post_id'],
           "url_image" => 'public' . $filePath . Input::get("photo_name")[$i],
-          "insert_id" => Auth::guard("admin")->user()->id
+          "insert_id" => Auth::guard("admin")->user()->id,
+          "category_image" => 1
       ]);
     }
 

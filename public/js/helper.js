@@ -318,5 +318,3 @@ function searchResultTemplate(responseData){
   }
   return htmlTemplate;
 }
-
-

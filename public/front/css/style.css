@@ -3076,3 +3076,35 @@ ul.sub_search_result li{
   border-bottom: 1px solid #eee;
   padding: 10px;
 }
+
+/* Map category list*/
+
+.category_list_title{
+  padding: 10px 20px;
+  border-top: 1px solid #fff;
+  border-bottom: 1px solid #fff;
+  font-size: 14px;
+  font-weight: bold;
+  color: black;
+}
+
+ul.current_location li{
+  padding: 10px 20px;
+  background-color: #fff;
+  font-weight: 500;
+  font-size: 14px;
+  color: black;
+}
+
+.current_location_label{
+  padding: 5px;
+  color: #666;
+  font-size: 11px;
+  width: 35px;
+  font-weight: normal !important;
+  text-align: center;
+}
+
+.current_location_label:hover{
+  cursor: pointer;
+}
