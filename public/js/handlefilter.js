@@ -64,12 +64,14 @@ $(document).ready(function(e){
 
   // Search Post By district id.
   $("#district_filter").change(function(){
+    var provinceid = $("#province_filter").val();
     var districtid = $("#district_filter").val();
+    var categoryId = $("#search_by_category").val();
     var htmlTemplate = "";
     $.ajax({
       url : "/restaurant/search/location",
       type : "GET",
-      data : { district : districtid },
+      data : { province: provinceid , district : districtid ,categoryid: categoryId},
       dataType: 'json',
       success: function (response) {
         $('#image-loading').show();
@@ -90,11 +92,67 @@ $(document).ready(function(e){
   $('#top_post').click(function(){
     var provinceId = $("#province_filter").val();
     var districtId = $("#district_filter").val();
+    var categoryId = $("#search_by_category").val();
     var htmlTemplate = "";
     $.ajax({
       url : "/restaurant/search/location",
       type : "GET",
-      data : { province : provinceId , district: districtId },
+      data : { province: provinceId, district: districtId, categoryid: categoryId },
+      dataType: 'json',
+      success: function (response) {
+        $('#image-loading').show();
+        setTimeout(function() {
+          if(response.status === 1){
+            htmlTemplate = showTemplate(response);
+            $("#home").html(htmlTemplate);
+          }else{
+            $("#home").html(" <div class='text-danger'>Hiện có 0 bài viết theo yêu cầu.</div>");
+          }
+          $('#image-loading').hide();
+        }, 2000);
+      }
+    })
+  });
+
+  // Get new post.
+  $('#new_post').click(function(){
+    var provinceId = $("#province_filter").val();
+    var districtId = $("#district_filter").val();
+    var categoryId = $("#search_by_category").val();
+    var htmlTemplate = "";
+    $.ajax({
+      url : "/restaurant/search/location",
+      type : "GET",
+      data :  { province: provinceId, district: districtId, categoryid: categoryId , newPost: 1 },
+      dataType: 'json',
+      success: function (response) {
+        $('#image-loading').show();
+        setTimeout(function() {
+          if(response.status === 1){
+            htmlTemplate = showTemplate(response);
+            $("#home").html(htmlTemplate);
+          }else{
+            $("#home").html(" <div class='text-danger'>Hiện có 0 bài viết theo yêu cầu.</div>");
+          }
+          $('#image-loading').hide();
+        }, 2000);
+      }
+    })
+  });
+
+  // Search current post by category and distance.
+  $('#search_current_post').click(function(){
+    var lat = $("#latitude").val();
+    var long = $("#longitude").val();
+    var getStartEnd = $("#range").val().split(";");
+    var categoryId = $("#search_by_category").val();
+    var start = getStartEnd[0];
+    var end = getStartEnd[1];
+    var htmlTemplate = "";
+    $.ajax({
+      url : "/restaurant/search/location",
+      type : "GET",
+      data : { lat: lat , long: long , start: start , end: end , categoryid: categoryId },
       dataType: 'json',
       success: function (response) {
         $('#image-loading').show();
@@ -116,12 +174,13 @@ $(document).ready(function(e){
     var searchInput = $(this).val();
     var provinceId = $("#province_filter").val();
     var districtId = $("#district_filter").val();
+    var categoryId = $("#search_by_category").val();
     var htmlTemplate = "";
     if($("#search_input").val().length > 0 ) {
       $.ajax({
         url: "/restaurant/search/location",
         type: "GET",
-        data: {province: provinceId, district: districtId, searchInput: searchInput},
+        data: {province: provinceId, district: districtId, searchInput: searchInput, categoryid: categoryId},
         dataType: 'json',
         success: function (response) {
           if (response.status === 1) {
@@ -146,7 +205,32 @@ $(document).ready(function(e){
     }
   });
 
+  // Search by category
 
+  $("#search_by_category").change(function(){
+    var provinceId = $("#province_filter").val();
+    var districtId = $("#district_filter").val();
+    var categoryId = $(this).val();
+    var htmlTemplate = "";
+    $.ajax({
+      url : "/restaurant/search/location",
+      type : "GET",
+      data : { district : districtId , province: provinceId , categoryid: categoryId },
+      dataType: 'json',
+      success: function (response) {
+        $('#image-loading').show();
+        setTimeout(function() {
+          if(response.status === 1){
+            htmlTemplate = showTemplate(response);
+            $("#home").html(htmlTemplate);
+          }else{
+            $("#home").html(" <div class='text-danger'>Hiện có 0 bài viết theo yêu cầu.</div>");
+          }
+          $('#image-loading').hide();
+        }, 2000);
+      }
+    })
+  });
 
   // Clear storage when loading page.
 });/**

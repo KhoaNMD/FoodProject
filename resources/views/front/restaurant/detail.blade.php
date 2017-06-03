@@ -30,37 +30,45 @@
   @if(!empty($dataPostList)))
     <input type="hidden" value='{!! $dataPostList !!}' id ="data_post">
   @endif
-  <div class="collapse" id="collapseMap">
-
-  </div><!-- End Map -->
-
-  <div class="container" style="margin-top: 30px;">
-    <input type="hidden" id="latitude" value="{!! $post->latitude !!}">
-    <input type="hidden" id="longitude" value="{!! $post->longitude !!}">
-  @if( !empty($post->latitude) && !empty($post->longitude) )
-    <div class="row">
-      <div class="col-sm-8 col-md-8 col-lg-8">
-        <div id="map" class="map"></div>
-      </div>
-      <div class="col-sm-4 col-md-4 col-lg-4 category_list">
-        <div class="category_list_title">
-          Địa điểm xung quanh
+  <div id="map_detail_content" class="modal fade bs-example-modal-lg" >
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title"> Thông tin vị trí của địa điểm </h4>
         </div>
-        <ul class="current_location">
-          @foreach( $categoryList as $category )
-            <li>
-              {!! $category->name !!}
-               <span>{!! $countCategory[$category->id] !!}</span>
-              <label class="float-right current_location_label bg-d8d6d3" onclick="displayMarkers(this,{!! $category->id !!})"> OFF </label>
-            </li>
-          @endforeach
-        </ul>
+        <div class="modal-body">
+          @if( !empty($post->latitude) && !empty($post->longitude) )
+            <div class="row">
+              <div class="col-sm-8 col-md-8 col-lg-8">
+                <div id="map" class="map"></div>
+              </div>
+              <div class="col-sm-4 col-md-4 col-lg-4 category_list">
+                <div class="category_list_title">
+                  Địa điểm xung quanh
+                </div>
+                <ul class="current_location">
+                  @foreach( $categoryList as $category )
+                    <li>
+                      {!! $category->name !!}
+                      <span>{!! $countCategory[$category->id] !!}</span>
+                      <label class="float-right current_location_label bg-d8d6d3" onclick="displayMarkers(this,{!! $category->id !!})"> OFF </label>
+                    </li>
+                  @endforeach
+                </ul>
+              </div>
+            </div>
+          @else
+            <h4 class="text-danger">Địa điểm này chưa được đăng ký để hiển thị trên map.</h4>
+          @endif
+        </div>
       </div>
     </div>
-    @else
-    <h4 class="text-danger">Địa điểm này chưa được đăng ký để hiển thị trên map.</h4>
-    @endif
-
+  </div>
+    <div class="container" style="margin-top: 30px;">
+      <input type="hidden" id="latitude" value="{!! $post->latitude !!}">
+      <input type="hidden" id="longitude" value="{!! $post->longitude !!}">
+    </div>
   </div>
 
 @endsection
@@ -71,8 +79,7 @@
 
       <div class="col-md-4">
         <p>
-          <a class="btn_map" data-toggle="collapse" href="#collapseMap" aria-expanded="false"
-             aria-controls="collapseMap">Xem trên bản đồ</a>
+          <a id="map_detail" class="btn_map"  data-toggle="modal"> Xem trên bản đồ </a>
         </p>
         <div class="box_style_2">
           <h4 class="nomargin_top"> Thời gian phục vụ <i class="icon_clock_alt pull-right"></i></h4>
@@ -81,7 +88,7 @@
           <h4 class="nomargin_top"> Giá <i class="icon_money_alt pull-right fa fa-money"></i></h4>
           <div class="color_deeppink"> {!! number_format($post->min_price) !!} VND - {!! number_format($post->max_price) !!} VND </div>
           <br/>
-          <h4 class="nomargin_top"> Trạng thái <i class="icon_clock_alt pull-right"></i></h4>
+          <h4 class="nomargin_top"> Trạng thái <i class="social_flickr  pull-right"></i></h4>
           <div class="color_deeppink">
             @if($status)
               <b class="text-success"> Đang hoạt động </b>
@@ -90,10 +97,10 @@
             @endif
           </div>
           <br/>
-          <h4 class="nomargin_top"> Địa chỉ <i class="icon_clock_alt pull-right"></i></h4>
+          <h4 class="nomargin_top"> Địa chỉ <i class="icon_pin_alt  pull-right"></i></h4>
           <div class="color_deeppink"> {!! $post->address !!} </div>
           <br/>
-          <h4 class="nomargin_top"> Đánh giá <i class="icon_clock_alt pull-right"></i></h4>
+          <h4 class="nomargin_top"> Đánh giá <i class="icon_like_alt  pull-right"></i></h4>
           @if(Auth::guard('admin')->check())
             <div class="rating" id="{!! $post->id !!}" data-user-id = {!! Auth::guard('admin')->user()->id !!}>
               <input type="hidden" name="_token" value="{!! csrf_token() !!}" id="token">
@@ -237,36 +244,6 @@
                 <p>
                   {!! $comment->content !!}
                 </p>
-                <div class="row">
-                  <div class="col-md-3">
-                    <div class="rating">
-                      <i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i
-                          class="icon_star voted"></i><i class="icon_star voted"></i>
-                    </div>
-                    Food Quality
-                  </div>
-                  <div class="col-md-3">
-                    <div class="rating">
-                      <i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star"></i><i
-                          class="icon_star"></i><i class="icon_star"></i>
-                    </div>
-                    Price
-                  </div>
-                  <div class="col-md-3">
-                    <div class="rating">
-                      <i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i
-                          class="icon_star voted"></i><i class="icon_star"></i>
-                    </div>
-                    Punctuality
-                  </div>
-                  <div class="col-md-3">
-                    <div class="rating">
-                      <i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i
-                          class="icon_star voted"></i><i class="icon_star"></i>
-                    </div>
-                    Courtesy
-                  </div>
-                </div><!-- End row -->
               </div><!-- End review strip -->
             @endforeach
           </div><!-- End box_style_1 -->
@@ -312,6 +289,12 @@
 
   <script>
 
+    // Show map in boostrap modal.
+    $("#map_detail").click(function(){
+      $("#map_detail_content").modal('show');
+      initMap();
+    });
+
     if( document.getElementById('latitude').value  != "" && document.getElementById('longitude').value  != "") {
 
       var markers = [];
@@ -354,7 +337,8 @@
         var marker = new google.maps.Marker({
           position: new google.maps.LatLng(latitude, longitude),
           map: map,
-          title: title
+          title: title,
+          animation: google.maps.Animation.DROP,
         });
         marker.category_id = category;
         marker.setVisible(false);
@@ -363,7 +347,6 @@
 
       function displayMarkers(obj, category) {
         var i;
-        ;
 
         // Set clicked to catch event click .
         if ($(obj).data('clicked')) {

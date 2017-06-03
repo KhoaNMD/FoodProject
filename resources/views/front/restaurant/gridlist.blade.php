@@ -36,14 +36,12 @@
 @endsection
 
 @section('content')
+                <input type="hidden" id="latitude" value="">
+                <input type="hidden" id="longitude" value="">
                 <div class="col-md-9">
-
                     <div id="tools">
                         <div class="row">
                             @include('_parts.front.restaurantfilters')
-                            <div class="col-md-2 col-sm-2 hidden-xs">
-                                <a href="list_page.html" class="bt_filters"><i class="icon-list"></i></a>
-                            </div>
                         </div>
                     </div><!--End tools -->
 
@@ -68,7 +66,9 @@
     <script  src="{!! asset('public/front/js/cat_nav_mobile.js') !!}"></script>
     <script src="{!! asset('public/front/js/bootstrap-select.min.js') !!}"></script>
     <script>$('#cat_nav').mobileMenu();</script>
-    {{--<script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyAs_JyKE9YfYLSQujbyFToZwZy-wc09w7s"></script>--}}
+    <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA1HfGkvmWJTS64wEKCmG7CvblY5A1swzs&callback=getCurrentLocation">
+    </script>
     <script src="{!! asset('public/front/js/map.js') !!}"></script>
     <script src="{!! asset('public/front/js/infobox.js') !!}"></script>
     <script src="{!! asset('public/front/js/ion.rangeSlider.js') !!}"></script>
@@ -90,5 +90,22 @@
                 grid: true
             });
         });
+    </script>
+    <script>
+      function getCurrentLocation(){
+          if (navigator.geolocation) {
+            // Get current location and then storing in pos variable.
+              navigator.geolocation.getCurrentPosition(function(position) {
+
+              // Get current location
+              document.getElementById("latitude").value =  position.coords.latitude;
+              document.getElementById("longitude").value = position.coords.longitude;
+
+            }, function() {
+            });
+          } else {
+            // Browser doesn't support Geolocation
+          }
+        }
     </script>
 @endsection

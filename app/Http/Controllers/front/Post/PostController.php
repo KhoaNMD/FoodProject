@@ -40,6 +40,7 @@ class PostController extends Controller
      //Create an images array.
     $imageList = array();
     $provinceList = DB::table("province")->get();
+    $categoryList = DB::table("tbl_category")->get();
     $postList = $this->queryPost(Post::with("Images","Comments.User"))->get();
 
     foreach($postList as $post){
@@ -61,7 +62,8 @@ class PostController extends Controller
     $content = [
         "provinceList" => $provinceList,
         "postList"     => $postList,
-        'imageList'  => $imageList
+        'imageList'    => $imageList,
+        'categoryList' => $categoryList
     ];
 
 
@@ -137,9 +139,20 @@ class PostController extends Controller
         "space" => ""
     );
     $countCategory = array(
-        "1" => 0,
-        "2" => 0,
-        "3" => 0
+        "1"  => 0,
+        "2"  => 0,
+        "3"  => 0,
+        "4"  => 0,
+        "5"  => 0,
+        "6"  => 0,
+        "7"  => 0,
+        "8"  => 0,
+        "9"  => 0,
+        "10" => 0,
+        "11" => 0,
+        "12" => 0,
+        "13" => 0,
+        "14" => 0
     );
     $currentPostList = array();
     $dataPostList = array();
@@ -339,6 +352,25 @@ class PostController extends Controller
       $postList = $postList->where('title','LIKE',$_GET['searchInput'].'%');
     }
 
+    if(!empty($_GET['categoryid'])){
+      $postList = $postList->where('category_id','=',$_GET['categoryid']);
+    }
+
+    if(!empty($_GET['newPost'])){
+      $previousDate = date('Y-m-d H:i:s',strtotime("-1 week"));
+      $postList = $postList->whereDate('created_at','>=',$previousDate);
+    }
+
+    if(!empty($_GET['lat']) && !empty($_GET['long'])) {
+      $postList = $postList->selectRaw('
+         *,
+          6371 * (
+            acos(cos(radians(' . $_GET['lat'] . ')) *
+                 cos(radians(latitude)) *
+                 cos(radians(longitude) - radians(' . $_GET['long'] . ')) + sin(radians(' . $_GET['lat'] . ')) *
+                                                                 sin(radians(latitude)))) AS distance
+      ')->havingRaw('distance >=' . $_GET["start"] .' AND distance <= ' .$_GET["end"]);
+    }
 
     $postList= $postList->get();
 
@@ -467,50 +499,6 @@ class PostController extends Controller
 
     return Response::json($response);
   }
-
-//
-//  public function showHideMarkers(){
-//
-//    $doc = domxml_new_doc("1.0");
-//    $node = $doc->create_element("markers");
-//    $parnode = $doc->append_child($node);
-//
-//    $post = Post::find($id);
-//
-//    $currentPostList = DB::select('
-//        SELECT
-//          *,
-//          6371 * (
-//            acos(cos(radians(' . $post->latitude . ')) *
-//                 cos(radians(latitude)) *
-//                 cos(radians(longitude) - radians(' . $post->longitude . ')) + sin(radians(' . $post->latitude . ')) *
-//                                                                 sin(radians(latitude)))) AS distance
-//        FROM tbl_post
-//        HAVING distance >= 0
-//       )
-//    ');
-//
-//
-//
-//    foreach($currentPostList as $currentPost){
-//      $node = $doc->create_element("marker");
-//      $newnode = $parnode->append_child($node);
-//
-//      $newnode->set_attribute("id",$currentPost->id );
-//      $newnode->set_attribute("name", $currentPost->title);
-//      $newnode->set_attribute("address", $currentPost-address);
-//      $newnode->set_attribute("lat", $currentPost->latitude);
-//      $newnode->set_attribute("lng", $currentPost->longitude);
-//      $newnode->set_attribute("type", $currentPost->category_id);
-//    }
-//    $xmlfile = $doc->dump_mem();
-//
-//    echo $xmlfile;
-//
-//    echo "<pre>";
-//    print_r($newnode);
-//    die;
-//  }
 
 }
 

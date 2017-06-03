@@ -3081,11 +3081,15 @@ ul.sub_search_result li{
 
 .category_list_title{
   padding: 10px 20px;
-  border-top: 1px solid #fff;
-  border-bottom: 1px solid #fff;
+  border-bottom: 1px solid #e5e5e5;
   font-size: 14px;
   font-weight: bold;
   color: black;
+}
+
+ul.current_location{
+  overflow-y: scroll;
+  height: 410px;
 }
 
 ul.current_location li{
