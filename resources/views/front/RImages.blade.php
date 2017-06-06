@@ -48,7 +48,7 @@
                 </div>
             </div>
             <div class="modal-body">
-                <div class="tab-content">
+                <div class="tab-content" style="height: 300px; overflow-y: scroll">
                     <div class="tab-pane active" id="tatca-{!! $post->id !!}">
                         <ul class="list-inline-custom">
                             @foreach($post->images as $image)

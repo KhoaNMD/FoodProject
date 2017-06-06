@@ -122,8 +122,8 @@
                             </div>
                             <div class="row">
                                 <div class="col-sm-6">
-                                    <input type="hidden" name="longitude" id="longitude" value="">
-                                    <input type="hidden" name="latitude" id="latitude" value="">
+                                    <input type="hidden" name="latitude" id="latitude" value="{!! $post->latitude !!}">
+                                    <input type="hidden" name="longitude" id="longitude" value="{!! $post->longitude !!}">
                                     <div id="open-map" class="btn btn-primary"> Chọn vị trí </div>
                                 </div>
                             </div>
@@ -259,7 +259,8 @@
 
         var map;
         var marker;
-
+        var lat ;
+        var long;
         map = new google.maps.Map(document.getElementById('map'), {
           center: {lat: 106.7741618, lng: 10.8560807},
           zoom: 16,
@@ -273,20 +274,29 @@
           // Get current location and then storing in pos variable.
           navigator.geolocation.getCurrentPosition(function(position) {
 
+            if(  document.getElementById("latitude").value === '' &&  document.getElementById("longitude").value === '') {
+              // Get current location
+              lat = document.getElementById("latitude").value =  position.coords.latitude;
+              long = document.getElementById("longitude").value = position.coords.longitude;
+              console.log(1);
+            }else{
+              lat = document.getElementById("latitude").value * 1;
+              long = document.getElementById("longitude").value * 1;
+            }
+
             var pos = {
-              lat: position.coords.latitude,
-              lng: position.coords.longitude
+              lat: lat,
+              lng: long
             };
             // Marker with current location.
+
              marker = new google.maps.Marker({
               position: pos,
               map: map,
               draggable: true,
               animation: google.maps.Animation.BOUNCE
             });
-            // Get current location
-            document.getElementById("latitude").value =  position.coords.latitude;
-            document.getElementById("longitude").value = position.coords.longitude;
+
 
             map.setCenter(pos);
 

@@ -24,8 +24,8 @@
         <div class="content">
             <section>
                 <div class="indent_title_in">
-                    <i class="icon-comment-inv"></i>
-                    <h3>Quản lý bình luận </h3>
+                    <i class="fa fa-list"></i>
+                    <h3>Danh sách địa điểm đã đăng </h3>
                 </div>
                 <div class="box">
                     <hr>
@@ -45,24 +45,34 @@
                                 @foreach($userPost as $post)
                                     <tr style="font-size: 13px;">
                                         <td> {!! $post->title !!} </td>
-                                        <td> {!! $post->address !!} </td>
+                                        <td width="25%"> {!! $post->address !!} </td>
                                         <td> {!! $post->capacity !!} </td>
                                         <td> {!! $post->email !!} </td>
-                                        <td style="width:50px;">
-                                            <a href="{!! route('restaurant.edit',$post->id) !!}"
-                                               class="text-success">
-                                                <i class="fa fa-edit"></i>
-                                            </a>
-                                            <a href="{!! route('restaurant.destroy',$post->id) !!}"
-                                               class="text-danger">
-                                                <i class="fa fa-trash"></i>
-                                            </a>
+                                        <td class="text-center">
+                                            <span class="float-left">
+                                                <a href="{!! route('restaurant.edit',$post->id) !!}"
+                                                   class="text-success">
+                                                    <i class="fa fa-edit font-14"></i>
+                                                </a>
+                                            </span>
+                                            <span class="float-left ml-5">
+                                                {!! Form::open(['method' => 'DELETE',  'route' => ['restaurant.destroy', $post->id] , 'id' => 'form_delete_' . $post->id , 'style' => 'width:20px']  ) !!}
+                                                <a href="#"
+                                                       class="text-danger delete_post font-14"
+                                                        data-form="{!! $post->id !!}"
+                                                        onclick="return false;"
+                                                >
+                                                        <i class="fa fa-trash"></i>
+                                                    </a>
+                                                {!! Form::close() !!}
+                                            </span>
                                         </td>
                                     </tr>
                                 @endforeach
                                 </tbody>
                             </table>
                         </div>
+                       @include('_parts.pagination',['name' => $userPost])
                     @else
                         <br/>
                         <h5 class="text-danger"> Bạn chưa đăng địa điểm nào. Vui lòng chọn tạo địa điểm để đăng.</h5>
@@ -96,5 +106,24 @@
                 window.location.hash = target;
             });
         });
+    </script>
+    <script>
+      $(document).ready(function() {
+        $('.delete_post').click(function () {
+            var _t = $(this);
+          swal({
+                title: "Bạn chắc chắn muốn xoá ?",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonClass: "btn-danger",
+                confirmButtonText: "Đồng ý",
+                closeOnConfirm: false
+              },
+              function () {
+                $('#form_delete_' + _t.data('form')).submit();
+              });
+
+        });
+      })
     </script>
 @endsection

@@ -75,10 +75,22 @@ Route::group([
       );
 });
 
+Route::get('error404',['as' => 'errorpage',function(){
+  return view('_parts.error.404');
+}]);
+
 Route::get('/faq',function (){
     return view('front.faq.faq');
 });
 
 Route::get('/comment',function (){
   return view('front.modalcomment');
+});
+
+Route::get('/gethtml',function(){
+  return view('get-content');
+});
+
+Route::post('/gethtml',function(){
+  return view('get-content');
 });

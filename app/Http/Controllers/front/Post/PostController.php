@@ -130,118 +130,126 @@ class PostController extends Controller
    */
   public function show($id)
   {
-    // Flag for showing status.
-    $status = false;
-    $checkRating = array(
-        "food"  => "",
-        "serve" => "",
-        "price" => "",
-        "space" => ""
-    );
-    $countCategory = array(
-        "1"  => 0,
-        "2"  => 0,
-        "3"  => 0,
-        "4"  => 0,
-        "5"  => 0,
-        "6"  => 0,
-        "7"  => 0,
-        "8"  => 0,
-        "9"  => 0,
-        "10" => 0,
-        "11" => 0,
-        "12" => 0,
-        "13" => 0,
-        "14" => 0
-    );
-    $currentPostList = array();
-    $dataPostList = array();
 
-    $categoryList = DB::table('tbl_category')->get();
+    $findPost = Post::find($id);
 
-    $post = Post::with('images','Comments','Comments.User')->find($id);
+    if(empty($findPost)){
+      return Redirect::route('errorpage');
+    }else {
 
-    if($post->latitude && $post->longitude) {
+      // Flag for showing status.
+      $status = false;
+      $checkRating = array(
+          "food" => "",
+          "serve" => "",
+          "price" => "",
+          "space" => ""
+      );
+      $countCategory = array(
+          "1" => 0,
+          "2" => 0,
+          "3" => 0,
+          "4" => 0,
+          "5" => 0,
+          "6" => 0,
+          "7" => 0,
+          "8" => 0,
+          "9" => 0,
+          "10" => 0,
+          "11" => 0,
+          "12" => 0,
+          "13" => 0,
+          "14" => 0
+      );
+      $currentPostList = array();
+      $dataPostList = array();
 
-      $currentPostList = DB::select('
-        SELECT count(id) as quantity_post , category_id
-        from(
-        SELECT
-          id,category_id,
-          6371 * (
-            acos(cos(radians(' . $post->latitude . ')) *
-                 cos(radians(latitude)) *
-                 cos(radians(longitude) - radians(' . $post->longitude . ')) + sin(radians(' . $post->latitude . ')) *
-                                                                 sin(radians(latitude)))) AS distance
-        FROM tbl_post
-        HAVING distance <= 1
-       ) a
-       GROUP BY category_id
-    ');
+      $categoryList = DB::table('tbl_category')->get();
 
-      // Get data for create markers in google map.
-      $dataPostList = DB::select('
-        SELECT
-         id,title,latitude,longitude,category_id,
-          6371 * (
-            acos(cos(radians(' . $post->latitude . ')) *
-                 cos(radians(latitude)) *
-                 cos(radians(longitude) - radians(' . $post->longitude . ')) + sin(radians(' . $post->latitude . ')) *
-                                                                 sin(radians(latitude)))) AS distance
-        FROM tbl_post
-        HAVING distance <=1 
+      $post = Post::with('images', 'Comments', 'Comments.User')->find($id);
+
+      if ($post->latitude && $post->longitude) {
+
+        $currentPostList = DB::select('
+          SELECT count(id) as quantity_post , category_id
+          from(
+          SELECT
+            id,category_id,
+            6371 * (
+              acos(cos(radians(' . $post->latitude . ')) *
+                   cos(radians(latitude)) *
+                   cos(radians(longitude) - radians(' . $post->longitude . ')) + sin(radians(' . $post->latitude . ')) *
+                                                                   sin(radians(latitude)))) AS distance
+          FROM tbl_post
+          HAVING distance <= 1
+         ) a
+         GROUP BY category_id
       ');
 
-      foreach ($currentPostList as $currentPost) {
-        if ($currentPost->category_id == 1) {
-          $countCategory[1] = $currentPost->quantity_post;
-        } elseif ($currentPost->category_id == 2) {
-          $countCategory[2] =  $currentPost->quantity_post;
-        } elseif ($currentPost->category_id == 3) {
-          $countCategory[3] =  $currentPost->quantity_post;
+        // Get data for create markers in google map.
+        $dataPostList = DB::select('
+          SELECT
+           id,title,latitude,longitude,category_id,
+            6371 * (
+              acos(cos(radians(' . $post->latitude . ')) *
+                   cos(radians(latitude)) *
+                   cos(radians(longitude) - radians(' . $post->longitude . ')) + sin(radians(' . $post->latitude . ')) *
+                                                                   sin(radians(latitude)))) AS distance
+          FROM tbl_post
+          HAVING distance <=1 
+        ');
+
+        foreach ($currentPostList as $currentPost) {
+          if ($currentPost->category_id == 1) {
+            $countCategory[1] = $currentPost->quantity_post;
+          } elseif ($currentPost->category_id == 2) {
+            $countCategory[2] = $currentPost->quantity_post;
+          } elseif ($currentPost->category_id == 3) {
+            $countCategory[3] = $currentPost->quantity_post;
+          }
         }
       }
-    }
 
-    if(Auth::guard('admin')->check()) {
+      if (Auth::guard('admin')->check()) {
 
-      $flagMark = Rating::where([
-          ['user_id', '=', Auth::guard('admin')->user()->id],
-          ['post_id', '=', $id]
-      ])->first();
+        $flagMark = Rating::where([
+            ['user_id', '=', Auth::guard('admin')->user()->id],
+            ['post_id', '=', $id]
+        ])->first();
 
-    }
-
-    if(!empty($flagMark)){
-      if($flagMark['food'] > 0){
-        $checkRating['food'] = true;
       }
-      if($flagMark['serve'] > 0){
-        $checkRating['serve'] = true;
+
+      if (!empty($flagMark)) {
+        if ($flagMark['food'] > 0) {
+          $checkRating['food'] = true;
+        }
+        if ($flagMark['serve'] > 0) {
+          $checkRating['serve'] = true;
+        }
+        if ($flagMark['price'] > 0) {
+          $checkRating['price'] = true;
+        }
+        if ($flagMark['space'] > 0) {
+          $checkRating['space'] = true;
+        }
       }
-      if($flagMark['price'] > 0){
-        $checkRating['price'] = true;
+
+      if (strtotime($post->start_time) <= strtotime("now") && strtotime($post->end_time) >= strtotime("now")) {
+        $status = true;
       }
-      if($flagMark['space'] > 0){
-        $checkRating['space'] = true;
-      }
+
+
+      $content = array(
+          'post' => $post,
+          'status' => $status,
+          'checkRating' => $checkRating,
+          'countCategory' => $countCategory,
+          'categoryList' => $categoryList,
+          'dataPostList' => json_encode($dataPostList)
+      );
+
+      return view('front.restaurant.detail', $content);
     }
-
-    if(strtotime($post->start_time) <= strtotime("now") && strtotime($post->end_time) >= strtotime("now")){
-      $status = true;
-    }
-
-
-    $content = array(
-        'post'          => $post,
-        'status'        => $status,
-        'checkRating'   => $checkRating,
-        'countCategory' => $countCategory,
-        'categoryList'  => $categoryList,
-        'dataPostList'  => json_encode($dataPostList)
-    );
-
-    return view('front.restaurant.detail',$content);
   }
 
   /**
@@ -292,7 +300,9 @@ class PostController extends Controller
    */
   public function destroy($id)
   {
-    //
+    $post = Post::findOrFail($id);
+    $post->delete();
+    return Redirect::route('restaurant.index');
   }
 
   public function getNameProvinceAndDistrict($provinceId,$districtId){
@@ -320,7 +330,7 @@ class PostController extends Controller
 
   public function userPostList()
   {
-    $userPost = Post::where('insert_id',Auth::guard('admin')->user()->id)->get();
+    $userPost = Post::where('insert_id',Auth::guard('admin')->user()->id)->paginate(10);
     $content = array(
         'userPost' => $userPost
     );

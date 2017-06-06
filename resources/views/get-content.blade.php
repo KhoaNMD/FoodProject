@@ -1,25 +1,56 @@
-<?php
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <title>Document</title>
+</head>
+<body>
+<div class="container">
+  <h3> Clone data </h3>
+  <form method="post" name="form-html" action="/gethtml">
+    <input type="hidden" name="_token" value="{!! csrf_token() !!}">
+    <div class="form-group">
+      <input type="text" name="url_html" class="form-control" placeholder="Đường dẫn dữ liệu">
+    </div>
+    <div class="form-group">
+      <input type="text" name="url_image" class="form-control" placeholder="Đường dẫn hình ảnh">
+    </div>
+    <input type="submit" class="btn btn-default" name="clone_action" value="Clone data">
+  </form>
+</div>
+</body>
+</html>
 
-require "simple_html_dom.php";
+
+<?php
 use App\Models\Post;
 use App\Models\Image;
+if(isset($_POST['clone_action']) && !empty($_POST['clone_action'])) {
 
-$con = mysqli_connect("localhost","root","","foodproject");
+
+  require "simple_html_dom.php";
+
+
+
+  $con = mysqli_connect("localhost", "root", "", "foodproject");
 
 // Check connection
-if (mysqli_connect_errno())
-{
-  echo "Failed to connect to MySQL: " . mysqli_connect_error();
+  if (mysqli_connect_errno()) {
+    echo "Failed to connect to MySQL: " . mysqli_connect_error();
+  }
+
+  $html = file_get_html($_POST['url_html']);
+
+  $html_image = file_get_html($_POST['url_image']);
+
+  $id = getData($html);
+
+  getImage($html_image, $id);
 }
-
-$html = file_get_html("https://www.foody.vn/ho-chi-minh/bo-to-tay-ninh-nam-sanh-pham-hung");
-
-$html_image = file_get_html("https://www.foody.vn/ho-chi-minh/lu-s-coffee-pham-hung/album-thuc-don");
-
-$id = getData($html);
-
-getImage($html_image,$id);
-
 function getData($html){
 
   $content = array();
@@ -128,9 +159,10 @@ function getImage($html_image,$post_id)
      $name = basename($href);//lấy tên
 
     $url_images = $menu_images . $name;//set đường dẫn
-//    file_put_contents($url_images, file_get_contents($href));//save hình
 
-    $size = filesize("$url_images");
+    file_put_contents($url_images, file_get_contents($href));//save hình
+
+    $size = filesize($url_images);
 
 $image = Image::create([
     "name" => $name,

@@ -20,7 +20,7 @@
                 <a href="#"><i class="fa fa-credit-card"></i> Các đơn đặt hàng</a>
               </li>
               <li class="active">
-                <a href="#"><i class="fa fa-user-circle-o"></i> Quản lý tài khoản</a>
+                <a href="{!! route('user.edit',Auth::guard('admin')->user()->id) !!}"><i class="fa fa-user-circle-o"></i> Quản lý tài khoản</a>
               </li>
             </ul>
           </div>
