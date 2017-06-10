@@ -159,7 +159,8 @@ class PostController extends Controller
           "11" => 0,
           "12" => 0,
           "13" => 0,
-          "14" => 0
+          "14" => 0,
+          "15" => 0
       );
       $currentPostList = array();
       $dataPostList = array();

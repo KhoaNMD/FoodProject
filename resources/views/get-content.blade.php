@@ -31,10 +31,7 @@ use App\Models\Post;
 use App\Models\Image;
 if(isset($_POST['clone_action']) && !empty($_POST['clone_action'])) {
 
-
   require "simple_html_dom.php";
-
-
 
   $con = mysqli_connect("localhost", "root", "", "foodproject");
 
@@ -50,18 +47,24 @@ if(isset($_POST['clone_action']) && !empty($_POST['clone_action'])) {
   $id = getData($html);
 
   getImage($html_image, $id);
+
 }
+
 function getData($html){
 
   $content = array();
   //table category
 //xác định loại hình
 
-  $content['category_id'] = 1;
+  $category_name = $html->find('div.category div.category-items a',0)->innertext;
+
+  $category_id = getCategoryId($category_name);
+
+  $content['category_id'] = $category_id;
 
   $post_title = $html->find("h1[itemprop='name']",0)->innertext;
 
-  $content['title'] = $post_title;
+  $content['title'] = html_entity_decode($post_title, ENT_QUOTES, "UTF-8");
 
   $post_description = $html->find("meta[name='description']", 0)->content;
 
@@ -69,7 +72,7 @@ function getData($html){
 
   $post_address = $html->find("div[itemprop='address']",0)->plaintext;
 
-  $content['address'] = trim($post_address);
+  $content['address'] = html_entity_decode(trim($post_address), ENT_QUOTES, "UTF-8");
 
   $web_images = $html->find("img[itemprop='image']",0)->src;
 
@@ -102,7 +105,10 @@ function getData($html){
   $content['end_time'] = $post_close_time;
 
   $content['province'] = 79;
-  $content['district'] = 760;
+
+  $post_district = $html->find("span[itemprop='addressLocality']",0)->innertext;
+
+  $content['district'] = getId($post_district);
 
   $post_latitude = $html->find("meta[property='place:location:latitude']",0)->content;
   $post_longitude = $html->find("meta[property='place:location:longitude']",0)->content;
@@ -121,6 +127,7 @@ function getData($html){
   $content['status'] = 1;
 
   $content['insert_id'] = 1;
+
 
   $post = Post::create(
       $content
@@ -164,26 +171,25 @@ function getImage($html_image,$post_id)
 
     $size = filesize($url_images);
 
-$image = Image::create([
-    "name" => $name,
-    "type" => $type,
-    "size" => $size,
-    "post_id" => $post_id,
-    "url_image" => 'public' . $filePath . $name,
-    "insert_id" => 1,
-    "category_image" => 1
-]);
+  $image = Image::create([
+      "name" => $name,
+      "type" => $type,
+      "size" => $size,
+      "post_id" => $post_id,
+      "url_image" => 'public' . $filePath . $name,
+      "insert_id" => 1,
+      "category_image" => 1
+  ]);
 
   }
 
   $post = DB::table("tbl_post")->where("id","=",$post_id)->update(["thumb_id" => $image['id']]);
 
-
 }
 
 function convert_vi_to_en($str)
 {
-  $str = preg_replace("/(à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ)/",'a',$str);
+  $str = preg_replace("/(à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ)/","a",$str);
   $str = preg_replace("/(è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ)/",'e',$str);
   $str = preg_replace("/(ì|í|ị|ỉ|ĩ)/",'i',$str);
   $str = preg_replace("/(ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ)/",'o',$str);
@@ -201,10 +207,8 @@ function convert_vi_to_en($str)
 }
 
 function getCategoryId($categoryName){
-  echo strlen(strtolower(convert_vi_to_en($categoryName)));
-  echo json_encode($categoryName);
-  echo json_encode("Quán ăn");
-  switch (strtolower(convert_vi_to_en($categoryName))){
+
+  switch (strtolower(convert_vi_to_en(html_entity_decode($categoryName, ENT_QUOTES, "UTF-8")))){
     case "an vat":
       return 1;
       break;
@@ -250,12 +254,15 @@ function getCategoryId($categoryName){
     case "khu am thuc":
       return 14;
       break;
+    case "an vat/via he":
+      return 15;
+      break;
   }
 }
 
 function getId($district)
 {
-  switch (strtolower(convert_vi_to_en($district))){
+  switch (strtolower(convert_vi_to_en(html_entity_decode($district, ENT_QUOTES, "UTF-8")))){
     case "quan 1":
       return 760;
       break;
@@ -292,37 +299,37 @@ function getId($district)
     case "quan 12":
       return 761;
       break;
-    case "thu duc":
+    case "quan thu duc":
       return 762;
       break;
-    case "binh thanh":
+    case "quan binh thanh":
       return 765;
       break;
-    case "go vap":
+    case "quan go vap":
       return 764;
       break;
-    case "tan binh":
+    case "quan tan binh":
       return 766;
       break;
-    case "binh tan":
+    case "quan binh tan":
       return 777;
       break;
-    case "phu nhuan":
+    case "quan phu nhuan":
       return 768;
       break;
-    case "tan phu":
+    case "quan tan phu":
       return 767;
       break;
-    case "cu chi":
+    case "quan cu chi":
       return 783;
       break;
-    case "hoc mon":
+    case "quan hoc mon":
       return 784;
       break;
-    case "binh chanh":
+    case "quan binh chanh":
       return 785;
       break;
-    case "nha be":
+    case "quan nha be":
       return 786;
       break;
     }

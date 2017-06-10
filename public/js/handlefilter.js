@@ -170,13 +170,13 @@ $(document).ready(function(e){
   });
 
   // Handle search name
-  $("#search_input").keyup(function(){
+  $("#search_input").on('keyup',_.debounce(function() {
     var searchInput = $(this).val();
     var provinceId = $("#province_filter").val();
     var districtId = $("#district_filter").val();
     var categoryId = $("#search_by_category").val();
     var htmlTemplate = "";
-    if($("#search_input").val().length > 0 ) {
+    if ($("#search_input").val().length > 0) {
       $.ajax({
         url: "/restaurant/search/location",
         type: "GET",
@@ -191,10 +191,10 @@ $(document).ready(function(e){
           }
         }
       })
-    }else{
+    } else {
       $('ul.sub_search_result').hide();
     }
-  });
+  },500));
 
   // Current location filter with map API
   $('.current_location_label').click(function(){

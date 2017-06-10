@@ -109,6 +109,7 @@
 @include('_parts.front.search')
 
 <!-- COMMON SCRIPTS -->
+<script src="{!! asset('public/js/lib/underscore/underscorelib.js') !!}"></script>
 <script src="{!! asset('public/front/js/jquery-2.2.4.min.js') !!}"></script>
 <script src="{!! asset('public/front/js/common_scripts_min.js') !!}"></script>
 <script src="{!! asset('public/front/js/functions.js') !!}"></script>
@@ -117,6 +118,7 @@
 {{--login and register script--}}
 <script src="{!! asset('public/js/login.js') !!}"></script>
 <script src="{!! asset('public/js/register.js') !!}"></script>
+
 
 {{--SCRIPTS riêng của từng trang m add vô template cha làm gi v thánh google dịch hộ chữ SPECIFIC nhé--}}
 <!-- SPECIFIC SCRIPTS -->
