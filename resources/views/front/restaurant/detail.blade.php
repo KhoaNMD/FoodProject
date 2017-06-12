@@ -7,16 +7,15 @@
            data-natural-height="470">
     <div id="subheader">
       <div id="sub_content">
-        <div id="thumb"><img src="{!! asset('public/front/img/thumb_restaurant.jpg') !!}" alt=""></div>
+        <div id="thumb"><img src="{!! asset($post->images[0]->url_image) !!}" alt="" width="130px" height="130px"></div>
         <div class="rating"><i class="icon_star voted"></i><i class="icon_star voted"></i><i
               class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star"></i> (
-          <small><a href="#0">98 reviews</a></small>
+          <small><a href="#0">{!! count($post->comments) !!} lượt đánh giá</a></small>
           )
         </div>
-        <h1>Mexican TacoMex</h1>
-        <div><em>Mexican / American</em></div>
-        <div><i class="icon_pin"></i> 135 Newtownards Road, Belfast, BT4 1AB - <strong>Phí vận chuyển:</strong> $10,
-          free over $15.
+        <h1>{!! $post->title !!}</h1>
+        <div>
+          <i class="icon_pin"></i> {!! $post->address !!}
         </div>
       </div><!-- End sub_content -->
     </div><!-- End subheader -->
@@ -87,6 +86,9 @@
           <br/>
           <h4 class="nomargin_top"> Giá <i class="icon_money_alt pull-right fa fa-money"></i></h4>
           <div class="color_deeppink"> {!! number_format($post->min_price) !!} VND - {!! number_format($post->max_price) !!} VND </div>
+          <br/>
+          <h4 class="nomargin_top"> Sức chứa <i class="icon_money_alt pull-right fa fa-money"></i></h4>
+          <div class="color_deeppink"> {!! $post->capacity !!} người</div>
           <br/>
           <h4 class="nomargin_top"> Trạng thái <i class="social_flickr  pull-right"></i></h4>
           <div class="color_deeppink">
@@ -302,6 +304,7 @@
       var obj = {};
       if (document.getElementById('data_post').value !== null) {
         obj = JSON.parse(document.getElementById('data_post').value);
+
       }
 
       function initMap() {

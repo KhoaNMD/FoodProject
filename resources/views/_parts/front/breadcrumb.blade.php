@@ -1,10 +1,11 @@
-<div id="position">
+<div class="breadcrumb-bg">
   <div class="container">
-    <ul>
-      <li><a href="#0">Trang chủ</a></li>
-      <li><a href="#0">Category</a></li>
-      <li>Page active</li>
-    </ul>
-    <a href="#0" class="search-overlay-menu-btn"><i class="icon-search-6"></i> Search</a>
-  </div>
-</div><!-- Position -->
+      <ul>
+        <li>
+          <a href="#">
+            {!! Breadcrumbs::render() !!}
+          </a>
+        </li>
+      </ul>
+    </div>
+</div>

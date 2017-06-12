@@ -79,10 +79,11 @@ function getData($html){
   $post_images = str_replace("s480x300","s",$web_images);
 
 
-  $capacity = $html->find(".new-detail-info-sec .new-detail-info-area",6);
-  $post_capacity = str_replace(["Sức chứa","người lớn"],"",$capacity);
+  $capacity = $html->find(".new-detail-info-sec .new-detail-info-area",6)->children(1)->children(0)->innertext;
 
-  $content['capacity'] = trim($post_capacity);
+ $post_capacity = str_replace("người lớn","",$capacity);
+
+  $content['capacity'] = $post_capacity;
 
   $post_rating=$html->find("span[itemprop='ratingValue']",0)->plaintext;
 
@@ -90,13 +91,11 @@ function getData($html){
 
   $content['status'] = 1;
 
-  $price = $html->find("span[itemprop='priceRange'] span",0)->innertext;
-  $arr_price=explode(" - ",$price);
-  $min_price = rtrim($arr_price[0],"đ");//xóa chữ đ
-  $max_price = rtrim($arr_price[1],"đ");
+  $min_price = $html->find("span[itemprop='priceRange'] span",0)->innertext;
+  $max_price =  $html->find("span[itemprop='priceRange'] span span",0)->innertext;
 
-  $content['min_price'] = $min_price;
-  $content['max_price'] = $max_price;
+  $content['min_price'] = (int)$min_price * 1000;
+  $content['max_price'] = (int)$max_price * 1000;
 
   $post_open_time = $html->find("div.micro-timesopen span",4)->innertext;
   $post_close_time = $html->find("div.micro-timesopen span",5)->innertext;
@@ -143,15 +142,11 @@ function getImage($html_image,$post_id)
   $publicPath = public_path();
   $filePath = "/uploads/photo/";
 
-  $menu_images = $publicPath . $filePath;
+  $menu_images = $publicPath . $filePath. $post_id .'/';
 
   if (!is_dir($menu_images)) {//hình menu
     mkdir($menu_images);
   }
-
-  echo "<hr>";
-
-//xác định mấy cái div chứa hình
 
   $images = $html_image->find("div.micro-home-album-img");
 
@@ -159,6 +154,7 @@ function getImage($html_image,$post_id)
     $a = $image->find("a", 0);//tìm thẻ a đầu tiên
     //$title = $a->attr['title'];//lấy thuộc tính title trong thẻ a
     $href = $a->href;//lấy href (image url)
+
     $info = getimagesize($href);
 
      $type = $info['mime'];//lấy type
@@ -167,7 +163,7 @@ function getImage($html_image,$post_id)
 
     $url_images = $menu_images . $name;//set đường dẫn
 
-    file_put_contents($url_images, file_get_contents($href));//save hình
+    file_put_contents($url_images,file_get_contents($href));//save hình
 
     $size = filesize($url_images);
 
@@ -176,7 +172,7 @@ function getImage($html_image,$post_id)
       "type" => $type,
       "size" => $size,
       "post_id" => $post_id,
-      "url_image" => 'public' . $filePath . $name,
+      "url_image" => 'public' . $filePath . $post_id . '/' . $name,
       "insert_id" => 1,
       "category_image" => 1
   ]);
@@ -207,54 +203,52 @@ function convert_vi_to_en($str)
 }
 
 function getCategoryId($categoryName){
+  $categoryName = str_replace(array(","," "),"",$categoryName);
 
   switch (strtolower(convert_vi_to_en(html_entity_decode($categoryName, ENT_QUOTES, "UTF-8")))){
-    case "an vat":
+    case "anvat":
       return 1;
       break;
-    case "nha hang":
+    case "nhahang":
       return 2;
       break;
     case "buffet":
       return 3;
       break;
-    case "sang trong":
+    case "sangtrong":
       return 4;
       break;
-    case "an chay":
+    case "anchay":
       return 5;
       break;
     case "cafe/dessert":
       return 6;
       break;
-    case "quan an":
-      return 7;
-      break;
-    case "quán an":
+    case "quanan":
       return 7;
       break;
     case "bar/pub":
       return 8;
       break;
-    case "quan nhau":
+    case "quannhau":
       return 9;
       break;
-    case "beer club":
+    case "beerclub":
       return 10;
       break;
-    case "tiem banh":
+    case "tiembanh":
       return 11;
       break;
-    case "shop online":
+    case "shoponline":
       return 12;
       break;
-    case "com van phong":
+    case "giaocomvanphong":
       return 13;
       break;
-    case "khu am thuc":
+    case "khuamthuc":
       return 14;
       break;
-    case "an vat/via he":
+    case "anvat/viahe":
       return 15;
       break;
   }

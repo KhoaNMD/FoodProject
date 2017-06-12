@@ -139,12 +139,14 @@ class PostController extends Controller
 
       // Flag for showing status.
       $status = false;
+
       $checkRating = array(
           "food" => "",
           "serve" => "",
           "price" => "",
           "space" => ""
       );
+
       $countCategory = array(
           "1" => 0,
           "2" => 0,
@@ -162,7 +164,9 @@ class PostController extends Controller
           "14" => 0,
           "15" => 0
       );
+
       $currentPostList = array();
+
       $dataPostList = array();
 
       $categoryList = DB::table('tbl_category')->get();
@@ -182,7 +186,8 @@ class PostController extends Controller
                    cos(radians(longitude) - radians(' . $post->longitude . ')) + sin(radians(' . $post->latitude . ')) *
                                                                    sin(radians(latitude)))) AS distance
           FROM tbl_post
-          HAVING distance <= 1
+          WHERE deleted_at is null 
+          HAVING distance <= 2
          ) a
          GROUP BY category_id
       ');
@@ -197,7 +202,8 @@ class PostController extends Controller
                    cos(radians(longitude) - radians(' . $post->longitude . ')) + sin(radians(' . $post->latitude . ')) *
                                                                    sin(radians(latitude)))) AS distance
           FROM tbl_post
-          HAVING distance <=1 
+          WHERE deleted_at is null 
+          HAVING distance <= 2
         ');
 
         foreach ($currentPostList as $currentPost) {
@@ -207,6 +213,30 @@ class PostController extends Controller
             $countCategory[2] = $currentPost->quantity_post;
           } elseif ($currentPost->category_id == 3) {
             $countCategory[3] = $currentPost->quantity_post;
+          } elseif ($currentPost->category_id == 4) {
+            $countCategory[4] = $currentPost->quantity_post;
+          } elseif ($currentPost->category_id == 5) {
+            $countCategory[5] = $currentPost->quantity_post;
+          } elseif ($currentPost->category_id == 6) {
+            $countCategory[6] = $currentPost->quantity_post;
+          } elseif ($currentPost->category_id == 7) {
+            $countCategory[7] = $currentPost->quantity_post;
+          } elseif ($currentPost->category_id == 8) {
+            $countCategory[8] = $currentPost->quantity_post;
+          } elseif ($currentPost->category_id == 9) {
+            $countCategory[9] = $currentPost->quantity_post;
+          } elseif ($currentPost->category_id == 10) {
+            $countCategory[10] = $currentPost->quantity_post;
+          } elseif ($currentPost->category_id == 11) {
+            $countCategory[11] = $currentPost->quantity_post;
+          } elseif ($currentPost->category_id == 12) {
+            $countCategory[12] = $currentPost->quantity_post;
+          } elseif ($currentPost->category_id == 13) {
+            $countCategory[13] = $currentPost->quantity_post;
+          } elseif ($currentPost->category_id == 14) {
+            $countCategory[14] = $currentPost->quantity_post;
+          } elseif ($currentPost->category_id == 15) {
+            $countCategory[15] = $currentPost->quantity_post;
           }
         }
       }
@@ -303,7 +333,7 @@ class PostController extends Controller
   {
     $post = Post::findOrFail($id);
     $post->delete();
-    return Redirect::route('restaurant.index');
+    return Redirect::back();
   }
 
   public function getNameProvinceAndDistrict($provinceId,$districtId){

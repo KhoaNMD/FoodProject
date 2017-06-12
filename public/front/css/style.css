@@ -3112,3 +3112,18 @@ ul.current_location li{
 .current_location_label:hover{
   cursor: pointer;
 }
+
+.pac-container {
+  background-color: #FFF;
+  z-index: 1050 !important;
+  position: fixed;
+  display: inline-block;
+  float: left;
+}
+.modal{
+  z-index: 20;
+}
+.modal-backdrop{
+  z-index: 10;
+}​
+

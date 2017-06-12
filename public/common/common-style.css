@@ -102,3 +102,16 @@ ul{
   pointer-events: none;
   color: #d3e0e9 !important;
 }
+
+
+/* For BreadCrumb boostrap*/
+
+.breadcrumb{
+ background-color: white;
+}
+
+/* For breadcrumb */
+
+.breadcrumb-bg{
+  background-color: white;
+}
