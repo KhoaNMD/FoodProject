@@ -19,6 +19,9 @@
     <div class="form-group">
       <input type="text" name="url_image" class="form-control" placeholder="Đường dẫn hình ảnh">
     </div>
+    <div class="form-group">
+      <input type="text" name="url_menu" class="form-control" placeholder="Đường dẫn menu">
+    </div>
     <input type="submit" class="btn btn-default" name="clone_action" value="Clone data">
   </form>
 </div>
@@ -29,7 +32,11 @@
 <?php
 use App\Models\Post;
 use App\Models\Image;
+use App\Models\CategoryFood;
+use App\Models\Food;
 if(isset($_POST['clone_action']) && !empty($_POST['clone_action'])) {
+
+  set_time_limit(120);
 
   require "simple_html_dom.php";
 
@@ -44,9 +51,13 @@ if(isset($_POST['clone_action']) && !empty($_POST['clone_action'])) {
 
   $html_image = file_get_html($_POST['url_image']);
 
+  $html_menu = file_get_html($_POST['url_menu']);
+
   $id = getData($html);
 
   getImage($html_image, $id);
+
+  getMenu($html_menu,$id);
 
 }
 
@@ -181,6 +192,65 @@ function getImage($html_image,$post_id)
 
   $post = DB::table("tbl_post")->where("id","=",$post_id)->update(["thumb_id" => $image['id']]);
 
+}
+
+function getMenu($html_menu,$post_id){
+
+  $publicPath = public_path();
+  $filePath = "/uploads/photo/";
+
+  $menu_images = $publicPath . $filePath. $post_id .'/menu'.'/';
+
+  if (!is_dir($menu_images)) {//hình menu
+    mkdir($menu_images);
+  }
+
+  $content = array();
+  $avgPrice = 0;
+
+  foreach( $html_menu->find('div.deli-dish') as $element){
+    $flag = true;
+    $content['category_name'] = html_entity_decode($element->find('p span',0)->innertext); // Get category name of food.
+    $category = CategoryFood::where('name','=',$content['category_name'])->first(); // Find category exists.
+
+    if(count($category) > 0){ // If exist , we will get category id.
+     $category_food_id = $category->id;
+    }else{ // If not exists , we will create a new category in tbl_category_food and return new id.
+     $getId = CategoryFood::create([
+         "name" => $content['category_name']
+     ]);
+     $category_food_id = $getId->id;
+    }
+    $content['post_id'] = $post_id; // Get post id.
+    $content['category_food_id'] = $category_food_id; // Get category id.
+    foreach($element->find('div.deli-box-menu-detail') as $subElement){ // Loop through food with category.
+      $content['url_image'] = $subElement->find('div.img-food-detail img',0)->src; // Get URL image.
+      $content['name'] = html_entity_decode($subElement->find('div.deli-name-food-detail a.deli-title-name-food h3',0)->innertext); // Get food name.
+      $content['price'] =  (int)$subElement->find('div.deli-more-info div.product-price p.current-price span',0)->innertext * 1000; // Get food price.
+
+      if($flag){
+        $avgPrice += $content['price'];
+        $flag = false;
+      }
+
+      $name = basename($content['url_image']);//lấy tên
+
+      $url_images = $menu_images . $name;//set đường dẫn
+
+      file_put_contents($url_images,file_get_contents($content['url_image']));//save hình
+
+      Food::create([
+          "name"             => $content['name'],
+          "price"            => $content['price'],
+          "post_id"          => $content['post_id'],
+          "category_food_id" => $content['category_food_id'],
+          "url_image"        => 'public' . $filePath . $post_id . '/menu/' . $name,
+      ]);
+
+    }
+  }
+
+  Post::where('id','=',$post_id)->update([ 'avg_food_price' => $avgPrice ]);
 }
 
 function convert_vi_to_en($str)

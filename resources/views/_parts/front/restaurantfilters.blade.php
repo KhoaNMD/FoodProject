@@ -22,12 +22,21 @@
       </span>
   </div>
   <div class="col-md-6 col-sm-6 col-xs-12">
-          <ul class="search_result">
-            <li>
-              <input type="text" class="form-control" placeholder="Nhập từ khóa cần tìm (vd: dclmm)..." id="search_input">
-              <ul class="sub_search_result">
-              </ul>
-            </li>
-          </ul>
+    <ul class="search_result">
+      <li>
+        <input type="text" class="form-control" placeholder="Nhập từ khóa cần tìm (vd: dclmm)..." id="search_input">
+        <ul class="sub_search_result">
+        </ul>
+      </li>
+    </ul>
+  </div>
+  <div class="col-md-3 col-sm-3 col-xs-12">
+    <select id="search_by_price" class="select_box_district" >
+      <option value="" selected> Khoảng giá </option>
+      <option value="1"> Dưới 500 nghìn </option>
+      <option value="2"> 500 nghìn - 1 triệu  </option>
+      <option value="3"> 1 - 3 triệu  </option>
+      <option value="4"> Trên 3 triệu </option>
+    </select>
   </div>
 </form>

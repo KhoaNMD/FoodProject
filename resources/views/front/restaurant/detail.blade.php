@@ -230,6 +230,36 @@
             <p class="add_bottom_30">
               {!! $post->describe !!}
             </p>
+
+
+            <h3>Menu (nếu có)</h3>
+
+            <div class="menu clearfix">
+              @foreach($menuList as $menu => $subMenu)
+                <div class="menu_section">
+                <div class="category_menu ">
+                  {!! $menu !!}
+                </div>
+                  @foreach($subMenu as $value)
+                    <div class="menu_content row">
+                      <div class="img_menu_food col-sm-2 col-md-2 ">
+                        <img src="{!! asset( $value['url_image'] ) !!}" width="60" height="60">
+                      </div>
+                      <div class="detail_food col-sm-7 col-md-7">
+                        <p> <b> {!! $value['name'] !!} </b> </p>
+                        <span class="menu-desc">Hộp Macaron 4 vị: Valencia, Morsel of Zen, Ispahan, Yuzucha</span>
+                      </div>
+                      <div class="food_price col-sm-3 col-md-3 text-right">
+                        <span class="txt-blue bold">{!! number_format($value['price'],0) !!}</span>
+                        <span class="unit">đ</span>
+                      </div>
+                    </div>
+                   @endforeach
+                </div>
+              @endforeach
+            </div>
+
+
             <div id="summary_review">
               @if(Auth::guard('admin')->check())
                 <a href="#" class="btn_1 add_bottom_15" data-toggle="modal" data-target="#myReview">Để lại bình luận</a>

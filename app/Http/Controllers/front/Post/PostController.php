@@ -9,6 +9,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Post;
 use App\Models\Image;
 use App\Models\Rating;
+use App\Models\Food;
+use App\Models\CategoryFood;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\PostRequest;
 use Carbon\Carbon;
@@ -165,6 +167,8 @@ class PostController extends Controller
           "15" => 0
       );
 
+      $menuList = array();
+
       $currentPostList = array();
 
       $dataPostList = array();
@@ -250,6 +254,7 @@ class PostController extends Controller
 
       }
 
+      // Check rating .
       if (!empty($flagMark)) {
         if ($flagMark['food'] > 0) {
           $checkRating['food'] = true;
@@ -265,18 +270,37 @@ class PostController extends Controller
         }
       }
 
+
+    // Check restaurant's status
       if (strtotime($post->start_time) <= strtotime("now") && strtotime($post->end_time) >= strtotime("now")) {
         $status = true;
       }
 
+      // Get menu list .
+      $foodList = Food::select('name','price','category_food_id','url_image')->where('post_id','=',$id)->get();
+      foreach($foodList as $food) {
+        $categoryFoodList = CategoryFood::select('id', 'name')->find($food->category_food_id);
+        if (!key_exists($categoryFoodList->name, $menuList)) {
+          $i = 0;
+          $menuList[$categoryFoodList->name] = "";
+          $menuList[$categoryFoodList->name] = "";
+          $menuList[$categoryFoodList->name] = "";
+        }
+        $menuList[$categoryFoodList->name][$i]['name'] = $food->name;
+        $menuList[$categoryFoodList->name][$i]['price'] = $food->price;
+        $menuList[$categoryFoodList->name][$i]['url_image'] = $food->url_image;
+        $i++;
+      }
 
+      // Send data
       $content = array(
-          'post' => $post,
-          'status' => $status,
-          'checkRating' => $checkRating,
+          'post'          => $post,
+          'status'        => $status,
+          'checkRating'   => $checkRating,
           'countCategory' => $countCategory,
-          'categoryList' => $categoryList,
-          'dataPostList' => json_encode($dataPostList)
+          'categoryList'  => $categoryList,
+          'dataPostList'  => json_encode($dataPostList),
+          'menuList'      => $menuList
       );
 
       return view('front.restaurant.detail', $content);
@@ -376,30 +400,64 @@ class PostController extends Controller
         "data"   => array(
             "postList"    => "",
             "imageList"   => "",
+            "numberPost"  => 0
         )
     );
 
     $postList = Post::with('Images',"Comments.User");
 
+    // Search by province
     if(!empty($_GET['province'])){
       $postList = $postList->where('province','=',$_GET['province'])->orderBy('cnt_rank','desc');
     }
 
+    // Search by district
     if(!empty($_GET['district'])) {
       $postList = $postList->where('district', '=', $_GET['district']);
     }
 
+    // Search by name input
     if(!empty($_GET['searchInput'])){
       $postList = $postList->where('title','LIKE',$_GET['searchInput'].'%');
     }
 
+    // Search by category
     if(!empty($_GET['categoryid'])){
       $postList = $postList->where('category_id','=',$_GET['categoryid']);
     }
 
+    // Search by new post date.
     if(!empty($_GET['newPost'])){
       $previousDate = date('Y-m-d H:i:s',strtotime("-1 week"));
       $postList = $postList->whereDate('created_at','>=',$previousDate);
+    }
+
+    // Search by price
+    if(!empty($_GET['price'])) {
+      if ($_GET['price'] == 1) {
+        $postList = $postList->where('avg_food_price', '>=', 0)->where('avg_food_price', '<', 500000);
+      } elseif ($_GET['price'] == 2) {
+        $postList = $postList->where('avg_food_price', '>=', 500000)->where('avg_food_price', '<', 1000000);
+      } elseif($_GET['price'] == 3) {
+        $postList = $postList->where('avg_food_price', '>=', 1000000)->where('avg_food_price', '<', 3000000);
+      }else{
+        $postList = $postList->where('avg_food_price', '>=', 3000000);
+      }
+    }
+
+    // Search by rating
+    if(!empty($_GET['mark'])){
+      if($_GET['mark'] == 1){
+        $postList = $postList->where('cnt_rank', '>=', 0)->where('cnt_rank', '<', 2);
+      }elseif($_GET['mark'] == 2){
+        $postList = $postList->where('cnt_rank', '>=', 2)->where('cnt_rank', '<', 4);
+      }elseif($_GET['mark'] == 3){
+        $postList = $postList->where('cnt_rank', '>=', 4)->where('cnt_rank', '<', 6);
+      }elseif($_GET['mark'] == 4){
+        $postList = $postList->where('cnt_rank', '>=', 6)->where('cnt_rank', '<', 8);
+      }else{
+        $postList = $postList->where('cnt_rank', '>=', 8)->where('cnt_rank', '<', 10);
+      }
     }
 
     if(!empty($_GET['lat']) && !empty($_GET['long'])) {
@@ -415,7 +473,10 @@ class PostController extends Controller
 
     $postList= $postList->get();
 
-      if(count($postList) > 0){
+    $numberResult = count($postList);
+
+      if($numberResult > 0){
+        $response['data']['numberPost'] = $numberResult;
         $response['data']["postList"] = $postList;
         $response['status'] = 1;
 
@@ -434,7 +495,7 @@ class PostController extends Controller
             }
           }
         }
-    }
+     }
 
     return Response::json($response);
   }

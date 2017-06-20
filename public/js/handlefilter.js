@@ -67,11 +67,12 @@ $(document).ready(function(e){
     var provinceid = $("#province_filter").val();
     var districtid = $("#district_filter").val();
     var categoryId = $("#search_by_category").val();
+    var price = $("#search_by_price").val();
     var htmlTemplate = "";
     $.ajax({
       url : "/restaurant/search/location",
       type : "GET",
-      data : { province: provinceid , district : districtid ,categoryid: categoryId},
+      data : { province: provinceid , district : districtid ,categoryid: categoryId , price: price},
       dataType: 'json',
       success: function (response) {
         $('#image-loading').show();
@@ -83,6 +84,7 @@ $(document).ready(function(e){
               $("#home").html(" <div class='text-danger'>Hiện có 0 bài viết theo yêu cầu.</div>");
             }
             $('#image-loading').hide();
+            $('.quantity_post').html(response.data.numberPost);
           }, 2000);
       }
     })
@@ -109,6 +111,7 @@ $(document).ready(function(e){
             $("#home").html(" <div class='text-danger'>Hiện có 0 bài viết theo yêu cầu.</div>");
           }
           $('#image-loading').hide();
+          $('.quantity_post').html(response.data.numberPost);
         }, 2000);
       }
     })
@@ -135,6 +138,7 @@ $(document).ready(function(e){
             $("#home").html(" <div class='text-danger'>Hiện có 0 bài viết theo yêu cầu.</div>");
           }
           $('#image-loading').hide();
+          $('.quantity_post').html(response.data.numberPost);
         }, 2000);
       }
     })
@@ -164,6 +168,7 @@ $(document).ready(function(e){
             $("#home").html(" <div class='text-danger'>Hiện có 0 bài viết theo yêu cầu.</div>");
           }
           $('#image-loading').hide();
+          $('.quantity_post').html(response.data.numberPost);
         }, 2000);
       }
     })
@@ -210,12 +215,13 @@ $(document).ready(function(e){
   $("#search_by_category").change(function(){
     var provinceId = $("#province_filter").val();
     var districtId = $("#district_filter").val();
+    var price = $("#search_by_price").val();
     var categoryId = $(this).val();
     var htmlTemplate = "";
     $.ajax({
       url : "/restaurant/search/location",
       type : "GET",
-      data : { district : districtId , province: provinceId , categoryid: categoryId },
+      data : { district : districtId , province: provinceId , categoryid: categoryId , price: price },
       dataType: 'json',
       success: function (response) {
         $('#image-loading').show();
@@ -227,6 +233,63 @@ $(document).ready(function(e){
             $("#home").html(" <div class='text-danger'>Hiện có 0 bài viết theo yêu cầu.</div>");
           }
           $('#image-loading').hide();
+          $('.quantity_post').html(response.data.numberPost);
+        }, 2000);
+      }
+    })
+  });
+
+  $("#search_by_price").change(function(){
+    var provinceId = $("#province_filter").val();
+    var districtId = $("#district_filter").val();
+    var categoryId = $("#search_by_category").val();
+    var price = $(this).val();
+    var htmlTemplate = "";
+    $.ajax({
+      url : "/restaurant/search/location",
+      type : "GET",
+      data : { district : districtId , province: provinceId , categoryid: categoryId , price: price },
+      dataType: 'json',
+      success: function (response) {
+        $('#image-loading').show();
+        setTimeout(function() {
+          if(response.status === 1){
+            htmlTemplate = showTemplate(response);
+            $("#home").html(htmlTemplate);
+          }else{
+            $("#home").html(" <div class='text-danger'>Hiện có 0 bài viết theo yêu cầu.</div>");
+          }
+          $('#image-loading').hide();
+          $('.quantity_post').html(response.data.numberPost);
+        }, 2000);
+      }
+    })
+  });
+
+  // Search by rating
+  $('.filter_rating').click(function(){
+    var provinceId = $("#province_filter").val();
+    var districtId = $("#district_filter").val();
+    var categoryId = $("#search_by_category").val();
+    var price = $("#search_by_price").val();
+    var mark = $(this).attr('data-rate-mark');
+    var htmlTemplate = "";
+    $.ajax({
+      url : "/restaurant/search/location",
+      type : "GET",
+      data :  { province: provinceId, district: districtId, categoryid: categoryId , price: price , mark: mark },
+      dataType: 'json',
+      success: function (response) {
+        $('#image-loading').show();
+        setTimeout(function() {
+          if(response.status === 1){
+            htmlTemplate = showTemplate(response);
+            $("#home").html(htmlTemplate);
+          }else{
+            $("#home").html(" <div class='text-danger'>Hiện có 0 bài viết theo yêu cầu.</div>");
+          }
+          $('#image-loading').hide();
+          $('.quantity_post').html(response.data.numberPost);
         }, 2000);
       }
     })

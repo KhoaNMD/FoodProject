@@ -6,8 +6,7 @@
     <section class="parallax-window" id="short" data-parallax="scroll" data-image-src="img/sub_header_short.jpg" data-natural-width="1400" data-natural-height="350">
         <div id="subheader">
             <div id="sub_content">
-                <h1>24 results in your zone</h1>
-                <div><i class="icon_pin"></i> 135 Newtownards Road, Belfast, BT4 1AB</div>
+                <h1>Có <b class="quantity_post"> {!! count($postList) !!}</b> kết quả tìm kiếm</h1>
             </div><!-- End sub_content -->
         </div><!-- End subheader -->
     </section><!-- End section -->

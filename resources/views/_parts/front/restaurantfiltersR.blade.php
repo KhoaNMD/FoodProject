@@ -16,26 +16,14 @@
               {{--@endforeach--}}
             {{--</ul>--}}
         </div>
-        {{--<div class="filter_type">--}}
-            {{--<h6>Rating</h6>--}}
-            {{--<ul>--}}
-                {{--<li><label><input type="checkbox" class="icheck"><span class="rating">--}}
-							{{--<i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i>--}}
-							{{--</span></label></li>--}}
-                {{--<li><label><input type="checkbox" class="icheck"><span class="rating">--}}
-							{{--<i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star"></i>--}}
-							{{--</span></label></li>--}}
-                {{--<li><label><input type="checkbox" class="icheck"><span class="rating">--}}
-							{{--<i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star"></i><i class="icon_star"></i>--}}
-							{{--</span></label></li>--}}
-                {{--<li><label><input type="checkbox" class="icheck"><span class="rating">--}}
-							{{--<i class="icon_star voted"></i><i class="icon_star voted"></i><i class="icon_star"></i><i class="icon_star"></i><i class="icon_star"></i>--}}
-							{{--</span></label></li>--}}
-                {{--<li><label><input type="checkbox" class="icheck"><span class="rating">--}}
-							{{--<i class="icon_star voted"></i><i class="icon_star"></i><i class="icon_star"></i><i class="icon_star"></i><i class="icon_star"></i>--}}
-							{{--</span></label></li>--}}
-            {{--</ul>--}}
-        {{--</div>--}}
+        <div class="filter_type">
+            <h6>Lọc Rating</h6>
+            <i class="icon_star color_yellow pointer font-14 filter_rating" data-rate-mark="1"></i>
+            <i class="icon_star color_yellow pointer font-14 filter_rating" data-rate-mark="2"></i>
+            <i class="icon_star color_yellow pointer font-14 filter_rating" data-rate-mark="3"></i>
+            <i class="icon_star color_yellow pointer font-14 filter_rating" data-rate-mark="4"></i>
+            <i class="icon_star color_yellow pointer font-14 filter_rating" data-rate-mark="5"></i>
+        </div>
         {{--<div class="filter_type">--}}
             {{--<h6>Các lựa chọn</h6>--}}
             {{--<ul class="nomargin">--}}

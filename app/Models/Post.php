@@ -38,7 +38,8 @@ class Post extends Model
       "max_price",
       "start_time",
       "end_time",
-      "insert_id"
+      "insert_id",
+      "avg_food_price"
   ];
 
   public function Images()
