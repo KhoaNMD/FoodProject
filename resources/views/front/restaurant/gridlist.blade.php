@@ -35,6 +35,7 @@
 @endsection
 
 @section('content')
+    <div ng-controller="postList">
                 <input type="hidden" id="latitude" value="">
                 <input type="hidden" id="longitude" value="">
                 <div class="col-md-9">
@@ -55,7 +56,7 @@
 
 
                 </div><!-- End col-md-9-->
-
+    </div>
            </div><!-- End row -->
     </div><!-- End container -->
     <!-- End Content =============================================== -->

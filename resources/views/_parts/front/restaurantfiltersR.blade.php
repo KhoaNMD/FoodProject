@@ -18,11 +18,40 @@
         </div>
         <div class="filter_type">
             <h6>Lọc Rating</h6>
-            <i class="icon_star color_yellow pointer font-14 filter_rating" data-rate-mark="1"></i>
-            <i class="icon_star color_yellow pointer font-14 filter_rating" data-rate-mark="2"></i>
-            <i class="icon_star color_yellow pointer font-14 filter_rating" data-rate-mark="3"></i>
-            <i class="icon_star color_yellow pointer font-14 filter_rating" data-rate-mark="4"></i>
-            <i class="icon_star color_yellow pointer font-14 filter_rating" data-rate-mark="5"></i>
+            <div class="filter_rating" data-rate-mark="1">
+                <i class="icon_star color_yellow pointer font-14" ></i>
+                <span>(0 - 2)</span>
+            </div>
+            <br/>
+            <div class="filter_rating" data-rate-mark="2">
+                <i class="icon_star color_yellow pointer font-14" ></i>
+                <i class="icon_star color_yellow pointer font-14" ></i>
+                <span>(2 - 4)</span>
+            </div>
+            <br/>
+            <div class="filter_rating" data-rate-mark="3">
+                <i class="icon_star color_yellow pointer font-14" ></i>
+                <i class="icon_star color_yellow pointer font-14" ></i>
+                <i class="icon_star color_yellow pointer font-14" ></i>
+                <span>(4 - 6)</span>
+            </div>
+            <br/>
+            <div class="filter_rating" data-rate-mark="4">
+                <i class="icon_star color_yellow pointer font-14" ></i>
+                <i class="icon_star color_yellow pointer font-14" ></i>
+                <i class="icon_star color_yellow pointer font-14" ></i>
+                <i class="icon_star color_yellow pointer font-14" ></i>
+                <span>(6 - 8)</span>
+            </div>
+            <br/>
+            <div class="filter_rating" data-rate-mark="5">
+                <i class="icon_star color_yellow pointer font-14" ></i>
+                <i class="icon_star color_yellow pointer font-14" ></i>
+                <i class="icon_star color_yellow pointer font-14" ></i>
+                <i class="icon_star color_yellow pointer font-14" ></i>
+                <i class="icon_star color_yellow pointer font-14" ></i>
+                <span>(8 - 10)</span>
+            </div>
         </div>
         {{--<div class="filter_type">--}}
             {{--<h6>Các lựa chọn</h6>--}}

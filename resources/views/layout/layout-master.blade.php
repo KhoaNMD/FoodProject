@@ -63,7 +63,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
 </head>
 
-<body>
+<body ng-app="foodapp">
 {{--thêm cái preloader vô để cho trang load hiệu ứng--}}
 <div id="preloader">
     <div class="sk-spinner sk-spinner-wave" id="status">
@@ -129,5 +129,15 @@
 <script src="{!! asset('public/js/jquery.timepicker.js') !!}"></script>
 <script src="{!! asset('public/js/jquery-ui.js') !!}"></script>
 <script src="{!! asset('public/js/helper.js') !!}"></script>
+
+
+
+<!-- AngularJS -->
+<script src="{!! asset('public/app/lib/app.js') !!}"></script>
+<script src="{!! asset('public/app/index.js') !!}"></script>
+
+<!-- Post module -->
+<script src="{!! asset('public/app/post/index.js') !!}"></script>
+
 </body>
 </html>

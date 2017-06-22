@@ -11,6 +11,15 @@
 |
 */
 
+Route::group ( [
+    'namespace' => '\API\V1',
+    'prefix' => 'api/v1'
+], function () {
+
+  Route::resource('post','PostController');
+
+});
+
 Route::group([
      'namespace' => 'front',
     ],function () {
@@ -74,26 +83,25 @@ Route::group([
               'uses' => 'Image\ImageController@postUploadImage']
       );
 
-  Route::get('error404',['as' => 'errorpage',function(){
-    return view('_parts.error.404');
-  }]);
+      Route::get('error404',['as' => 'errorpage',function(){
+        return view('_parts.error.404');
+      }]);
 
-  Route::get('/faq',['as' => 'about',function (){
-    return view('front.faq.faq');
-  }]);
+      Route::get('/faq',['as' => 'about',function (){
+        return view('front.faq.faq');
+      }]);
 
-  Route::get('/comment',function (){
-    return view('front.modalcomment');
-  });
+      Route::get('/comment',function (){
+        return view('front.modalcomment');
+      });
 
-  Route::get('/gethtml',function(){
-    return view('get-content');
-  });
+      Route::get('/gethtml',function(){
+        return view('get-content');
+      });
 
-  Route::post('/gethtml',function(){
-    return view('get-content');
-  });
-
+      Route::post('/gethtml',function(){
+        return view('get-content');
+      });
 
 });
 
